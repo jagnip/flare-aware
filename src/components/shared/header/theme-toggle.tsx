@@ -15,8 +15,17 @@ import { useTheme } from "next-themes";
 
 const ThemeToggle = () => {
   const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  console.log(theme);
+  //This ensures that the component doesn’t render anything at all on the server, 
+  //so React has nothing to compare during hydratation — it avoids the hydratation mismatch.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
