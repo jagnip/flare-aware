@@ -10,7 +10,7 @@ const Homepage = () => {
   return (
    
     <div>
-      <Button>Click me</Button>
+      HOMEPAGEDZINIO
     </div>
   );
 };
