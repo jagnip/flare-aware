@@ -1,5 +1,5 @@
 import Header from "@/components/shared/header";
-import PrimarySidebar from "@/components/shared/primary-sidebar-navigation";
+import AppSidebar from "@/components/shared/sidebar-navigation";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function RootLayout({
@@ -9,8 +9,8 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex h-screen">
-      <SidebarProvider defaultOpen={false}>
-        <PrimarySidebar />
+      <SidebarProvider>
+        <AppSidebar />
         <div className="flex flex-col w-full">
           <Header />
           <main className="flex-1 wrapper">{children} </main>

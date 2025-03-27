@@ -1,7 +1,7 @@
 import { SidebarFooter } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const PrimarySidebarFooter = () => {
+const AppSidebarFooter = () => {
   return (
     <SidebarFooter>
       {" "}
@@ -13,4 +13,4 @@ const PrimarySidebarFooter = () => {
   );
 };
 
-export default PrimarySidebarFooter;
+export default AppSidebarFooter;

@@ -9,28 +9,32 @@ import {
 
 const items = [
   {
+    title: "Collections",
     url: "/collections",
     icon: LibraryBig,
   },
   {
+    title: "Planner",
     url: "/planner",
     icon: Calendar,
   },
   {
+    title: "Grocery list",
     url: "/grocery-list",
     icon: ShoppingCart,
   },
 ];
 
-const PrimarySidebarContent = () => {
+const AppSidebarContent = () => {
   return (
     <SidebarContent>
-      <SidebarMenu className="flex items-center">
+      <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.url}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
                 <item.icon />
+                <span>{item.title}</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -40,4 +44,4 @@ const PrimarySidebarContent = () => {
   );
 };
 
-export default PrimarySidebarContent;
+export default AppSidebarContent;

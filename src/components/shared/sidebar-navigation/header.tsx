@@ -2,11 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { SidebarHeader } from "@/components/ui/sidebar";
 
-const PrimarySidebarHeader = () => {
+const AppSidebarHeader = () => {
   return (
     <SidebarHeader>
       {" "}
-      <Link href="/" className="flex items-center">
+      <Link href="/">
         <Image
           src="/images/logo.png"
           alt="Brocololo Logo"
@@ -18,4 +18,4 @@ const PrimarySidebarHeader = () => {
   );
 };
 
-export default PrimarySidebarHeader;
+export default AppSidebarHeader;
