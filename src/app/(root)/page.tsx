@@ -4,8 +4,6 @@ export const metadata = {
 };
 
 
-import { Button } from "@/components/ui/button";
-
 const Homepage = () => {
   return (
    
@@ -16,3 +14,12 @@ const Homepage = () => {
 };
 
 export default Homepage;
+
+// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// const Homepage = async () => {
+//     await delay(2000);
+//   return <>Prostore</>;
+// };
+
+// export default Homepage;
