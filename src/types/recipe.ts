@@ -14,10 +14,11 @@ export type Ingredient = {
     name: string;
     url: string;
   };
-  
+
   export type Recipe = {
     id: string;
     title: string;
+    slug: string; 
     ingredients?: Ingredient[];
     servings?: number;
     handsOnTime?: number;

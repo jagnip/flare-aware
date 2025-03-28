@@ -4,6 +4,7 @@ const recipes: Recipe[] = [
   {
     id: "1",
     title: "Spaghetti Bolognese",
+    slug: "spaghetti-bolognese",
     ingredients: [
       { name: "Spaghetti", amount: "200g" },
       { name: "Ground beef", amount: "300g" },
@@ -35,6 +36,7 @@ const recipes: Recipe[] = [
   {
     id: "2",
     title: "Avocado Toast",
+    slug: "avocado-toast",
     ingredients: [
       { name: "Bread slice", amount: "2" },
       { name: "Avocado", amount: "1" },
@@ -64,6 +66,7 @@ const recipes: Recipe[] = [
   {
     id: "3",
     title: "Overnight Oats",
+    slug: "overnight-oats",
     ingredients: [
       { name: "Rolled oats", amount: "1/2 cup" },
       { name: "Milk", amount: "1/2 cup" },
@@ -90,6 +93,7 @@ const recipes: Recipe[] = [
   {
     id: "4",
     title: "Classic Pancakes",
+    slug: "classic-pancakes",
     ingredients: [
       { name: "Flour", amount: "1 cup" },
       { name: "Milk", amount: "1 cup" },
@@ -112,6 +116,7 @@ const recipes: Recipe[] = [
   {
     id: "5",
     title: "Grilled Cheese Sandwich",
+    slug: "grilled-cheese-sandwich",
     ingredients: [
       { name: "Bread slices", amount: "2" },
       { name: "Cheddar cheese", amount: "2 slices" },
@@ -128,7 +133,8 @@ const recipes: Recipe[] = [
   },
   {
     id: "6",
-    title: "Simple Green Smoothie"
-    // Only ID and title provided — this shows minimal draft version
+    title: "Simple Green Smoothie",
+    slug: "simple-green-smoothie"
+    // Draft recipe with only ID, title, and slug
   }
 ];
