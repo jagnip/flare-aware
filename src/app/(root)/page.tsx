@@ -1,4 +1,4 @@
-import RecipeList from "@/components/shared/product/product-list";
+import RecipeList from "@/components/shared/recipe/recipe-list";
 import { recipes } from "../db/sample-data";
 
 export const metadata = {

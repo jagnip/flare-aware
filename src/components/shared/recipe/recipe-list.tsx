@@ -1,4 +1,5 @@
 import { Recipe } from "@/types/recipe";
+import RecipeCard from "./recipe-card";
 
 const RecipeList = ({ recipes }: { recipes: Recipe[] }) => {
   return (
@@ -6,7 +7,7 @@ const RecipeList = ({ recipes }: { recipes: Recipe[] }) => {
       {recipes.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {recipes.map((recipe: Recipe) => (
-            <div>{recipe.title}</div>
+            <RecipeCard key={recipe.slug} recipe={recipe} />
           ))}
         </div>
       ) : (

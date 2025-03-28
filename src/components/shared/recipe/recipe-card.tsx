@@ -1,0 +1,38 @@
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Recipe } from "@/types/recipe";
+import Link from "next/link";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
+
+const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader className="p-0 flex justify-center items-center">
+        <Link href={`/recipe/${recipe.slug}`}>
+          {recipe.photos ? (
+            <Image
+              priority={true}
+              src={recipe.photos[0]}
+              alt={recipe.title}
+              className="aspect-square object-cover rounded"
+              height={300}
+              width={300}
+            />
+          ) : (
+            <div className="w-[300px] h-[300px] flex justify-center items-center">
+              Photo placeholder
+            </div>
+          )}
+        </Link>
+      </CardHeader>
+      <CardContent>
+        <Link href={`/recipe/${recipe.slug}`}>
+          <h2>{recipe.title}</h2>
+        </Link>
+        {recipe.handsOnTime && <Badge>{recipe.handsOnTime} mins</Badge>}
+      </CardContent>
+    </Card>
+  );
+};
+
+export default RecipeCard;
