@@ -1,18 +1,25 @@
-import { LibraryBig, Calendar, ShoppingCart } from "lucide-react";
+import {
+  Folders,
+  PackageOpen,
+  Trash2,
+  Calendar,
+  ShoppingCart,
+  Plus,
+} from "lucide-react";
 
 import {
   SidebarContent,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
+  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 
-const items = [
-  {
-    title: "Collections",
-    url: "/collections",
-    icon: LibraryBig,
-  },
+const tools = [
   {
     title: "Planner",
     url: "/planner",
@@ -25,21 +32,65 @@ const items = [
   },
 ];
 
+const collections = [
+  {
+    title: "All recipes",
+    url: "/allrecipes",
+    icon: Folders,
+  },
+  {
+    title: "Uncategorized",
+    url: "/uncategorized",
+    icon: PackageOpen,
+  },
+  {
+    title: "Archive",
+    url: "/archive",
+    icon: Trash2,
+  },
+];
+
 const AppSidebarContent = () => {
   return (
     <SidebarContent>
-      <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.url}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.title}</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        ))}
-      </SidebarMenu>
+      <SidebarGroup>
+        <SidebarGroupLabel>Tools</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {tools.map((tool) => (
+              <SidebarMenuItem key={tool.url}>
+                <SidebarMenuButton asChild>
+                  <a href={tool.url}>
+                    <tool.icon />
+                    <span>{tool.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+
+      <SidebarGroup>
+        <SidebarGroupLabel>Collections</SidebarGroupLabel>
+        <SidebarGroupAction>
+          <Plus /> <span className="sr-only">Add collection</span>
+        </SidebarGroupAction>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {collections.map((collection) => (
+              <SidebarMenuItem key={collection.url}>
+                <SidebarMenuButton asChild>
+                  <a href={collection.url}>
+                    <collection.icon />
+                    <span>{collection.title}</span>
+                  </a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
     </SidebarContent>
   );
 };
