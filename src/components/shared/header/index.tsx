@@ -9,7 +9,7 @@ const Header = () => {
         <div className="space-x-2 flex-between">
           <ThemeToggle />
           <Button asChild>
-            <Link href="/collections/add">Add collection</Link>
+            <Link href="/collections/add">Primary button</Link>
           </Button>
         </div>
       </div>
