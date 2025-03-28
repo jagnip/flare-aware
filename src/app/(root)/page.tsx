@@ -1,25 +1,16 @@
+import RecipeList from "@/components/shared/product/product-list";
+import { recipes } from "../db/sample-data";
 
 export const metadata = {
-  title: "Brocololo"
+  title: "Brocololo",
 };
-
 
 const Homepage = () => {
   return (
-   
     <div>
-      HOMEPAGEDZINIO
+      <RecipeList recipes={recipes} />
     </div>
   );
 };
 
 export default Homepage;
-
-// const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// const Homepage = async () => {
-//     await delay(2000);
-//   return <>Prostore</>;
-// };
-
-// export default Homepage;
