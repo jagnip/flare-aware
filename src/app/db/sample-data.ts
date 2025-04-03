@@ -1,111 +1,162 @@
-import { Recipe } from "@/types/recipe";
-
-export const recipes: Recipe[] = [
+export const recipes = [
   {
-    id: "1",
-    title: "Spaghetti Bolognese",
+    name: "Spaghetti Bolognese",
     slug: "spaghetti-bolognese",
-    ingredients: [
+    category: "Main Course",
+    images: ["/images/recipe.jpg"], // ✅ Updated to use uniform image path
+    ingredients: JSON.stringify([
       { name: "Spaghetti", amount: "200g" },
       { name: "Ground beef", amount: "300g" },
       { name: "Tomato sauce", amount: "1 cup" },
       { name: "Onion", amount: "1, diced" },
-    ],
+    ]),
     servings: 2,
     handsOnTime: 15,
     handsOffTime: 30,
-    nutritionalValue: {
+    nutritionalValue: JSON.stringify({
       kcal: 550,
       carbs: 60,
       fat: 25,
       protein: 30,
-    },
+    }),
     instructions: [
       "Boil spaghetti according to package instructions.",
       "Cook beef and onion until browned.",
       "Add tomato sauce and simmer for 20 minutes.",
       "Serve sauce over spaghetti.",
     ],
-    source: {
+    source: JSON.stringify({
       name: "My Italian Kitchen",
       url: "https://example.com/spaghetti-bolognese",
-    },
+    }),
     notes: "Can be frozen for up to 2 months.",
-    photos: ["/images/recipe.jpg"],
   },
   {
-    id: "2",
-    title: "Avocado Toast",
-    slug: "avocado-toast",
-    ingredients: [
-      { name: "Bread slice", amount: "2" },
-      { name: "Avocado", amount: "1" },
-      { name: "Lemon juice", amount: "1 tsp" },
-      { name: "Salt", amount: "to taste" },
+    name: "Chicken Curry",
+    slug: "chicken-curry",
+    category: "Main Course",
+    images: ["/images/recipe.jpg"], // ✅ Uniform path
+    ingredients: JSON.stringify([
+      { name: "Chicken breast", amount: "400g" },
+      { name: "Coconut milk", amount: "1 can" },
+      { name: "Curry powder", amount: "2 tbsp" },
+      { name: "Onion", amount: "1, diced" },
+    ]),
+    servings: 4,
+    handsOnTime: 20,
+    handsOffTime: 40,
+    nutritionalValue: JSON.stringify({
+      kcal: 700,
+      carbs: 50,
+      fat: 40,
+      protein: 60,
+    }),
+    instructions: [
+      "Cook onions until soft.",
+      "Add chicken and brown.",
+      "Add coconut milk and curry powder, simmer for 30 minutes.",
+      "Serve with rice.",
     ],
-    servings: 1,
-    handsOnTime: 5,
+    source: JSON.stringify({
+      name: "Asian Delights",
+      url: "https://example.com/chicken-curry",
+    }),
+    notes: "Can be served with naan bread.",
+  },
+  {
+    name: "Caesar Salad",
+    slug: "caesar-salad",
+    category: "Salad",
+    images: ["/images/recipe.jpg"], // ✅ Uniform path
+    ingredients: JSON.stringify([
+      { name: "Romaine lettuce", amount: "1 head" },
+      { name: "Parmesan cheese", amount: "50g" },
+      { name: "Croutons", amount: "1 cup" },
+      { name: "Caesar dressing", amount: "1/2 cup" },
+    ]),
+    servings: 2,
+    handsOnTime: 10,
     handsOffTime: 0,
-    nutritionalValue: {
-      kcal: 320,
-      carbs: 28,
-      fat: 20,
-      protein: 6,
-    },
+    nutritionalValue: JSON.stringify({
+      kcal: 300,
+      carbs: 20,
+      fat: 18,
+      protein: 12,
+    }),
     instructions: [
-      "Toast the bread slices.",
-      "Mash avocado with lemon juice and salt.",
-      "Spread on toast and serve.",
+      "Chop lettuce and place in a bowl.",
+      "Add parmesan, croutons, and dressing.",
+      "Toss and serve.",
     ],
-    source: {
-      name: "Quick Bites",
-      url: "https://example.com/avocado-toast",
-    },
-    photos: ["/images/recipe.jpg"],
+    source: JSON.stringify({
+      name: "Healthy Kitchen",
+      url: "https://example.com/caesar-salad",
+    }),
+    notes: "Add grilled chicken for extra protein.",
   },
   {
-    id: "3",
-    title: "Overnight Oats",
-    slug: "overnight-oats",
-    ingredients: [
-      { name: "Rolled oats", amount: "1/2 cup" },
-      { name: "Milk", amount: "1/2 cup" },
-      { name: "Chia seeds", amount: "1 tbsp" },
-      { name: "Honey", amount: "1 tsp" },
-    ],
-    servings: 1,
-    handsOnTime: 5,
-    handsOffTime: 480, // 8 hours
-    nutritionalValue: {
-      kcal: 290,
-      carbs: 35,
-      fat: 8,
-      protein: 10,
-    },
+    name: "Beef Tacos Tacoticco",
+    slug: "beef-tacos",
+    category: "Main Course",
+    images: ["/images/recipe.jpg"], // ✅ Uniform path
+    ingredients: JSON.stringify([
+      { name: "Ground beef", amount: "500g" },
+      { name: "Taco shells", amount: "8" },
+      { name: "Cheese", amount: "100g" },
+      { name: "Lettuce", amount: "1/2 head, shredded" },
+      { name: "Sour cream", amount: "1/2 cup" },
+    ]),
+    servings: 4,
+    handsOnTime: 15,
+    handsOffTime: 10,
+    nutritionalValue: JSON.stringify({
+      kcal: 850,
+      carbs: 60,
+      fat: 45,
+      protein: 40,
+    }),
     instructions: [
-      "Mix all ingredients in a jar.",
-      "Refrigerate overnight.",
-      "Stir and add toppings before serving.",
+      "Brown ground beef in a pan.",
+      "Fill taco shells with beef, cheese, lettuce, and sour cream.",
+      "Serve immediately.",
     ],
-    notes: "You can add fruit or nut butter in the morning.",
-    photos: ["/images/recipe.jpg"],
+    source: JSON.stringify({
+      name: "Mexican Fiesta",
+      url: "https://example.com/beef-tacos",
+    }),
+    notes: "Top with salsa for extra flavor.",
   },
-
   {
-    id: "5",
-    title: "Grilled Cheese Sandwich",
-    slug: "grilled-cheese-sandwich",
-    ingredients: [
-      { name: "Bread slices", amount: "2" },
-      { name: "Cheddar cheese", amount: "2 slices" },
-      { name: "Butter", amount: "1 tbsp" },
-    ],
-    servings: 1,
-    handsOnTime: 5,
+    name: "Pancakes",
+    slug: "pancakes",
+    category: "Breakfast",
+    images: ["/images/recipe.jpg"], // ✅ Uniform path
+    ingredients: JSON.stringify([
+      { name: "Flour", amount: "1 cup" },
+      { name: "Milk", amount: "1 cup" },
+      { name: "Egg", amount: "1" },
+      { name: "Butter", amount: "2 tbsp, melted" },
+      { name: "Sugar", amount: "1 tbsp" },
+    ]),
+    servings: 4,
+    handsOnTime: 10,
+    handsOffTime: 5,
+    nutritionalValue: JSON.stringify({
+      kcal: 350,
+      carbs: 55,
+      fat: 12,
+      protein: 8,
+    }),
     instructions: [
-      "Butter one side of each bread slice.",
-      "Place cheese between the unbuttered sides.",
-      "Grill in a pan until golden on both sides.",
+      "Mix all ingredients until smooth.",
+      "Heat a pan and pour batter to form pancakes.",
+      "Cook until golden on both sides.",
+      "Serve with syrup or fruit.",
     ],
-  },
+    source: JSON.stringify({
+      name: "Breakfast Basics",
+      url: "https://example.com/pancakes",
+    }),
+    notes: "Perfect for a weekend brunch.",
+  }
 ];

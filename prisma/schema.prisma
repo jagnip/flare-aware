@@ -12,3 +12,20 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Recipe {
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  slug             String   @unique(map: "recipe_slug_idx")
+  category         String   @default("Uncategorised")
+  images           String[]
+  ingredients      String
+  servings         Int?
+  handsOnTime      Int?
+  handsOffTime     Int?
+  nutritionalValue String?
+  instructions     String[]
+  source           String?
+  notes            String?
+  createdAt        DateTime @default(now()) @db.Timestamp(6)
+}
