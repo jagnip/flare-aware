@@ -9,11 +9,11 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 flex justify-center items-center">
         <Link href={`/recipe/${recipe.slug}`}>
-          {recipe.photos ? (
+          {recipe.images ? (
             <Image
               priority={true}
-              src={recipe.photos[0]}
-              alt={recipe.title}
+              src={recipe.images[0]}
+              alt={recipe.name}
               className="aspect-square object-cover rounded"
               height={300}
               width={300}
@@ -27,7 +27,7 @@ const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
       </CardHeader>
       <CardContent>
         <Link href={`/recipe/${recipe.slug}`}>
-          <h2>{recipe.title}</h2>
+          <h2>{recipe.name}</h2>
         </Link>
         {recipe.handsOnTime && <Badge>{recipe.handsOnTime} mins</Badge>}
       </CardContent>
