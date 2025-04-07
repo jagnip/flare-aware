@@ -24,38 +24,36 @@ model Recipe {
   handsOnTime  Int?
   handsOffTime Int?
   instructions       String[]
-  sourceId         String?
   notes            String?
   createdAt        DateTime          @default(now()) @db.Timestamp(6)
   //relationships
-  // nutritionalValueId String?
-  // ingredients      Ingredient[]
-  // nutritionalValue NutritionalValue?
-  // source           Source?
+  ingredients      Ingredient[]
+  nutritionalValue NutritionalValue?
+  source           Source?
 }
 
-// model Ingredient {
-//   id       String @id @default(uuid()) @db.Uuid
-//   name     String
-//   amount   String
-//   recipe   Recipe @relation(fields: [recipeId], references: [id])
-//   recipeId String @db.Uuid
-// }
+model Ingredient {
+  id       String @id @default(uuid()) @db.Uuid
+  name     String
+  amount   String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @db.Uuid
+}
 
-// model NutritionalValue {
-//   id       String  @id @default(uuid()) @db.Uuid
-//   kcal     Int
-//   carbs    Int
-//   fat      Int
-//   protein  Int
-//   recipe   Recipe @relation(fields: [recipeId], references: [id])
-//   recipeId String @unique @db.Uuid
-// }
+model NutritionalValue {
+  id       String  @id @default(uuid()) @db.Uuid
+  kcal     Int
+  carbs    Int
+  fat      Int
+  protein  Int
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @unique @db.Uuid
+}
 
-// model Source {
-//   id       String  @id @default(uuid()) @db.Uuid
-//   name     String
-//   url      String
-//   recipe   Recipe @relation(fields: [recipeId], references: [id])
-//   recipeId String @unique @db.Uuid
-// }
+model Source {
+  id       String  @id @default(uuid()) @db.Uuid
+  name     String
+  url      String
+  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  recipeId String @unique @db.Uuid
+}
