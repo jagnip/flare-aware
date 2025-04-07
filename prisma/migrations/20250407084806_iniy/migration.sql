@@ -3,15 +3,14 @@ CREATE TABLE "Recipe" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" TEXT NOT NULL,
     "slug" TEXT NOT NULL,
-    "category" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT 'Uncategorised',
     "images" TEXT[],
-    "ingredients" TEXT[],
     "servings" INTEGER,
     "handsOnTime" INTEGER,
     "handsOffTime" INTEGER,
-    "nutritionalValue" TEXT,
     "instructions" TEXT[],
-    "source" TEXT,
+    "sourceId" TEXT,
+    "notes" TEXT,
     "createdAt" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Recipe_pkey" PRIMARY KEY ("id")
