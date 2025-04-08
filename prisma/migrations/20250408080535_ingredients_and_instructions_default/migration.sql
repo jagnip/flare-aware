@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Recipe" ALTER COLUMN "images" SET DEFAULT ARRAY[]::TEXT[],
+ALTER COLUMN "instructions" SET DEFAULT ARRAY[]::TEXT[];

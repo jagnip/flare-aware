@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
@@ -15,15 +16,15 @@ datasource db {
 
 //whatever Prisma generates, we need to create a TS type
 model Recipe {
-  id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name     String
-  slug     String   @unique(map: "recipe_slug_idx")
-  category String   @default("Uncategorised")
-  images   String[]
-  servings     Int?
-  handsOnTime  Int?
-  handsOffTime Int?
-  instructions       String[]
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name             String
+  slug             String            @unique(map: "recipe_slug_idx")
+  category         String            @default("Uncategorised")
+  images           String[]          @default([])
+  servings         Int?
+  handsOnTime      Int?
+  handsOffTime     Int?
+  instructions     String[]          @default([])
   notes            String?
   createdAt        DateTime          @default(now()) @db.Timestamp(6)
   //relationships
@@ -33,15 +34,15 @@ model Recipe {
 }
 
 model Ingredient {
-  id       String @id @default(uuid()) @db.Uuid
+  id       String  @id @default(uuid()) @db.Uuid
   name     String
-  amount   String
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
-  recipeId String @db.Uuid
+  amount   String?
+  recipe   Recipe  @relation(fields: [recipeId], references: [id])
+  recipeId String  @db.Uuid
 }
 
 model NutritionalValue {
-  id       String  @id @default(uuid()) @db.Uuid
+  id       String @id @default(uuid()) @db.Uuid
   kcal     Int
   carbs    Int
   fat      Int
@@ -51,7 +52,7 @@ model NutritionalValue {
 }
 
 model Source {
-  id       String  @id @default(uuid()) @db.Uuid
+  id       String @id @default(uuid()) @db.Uuid
   name     String
   url      String
   recipe   Recipe @relation(fields: [recipeId], references: [id])
