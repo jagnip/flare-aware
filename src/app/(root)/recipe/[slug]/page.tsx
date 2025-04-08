@@ -12,8 +12,8 @@ const RecipeDetailsPage = async (props: {
 
   const { slug } = params;
 
-  const product = await getRecipeBySlug(slug);
-  if (!product) notFound();
+  const recipe = await getRecipeBySlug(slug);
+  if (!recipe) notFound();
 
   return (
     <>
@@ -24,7 +24,7 @@ const RecipeDetailsPage = async (props: {
           <div className="col-span-2">
             <div className="flex flex-col">
               <div>IMAGE </div>
-              <div>TAGS </div>
+              <div>{recipe.categories[0]}</div>
               <div>INGREDIENTS </div>
               <div>EXTRA NOTES </div>
             </div>

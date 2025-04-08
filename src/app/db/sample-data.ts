@@ -2,7 +2,7 @@ export const recipes = [
   {
     name: "Spaghetti Bolognese",
     slug: "spaghetti-bolognese",
-    category: "Main Course",
+    categories: ["Main Course", "Chicken"],
     images: ["/images/recipe.jpg"],
     servings: 2,
     handsOnTime: 15,
@@ -34,7 +34,7 @@ export const recipes = [
   {
     name: "Chicken Curry",
     slug: "chicken-curry",
-    category: "Main Course",
+    categories: ["Main Course", "Chicken"],
     images: ["/images/recipe.jpg"],
     servings: 4,
     handsOnTime: 20,
@@ -66,7 +66,7 @@ export const recipes = [
   {
     name: "Caesar Salad",
     slug: "caesar-salad",
-    category: "Salad",
+    categories: ["Main Course", "Chicken", "Salad"],
     images: ["/images/recipe.jpg"],
     servings: 2,
     handsOnTime: 10,
@@ -97,7 +97,7 @@ export const recipes = [
   {
     name: "Beef Tacos Tacoticco",
     slug: "beef-tacos",
-    category: "Main Course",
+    categories: ["Main Course"],
     images: ["/images/recipe.jpg"],
     servings: 4,
     handsOnTime: 15,
@@ -129,7 +129,7 @@ export const recipes = [
   {
     name: "Pancakes",
     slug: "pancakes",
-    category: "Breakfast",
+    categories: ["Main Course", "Chicken", "Salad", "Breakfast"],
     images: ["/images/recipe.jpg"],
     servings: 4,
     handsOnTime: 10,
