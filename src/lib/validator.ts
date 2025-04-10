@@ -10,6 +10,10 @@ const sourceSchema = z.object({
   url: z.string().url('Please provide a valid URL'),
 });
 
+const collectionSchema = z.object({
+  name: z.string().min(1, 'Category name is required'),
+});
+
 export const recipeVariantSchema = z.object({
   name: z.string().min(3, 'Variant name must be at least 3 characters'),
   ingredients: z.array(ingredientSchema).optional().default([]),
@@ -17,7 +21,7 @@ export const recipeVariantSchema = z.object({
 
 export const insertRecipeSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
-  categories: z.array(z.string()).optional().default([]),
+  collections: z.array(collectionSchema).optional().default([]),
   images: z.array(z.string()).optional().default([]),
   servings: z.number().int().positive().optional(),
   handsOnTime: z.number().int().nonnegative().optional(),

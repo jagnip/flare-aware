@@ -16,9 +16,8 @@ datasource db {
 
 model Recipe {
   id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String
+  name             String            @unique
   slug             String            @unique(map: "recipe_slug_idx")
-  collections       String[]          @default([])
   images           String[]          @default([])
   servings         Int?
   handsOnTime      Int?
@@ -27,10 +26,18 @@ model Recipe {
   notes            String?
   createdAt        DateTime          @default(now()) @db.Timestamp(6)
   //relationships
+  collections      Collection[]
   ingredients      Ingredient[]
   nutritionalValue NutritionalValue?
   source           Source?
   variants         RecipeVariant[]
+}
+
+model Collection {
+  id      String   @id @default(uuid()) @db.Uuid
+  name    String   @unique
+  slug    String   @unique(map: "collection_slug_idx")
+  recipes Recipe[]
 }
 
 model RecipeVariant {

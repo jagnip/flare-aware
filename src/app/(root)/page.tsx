@@ -1,3 +1,4 @@
+import Header from "@/components/shared/header";
 import RecipeList from "@/components/shared/recipe/recipe-list";
 import { getRecipes } from "@/lib/actions/recipe.actions";
 
@@ -6,12 +7,12 @@ export const metadata = {
 };
 
 const Homepage = async () => {
-
-  const recipes = await getRecipes(); 
+  const recipes = await getRecipes();
   return (
-    <div>
+    <>
+      <Header />
       <RecipeList recipes={recipes} />
-    </div>
+    </>
   );
 };
 

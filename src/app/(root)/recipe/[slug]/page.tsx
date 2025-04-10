@@ -1,9 +1,6 @@
 import { notFound } from "next/navigation";
-import { Card, CardContent } from "@/components/ui/card";
-
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getRecipeBySlug } from "@/lib/actions/recipe.actions";
+import Header from "@/components/shared/header";
 
 const RecipeDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -16,15 +13,13 @@ const RecipeDetailsPage = async (props: {
   if (!recipe) notFound();
 
   return (
-    <>
+
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
-
           <div className="col-span-2">
             <div className="flex flex-col">
               <div>IMAGE </div>
-              <div>{recipe.categories[0]}</div>
               <div>INGREDIENTS </div>
               <div>EXTRA NOTES </div>
             </div>
@@ -41,7 +36,7 @@ const RecipeDetailsPage = async (props: {
           </div>
         </div>
       </section>
-    </>
+
   );
 };
 

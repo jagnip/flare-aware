@@ -9,18 +9,42 @@ async function main() {
   await prisma.source.deleteMany({});
   await prisma.recipeVariant.deleteMany({});
   await prisma.recipe.deleteMany({});
+  await prisma.collection.deleteMany({});
 
   for (const recipeData of sampleData) {
-    const { ingredients, nutritionalValue, source, variants, ...recipeFields } =
-      recipeData;
+    const {
+      collections,
+      ingredients,
+      nutritionalValue,
+      source,
+      variants,
+      ...recipeFields
+    } = recipeData;
+
+    const collectionConnections = [];
+
+    if (collections && collections.length > 0) {
+      for (const collectionName of collections) {
+        const collectionSlug = collectionName.toLowerCase().replace(/\s+/g, '-');
+        const collection = await prisma.collection.upsert({
+          where: { name: collectionName },
+          update: {}, 
+          create: { name: collectionName, slug: collectionSlug }
+        });
+        
+        collectionConnections.push({ id: collection.id });
+      }
+    }
 
     const recipe = await prisma.recipe.create({
       data: {
         ...recipeFields,
+        collections: {
+          connect: collectionConnections
+        }
       },
     });
 
-    // Create ingredients
     if (ingredients) {
       for (const ingredient of ingredients) {
         await prisma.ingredient.create({
@@ -32,7 +56,6 @@ async function main() {
       }
     }
 
-    // Create nutritional value
     if (nutritionalValue) {
       await prisma.nutritionalValue.create({
         data: {
@@ -42,7 +65,6 @@ async function main() {
       });
     }
 
-    // Create source
     if (source) {
       await prisma.source.create({
         data: {
@@ -52,7 +74,6 @@ async function main() {
       });
     }
 
-    // Create variants
     if (variants) {
       for (const variant of variants) {
         const {
