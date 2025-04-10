@@ -30,6 +30,23 @@ export const recipes = [
       name: "My Italian Kitchen",
       url: "https://example.com/spaghetti-bolognese",
     },
+    variants: [
+      {
+        name: "Spaghetti Bolognese - Veggie",
+        ingredients: [
+          { name: "Spaghetti", amount: "200g" },
+          { name: "Lentils", amount: "1 cup" },
+          { name: "Tomato sauce", amount: "1 cup" },
+          { name: "Onion", amount: "1, diced" },
+        ],
+        nutritionalValue: {
+          kcal: 500,
+          carbs: 65,
+          fat: 15,
+          protein: 25,
+        },
+      },
+    ],
   },
   {
     name: "Chicken Curry",
@@ -62,6 +79,23 @@ export const recipes = [
       name: "Asian Delights",
       url: "https://example.com/chicken-curry",
     },
+    variants: [
+      {
+        name: "Chicken Curry - Spicy",
+        ingredients: [
+          { name: "Chicken thigh", amount: "400g" },
+          { name: "Coconut milk", amount: "1 can" },
+          { name: "Spicy curry powder", amount: "2 tbsp" },
+          { name: "Chili flakes", amount: "1 tsp" },
+        ],
+        nutritionalValue: {
+          kcal: 750,
+          carbs: 45,
+          fat: 42,
+          protein: 65,
+        },
+      },
+    ],
   },
   {
     name: "Caesar Salad",
@@ -93,6 +127,24 @@ export const recipes = [
       name: "Healthy Kitchen",
       url: "https://example.com/caesar-salad",
     },
+    variants: [
+      {
+        name: "Caesar Salad - Grilled Chicken",
+        ingredients: [
+          { name: "Romaine lettuce", amount: "1 head" },
+          { name: "Parmesan cheese", amount: "50g" },
+          { name: "Croutons", amount: "1 cup" },
+          { name: "Grilled chicken breast", amount: "150g" },
+          { name: "Caesar dressing", amount: "1/2 cup" },
+        ],
+        nutritionalValue: {
+          kcal: 450,
+          carbs: 22,
+          fat: 20,
+          protein: 30,
+        },
+      },
+    ],
   },
   {
     name: "Beef Tacos Tacoticco",
@@ -125,6 +177,24 @@ export const recipes = [
       name: "Mexican Fiesta",
       url: "https://example.com/beef-tacos",
     },
+    variants: [
+      {
+        name: "Beef Tacos - Guacamole Style",
+        ingredients: [
+          { name: "Ground beef", amount: "500g" },
+          { name: "Taco shells", amount: "8" },
+          { name: "Guacamole", amount: "1/2 cup" },
+          { name: "Lettuce", amount: "1/2 head, shredded" },
+          { name: "Cheddar", amount: "100g" },
+        ],
+        nutritionalValue: {
+          kcal: 880,
+          carbs: 58,
+          fat: 50,
+          protein: 38,
+        },
+      },
+    ],
   },
   {
     name: "Pancakes",
@@ -158,5 +228,24 @@ export const recipes = [
       name: "Breakfast Basics",
       url: "https://example.com/pancakes",
     },
+    variants: [
+      {
+        name: "Blueberry Pancakes",
+        ingredients: [
+          { name: "Flour", amount: "1 cup" },
+          { name: "Milk", amount: "1 cup" },
+          { name: "Egg", amount: "1" },
+          { name: "Butter", amount: "2 tbsp, melted" },
+          { name: "Sugar", amount: "1 tbsp" },
+          { name: "Blueberries", amount: "1/2 cup" },
+        ],
+        nutritionalValue: {
+          kcal: 370,
+          carbs: 58,
+          fat: 13,
+          protein: 9,
+        },
+      },
+    ],
   },
 ];

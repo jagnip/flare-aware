@@ -35,29 +35,36 @@ model Recipe {
 
 model RecipeVariant {
   id               String            @id @default(uuid()) @db.Uuid
-  name             String        
+  name             String
   recipe           Recipe            @relation(fields: [recipeId], references: [id], onDelete: Cascade)
   recipeId         String            @db.Uuid
-  ingredients    Ingredient[]
+  ingredients      Ingredient[]
   nutritionalValue NutritionalValue?
 }
 
 model Ingredient {
-  id       String  @id @default(uuid()) @db.Uuid
-  name     String
-  amount   String?
-  recipe   Recipe  @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId String  @db.Uuid
+  id     String  @id @default(uuid()) @db.Uuid
+  name   String
+  amount String?
+
+  recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String? @db.Uuid
+
+  variant   RecipeVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String?        @db.Uuid
 }
 
 model NutritionalValue {
-  id       String @id @default(uuid()) @db.Uuid
+  id       String  @id @default(uuid()) @db.Uuid
   kcal     Int
   carbs    Int
   fat      Int
   protein  Int
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId String @unique @db.Uuid
+  recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  recipeId String? @unique @db.Uuid
+
+  variant   RecipeVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String?        @unique @db.Uuid
 }
 
 model Source {

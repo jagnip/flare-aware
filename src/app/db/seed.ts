@@ -3,14 +3,15 @@ import { recipes as sampleData } from "./sample-data";
 
 async function main() {
   const prisma = new PrismaClient();
+
   await prisma.ingredient.deleteMany({});
   await prisma.nutritionalValue.deleteMany({});
   await prisma.source.deleteMany({});
+  await prisma.recipeVariant.deleteMany({});
   await prisma.recipe.deleteMany({});
 
-  //   await prisma.recipe.createMany({ data: sampleData });
   for (const recipeData of sampleData) {
-    const { ingredients, nutritionalValue, source, ...recipeFields } =
+    const { ingredients, nutritionalValue, source, variants, ...recipeFields } =
       recipeData;
 
     const recipe = await prisma.recipe.create({
@@ -19,6 +20,7 @@ async function main() {
       },
     });
 
+    // Create ingredients
     if (ingredients) {
       for (const ingredient of ingredients) {
         await prisma.ingredient.create({
@@ -48,6 +50,44 @@ async function main() {
           recipeId: recipe.id,
         },
       });
+    }
+
+    // Create variants
+    if (variants) {
+      for (const variant of variants) {
+        const {
+          ingredients: variantIngredients,
+          nutritionalValue: variantNutrition,
+          ...variantFields
+        } = variant;
+
+        const variantRecord = await prisma.recipeVariant.create({
+          data: {
+            ...variantFields,
+            recipeId: recipe.id,
+          },
+        });
+
+        if (variantIngredients) {
+          for (const ingredient of variantIngredients) {
+            await prisma.ingredient.create({
+              data: {
+                ...ingredient,
+                variantId: variantRecord.id,
+              },
+            });
+          }
+        }
+
+        if (variantNutrition) {
+          await prisma.nutritionalValue.create({
+            data: {
+              ...variantNutrition,
+              variantId: variantRecord.id,
+            },
+          });
+        }
+      }
     }
   }
 
