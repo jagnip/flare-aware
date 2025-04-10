@@ -18,7 +18,7 @@ model Recipe {
   id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name             String
   slug             String            @unique(map: "recipe_slug_idx")
-  categories       String[]          @default([])
+  collections       String[]          @default([])
   images           String[]          @default([])
   servings         Int?
   handsOnTime      Int?
