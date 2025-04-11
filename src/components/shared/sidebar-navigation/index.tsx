@@ -4,11 +4,8 @@ import AppSidebarFooter from "./footer";
 import AppSidebarContent from "./content";
 import { Collection } from "@/types";
 
-type AppSidebarProps = {
-  collections: Collection[];
-};
 
-const AppSidebar = ({ collections }: AppSidebarProps) => {
+const AppSidebar = ({ collections }: {collections: Collection[]}) => {
   return (
     <Sidebar collapsible="icon">
       <AppSidebarHeader />

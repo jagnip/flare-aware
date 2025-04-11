@@ -1,8 +1,9 @@
 "use server";
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
+import { Recipe } from "@/types";
 
-export async function getRecipes() {
+export async function getRecipes(): Promise<Recipe[]> {
   const data = await prisma.recipe.findMany({
     orderBy: { createdAt: "desc" },
     include: {
@@ -13,15 +14,15 @@ export async function getRecipes() {
       variants: {
         include: {
           ingredients: true,
-          nutritionalValue: true
-        }
-      }
-    }
+          nutritionalValue: true,
+        },
+      },
+    },
   });
   return convertToPlainObject(data);
 }
 
-export async function getRecipeBySlug(slug: string) {
+export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
   return await prisma.recipe.findFirst({
     where: { slug: slug },
     include: {
@@ -32,9 +33,9 @@ export async function getRecipeBySlug(slug: string) {
       variants: {
         include: {
           ingredients: true,
-          nutritionalValue: true
-        }
-      }
-    }
+          nutritionalValue: true,
+        },
+      },
+    },
   });
 }

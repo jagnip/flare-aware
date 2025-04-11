@@ -51,11 +51,7 @@ const collections = [
   },
 ];
 
-type AppSidebarContentProps = {
-  collections: Collection[];
-};
-
-const AppSidebarContent = ({ collections }: AppSidebarContentProps) => {
+const AppSidebarContent = ({ collections }: {collections:Collection[]}) => {
   return (
     <SidebarContent>
       <SidebarGroup>

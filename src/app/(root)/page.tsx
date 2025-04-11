@@ -8,6 +8,7 @@ export const metadata = {
 
 const Homepage = async () => {
   const recipes = await getRecipes();
+
   return (
     <>
       <Header />

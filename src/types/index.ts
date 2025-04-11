@@ -1,16 +1,18 @@
-import {
-  insertIngredientSchema,
-  insertSourceSchema,
-  insertCollectionSchema,
-  insertRecipeVariantSchema,
-  insertRecipeSchema,
-} from "@/lib/validator";
-import { z } from "zod";
 
-export type Ingredient = z.infer<typeof insertIngredientSchema> & {
+export type RecipeVariant = {
   id: string;
-  recipeId?: string | null;
-  variantId?: string | null;
+  name: string;
+  recipeId: string;
+  ingredients: Ingredient[];
+  nutritionalValue: NutritionalValue | null;
+};
+
+export type Ingredient = {
+  id: string;
+  name: string;
+  amount: string | null;
+  recipeId: string | null;
+  variantId: string | null;
 };
 
 export type NutritionalValue = {
@@ -19,35 +21,37 @@ export type NutritionalValue = {
   carbs: number;
   fat: number;
   protein: number;
-  recipeId?: string | null;
-  variantId?: string | null;
+  recipeId: string | null;
+  variantId: string | null;
 };
 
-export type Source = z.infer<typeof insertSourceSchema> & {
+export type Collection = {
   id: string;
-  recipeId: string;
-};
-
-export type Collection = z.infer<typeof insertCollectionSchema> & {
-  id: string;
+  name: string;
   slug: string;
-  recipes?: Recipe[]; 
+  recipes?: Recipe[];
 };
 
-export type RecipeVariant = z.infer<typeof insertRecipeVariantSchema> & {
+export type Recipe = {
   id: string;
-  recipeId: string;
-  ingredients: Ingredient[];
-  nutritionalValue: NutritionalValue;
-};
-
-export type Recipe = z.infer<typeof insertRecipeSchema> & {
-  id: string;
+  name: string;
   slug: string;
+  images: string[];
+  servings: number | null;
+  handsOnTime: number | null;
+  handsOffTime: number | null;
+  instructions: string[];
+  notes: string | null;
   createdAt: Date;
+  //relationships
+  nutritionalValue: NutritionalValue | null;
+  source: {
+    id: string;
+    name: string;
+    url: string;
+    recipeId: string;
+  } | null;
+  variants: RecipeVariant[];
   collections: Collection[];
   ingredients: Ingredient[];
-  nutritionalValue?: NutritionalValue | null;
-  source?: Source | null;
-  variants: RecipeVariant[];
 };
