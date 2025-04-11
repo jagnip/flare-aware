@@ -6,6 +6,7 @@ const Loading = () => {
     <div className="flex justify-center items-center h-screen w-screen">
       <Image src={loader} width={150} height={150} alt="Loading..." />
     </div>
+   
   );
 };
 

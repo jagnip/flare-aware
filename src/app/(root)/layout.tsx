@@ -23,7 +23,7 @@ export default async function RootLayout({
           </MobileNavigation>
         </div>
         <div className="flex flex-col w-full">
-          <main className="flex-1 ">{children} </main>
+          <main className="flex-1 ">{children}</main>
         </div>
       </SidebarProvider>
     </div>

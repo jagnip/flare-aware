@@ -24,8 +24,6 @@ export async function getCollectionBySlug(slug: string): Promise<Collection | nu
     }
   });
 
-  console.log(data)
-
   return data;
   
 }

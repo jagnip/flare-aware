@@ -19,6 +19,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Collection } from "@/types";
+import Link from "next/link";
 
 const tools = [
   {
@@ -82,10 +83,8 @@ const AppSidebarContent = ({ collections }: {collections:Collection[]}) => {
             {collections.map((collection) => (
               <SidebarMenuItem key={collection.slug}>
                 <SidebarMenuButton asChild>
-                  <a href={collection.slug}>
-                    {/* <collection.icon /> */}
-                    <span>{collection.name}</span>
-                  </a>
+                  <Link href={`/collection/${collection.slug}`}>{collection.name}</Link>
+
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

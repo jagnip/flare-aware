@@ -59,7 +59,7 @@ const MobileMenuSheet = ({ collections }: { collections: Collection[] }) => {
             {collections.map((collection) => (
               <li key={collection.id}>
                 <Link
-                  href={collection.id}
+                  href={`/collection/${collection.slug}`}
                   className="flex items-center gap-2 py-1.5"
                 >
                   {/* <collection.icon size={16} /> */}
