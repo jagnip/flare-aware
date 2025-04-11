@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const insertIngredientSchema = z.object({
   name: z.string().min(1, 'Ingredient name is required'),
-  amount: z.string().optional(),
+  amount: z.string().nullable().optional(),
 });
 
 export const insertSourceSchema = z.object({
@@ -19,18 +19,17 @@ export const insertRecipeVariantSchema = z.object({
   ingredients: z.array(insertIngredientSchema).optional().default([]),
 });
 
-
 export const insertRecipeSchema = z.object({
   name: z.string().min(3, 'Name must be at least 3 characters'),
   collections: z.array(insertCollectionSchema).optional().default([]),
   images: z.array(z.string()).optional().default([]),
-  servings: z.number().int().positive().optional(),
-  handsOnTime: z.number().int().nonnegative().optional(),
-  handsOffTime: z.number().int().nonnegative().optional(),
+  servings: z.number().int().positive().optional().nullable(),
+  handsOnTime: z.number().int().nonnegative().optional().nullable(),
+  handsOffTime: z.number().int().nonnegative().optional().nullable(),
   instructions: z.array(z.string()).optional().default([]),
-  notes: z.string().optional(),
+  notes: z.string().nullable(),
   ingredients: z.array(insertIngredientSchema).optional().default([]),
-  source: insertSourceSchema.optional(),
+  source: insertSourceSchema.optional().nullable(),
   variants: z.array(insertRecipeVariantSchema).optional().default([])
 });
 

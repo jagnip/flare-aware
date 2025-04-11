@@ -29,10 +29,10 @@ export type Collection = {
   id: string;
   name: string;
   slug: string;
-  recipes?: Recipe[];
+  recipes?: RecipePreview[];
 };
 
-export type Recipe = {
+export type FullRecipe = {
   id: string;
   name: string;
   slug: string;
@@ -54,4 +54,12 @@ export type Recipe = {
   variants: RecipeVariant[];
   collections: Collection[];
   ingredients: Ingredient[];
+};
+
+export type RecipePreview = {
+  id: string;
+  name: string;
+  slug: string;
+  images: string[];
+  handsOnTime: number | null;
 };
