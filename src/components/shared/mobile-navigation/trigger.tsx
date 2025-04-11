@@ -4,7 +4,7 @@ import { Menu } from "lucide-react";
 
 const MobileMenuTrigger = () => {
   return (
-    <SheetTrigger asChild className="md:hidden">
+    <SheetTrigger asChild>
       <Button variant="outline" size="icon">
         <Menu />
         <span className="sr-only">Open menu</span>
