@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
+import { Collection } from "@/types";
 
 // Same data
 const tools = [
@@ -25,25 +26,7 @@ const tools = [
   },
 ];
 
-const collections = [
-  {
-    title: "All recipes",
-    url: "/allrecipes",
-    icon: Folders,
-  },
-  {
-    title: "Uncategorized",
-    url: "/uncategorized",
-    icon: PackageOpen,
-  },
-  {
-    title: "Archive",
-    url: "/archive",
-    icon: Trash2,
-  },
-];
-
-const MobileMenuSheet = () => {
+const MobileMenuSheet = ({ collections }: { collections: Collection[] }) => {
   return (
     <SheetContent side="left" className="w-[250px] p-4">
       <SheetTitle className="text-lg mb-4">Navigation</SheetTitle>
@@ -74,13 +57,13 @@ const MobileMenuSheet = () => {
           </h3>
           <ul className="space-y-1">
             {collections.map((collection) => (
-              <li key={collection.url}>
+              <li key={collection.id}>
                 <Link
-                  href={collection.url}
+                  href={collection.id}
                   className="flex items-center gap-2 py-1.5"
                 >
-                  <collection.icon size={16} />
-                  <span>{collection.title}</span>
+                  {/* <collection.icon size={16} /> */}
+                  <span>{collection.name}</span>
                 </Link>
               </li>
             ))}

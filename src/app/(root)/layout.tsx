@@ -19,7 +19,7 @@ export default async function RootLayout({
         <div className="absolute wrapper md:hidden">
           <MobileNavigation>
             <MobileMenuTrigger />
-            <MobileMenuSheet />
+            <MobileMenuSheet collections={collections} />
           </MobileNavigation>
         </div>
         <div className="flex flex-col w-full">
