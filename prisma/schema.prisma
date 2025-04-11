@@ -37,7 +37,7 @@ model Collection {
   id      String   @id @default(uuid()) @db.Uuid
   name    String   @unique
   slug    String   @unique(map: "collection_slug_idx")
-  recipes Recipe[]
+  recipes Recipe[] 
 }
 
 model RecipeVariant {

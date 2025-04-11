@@ -7,7 +7,7 @@ const RecipeList = ({ recipes }: { recipes: Recipe[] }) => {
     <div className="my-10">
       {recipes.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {recipes.map((recipe: any) => (
+          {recipes.map((recipe: Recipe) => (
             <RecipeCard key={recipe.slug} recipe={recipe} />
           ))}
         </div>

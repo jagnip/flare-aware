@@ -13,7 +13,8 @@ const RecipeDetailsPage = async (props: {
   if (!recipe) notFound();
 
   return (
-
+    <>
+      <Header />
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
@@ -36,7 +37,7 @@ const RecipeDetailsPage = async (props: {
           </div>
         </div>
       </section>
-
+    </>
   );
 };
 
