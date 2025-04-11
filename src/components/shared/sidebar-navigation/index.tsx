@@ -2,12 +2,17 @@ import { Sidebar } from "@/components/ui/sidebar";
 import AppSidebarHeader from "./header";
 import AppSidebarFooter from "./footer";
 import AppSidebarContent from "./content";
+import { Collection } from "@/types";
 
-const AppSidebar = () => {
+type AppSidebarProps = {
+  collections: Collection[];
+};
+
+const AppSidebar = ({ collections }: AppSidebarProps) => {
   return (
     <Sidebar collapsible="icon">
       <AppSidebarHeader />
-      <AppSidebarContent />
+      <AppSidebarContent collections={collections} />
       <AppSidebarFooter />
     </Sidebar>
   );

@@ -10,15 +10,12 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-const collections = await getCollections();
-
-console.log(collections)
+  const collections = await getCollections();
 
   return (
     <div className="flex h-screen relative">
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar collections={collections} />
         <div className="absolute wrapper md:hidden">
           <MobileNavigation>
             <MobileMenuTrigger />

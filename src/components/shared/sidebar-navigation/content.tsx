@@ -18,6 +18,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Collection } from "@/types";
 
 const tools = [
   {
@@ -50,7 +51,11 @@ const collections = [
   },
 ];
 
-const AppSidebarContent = () => {
+type AppSidebarContentProps = {
+  collections: Collection[];
+};
+
+const AppSidebarContent = ({ collections }: AppSidebarContentProps) => {
   return (
     <SidebarContent>
       <SidebarGroup>
@@ -79,11 +84,11 @@ const AppSidebarContent = () => {
         <SidebarGroupContent>
           <SidebarMenu>
             {collections.map((collection) => (
-              <SidebarMenuItem key={collection.url}>
+              <SidebarMenuItem key={collection.slug}>
                 <SidebarMenuButton asChild>
-                  <a href={collection.url}>
-                    <collection.icon />
-                    <span>{collection.title}</span>
+                  <a href={collection.slug}>
+                    {/* <collection.icon /> */}
+                    <span>{collection.name}</span>
                   </a>
                 </SidebarMenuButton>
               </SidebarMenuItem>
