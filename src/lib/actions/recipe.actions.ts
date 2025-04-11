@@ -2,7 +2,6 @@
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 
-// Get the latest products
 export async function getRecipes() {
   const data = await prisma.recipe.findMany({
     orderBy: { createdAt: "desc" },
