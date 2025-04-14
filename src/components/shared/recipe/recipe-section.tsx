@@ -1,18 +1,17 @@
 import { ReactNode } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
-interface RecipeSectionProps {
+export const RecipeSection = ({
+  title,
+  children,
+}: {
   title: string;
   children: ReactNode;
-}
-
-export const RecipeSection = ({ title, children }: RecipeSectionProps) => (
+}) => (
   <Card>
     <CardHeader>
       <CardTitle>{title}</CardTitle>
     </CardHeader>
-    <CardContent>
-      {children}
-    </CardContent>
+    <CardContent>{children}</CardContent>
   </Card>
 );
