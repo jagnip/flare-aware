@@ -10,6 +10,7 @@ import { RecipeInfo } from "@/components/shared/recipe/recipe-info";
 import { RecipeSection } from "@/components/shared/recipe/recipe-section";
 import { RecipeInstructions } from "@/components/shared/recipe/recipe-instructions";
 import { RecipeNotes } from "@/components/shared/recipe/recipe-notes";
+import RecipeImages from "@/components/shared/recipe/recipe-image";
 
 const RecipeDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -30,6 +31,7 @@ const RecipeDetailsPage = async (props: {
     source,
     instructions,
     notes,
+    images,
   } = recipe as FullRecipe;
 
   return (
@@ -40,14 +42,14 @@ const RecipeDetailsPage = async (props: {
           {/* Images Column */}
           <div className="col-span-2">
             <div className="flex flex-col">
-              <div>IMAGE </div>
-
+              <div className="col-span-2">
+                <RecipeImages images={images} />
+              </div>
               <div>
                 {collections.map((collection) => (
                   <Badge key={collection.id}>{collection.name}</Badge>
                 ))}
               </div>
-
               <RecipeIngredients ingredients={ingredients} />
               <RecipeNutrition nutritionalValue={nutritionalValue} />
             </div>
