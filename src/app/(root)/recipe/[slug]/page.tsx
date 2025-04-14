@@ -1,22 +1,20 @@
 import { notFound } from "next/navigation";
 import { getRecipeBySlug } from "@/lib/actions/recipe.actions";
 import Header from "@/components/shared/header";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { FullRecipe } from "@/types";
 import Link from "next/link";
+import { RecipeIngredients } from "@/components/shared/recipe/recipe-ingredients";
+import { RecipeNutrition } from "@/components/shared/recipe/recipe-nutrition";
+import { RecipeInfo } from "@/components/shared/recipe/recipe-info";
+import { RecipeSection } from "@/components/shared/recipe/recipe-section";
+import { RecipeInstructions } from "@/components/shared/recipe/recipe-instructions";
+import { RecipeNotes } from "@/components/shared/recipe/recipe-notes";
 
 const RecipeDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
 }) => {
   const params = await props.params;
-
   const { slug } = params;
 
   const recipe = await getRecipeBySlug(slug);
@@ -32,9 +30,7 @@ const RecipeDetailsPage = async (props: {
     source,
     instructions,
     notes,
-  } = recipe;
-
-  console.log(recipe);
+  } = recipe as FullRecipe;
 
   return (
     <>
@@ -51,148 +47,34 @@ const RecipeDetailsPage = async (props: {
                   <Badge key={collection.id}>{collection.name}</Badge>
                 ))}
               </div>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Ingredients</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ul className="list-disc pl-5 space-y-1">
-                    {ingredients.map((ingredient) => (
-                      <li key={ingredient.id} className="text-sm">
-                        {ingredient.amount ? `${ingredient.amount} ` : ""}{" "}
-                        {ingredient.name}
-                      </li>
-                    ))}
-                  </ul>
-                </CardContent>
-              </Card>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Nutritional value</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <dl>
-                    {nutritionalValue ? (
-                      <div>
-                        <dt>Calories:</dt>
-                        <dd>{nutritionalValue.kcal} kcal</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
 
-                    {nutritionalValue ? (
-                      <div>
-                        <dt>Carbs:</dt>
-                        <dd>{nutritionalValue.carbs}g</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    {nutritionalValue ? (
-                      <div>
-                        <dt>Fat:</dt>
-                        <dd>{nutritionalValue.fat}g</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    {nutritionalValue ? (
-                      <div>
-                        <dt>Protein:</dt>
-                        <dd>{nutritionalValue.protein}g</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </dl>
-                </CardContent>
-              </Card>
+              <RecipeIngredients ingredients={ingredients} />
+              <RecipeNutrition nutritionalValue={nutritionalValue} />
             </div>
           </div>
 
           {/* Details Column */}
           <div className="col-span-3">
             <div className="flex flex-col">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recipe Info</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <dl>
-                    {servings ? (
-                      <div>
-                        <dt>Servings:</dt>
-                        <dd>{servings}</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    {handsOnTime ? (
-                      <div>
-                        <dt>Preparation time:</dt>
-                        <dd>{handsOnTime} minutes</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-
-                    {handsOffTime ? (
-                      <div>
-                        <dt>Cooking time:</dt>
-                        <dd>{handsOffTime} minutes</dd>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </dl>
-                </CardContent>
-              </Card>
+              <RecipeInfo
+                servings={servings}
+                handsOnTime={handsOnTime}
+                handsOffTime={handsOffTime}
+              />
 
               {source && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Source</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Link
-                      href={source.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
-                      {source.name}
-                    </Link>
-                  </CardContent>
-                </Card>
+                <Link
+                  href={source.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-600 hover:underline"
+                >
+                  {source.name}
+                </Link>
               )}
 
-              <Card>
-                <CardHeader>
-                  <CardTitle>Instructions</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ol className="list-decimal pl-5 space-y-2">
-                    {instructions.map((instruction, index) => (
-                      <li key={index}>{instruction}</li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-
-              {notes && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Notes</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>{notes}</p>
-                  </CardContent>
-                </Card>
-              )}
+              <RecipeInstructions instructions={instructions} />
+              {notes && <RecipeNotes notes={notes} />}
             </div>
           </div>
         </div>
