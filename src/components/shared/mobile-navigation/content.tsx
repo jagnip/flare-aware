@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Folders,
-  PackageOpen,
-  Trash2,
-  Calendar,
-  ShoppingCart,
-  Menu,
-} from "lucide-react";
+import { Calendar, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Collection } from "@/types";

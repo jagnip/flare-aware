@@ -1,7 +1,4 @@
 import {
-  Folders,
-  PackageOpen,
-  Trash2,
   Calendar,
   ShoppingCart,
   Plus,
@@ -14,7 +11,6 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
@@ -31,24 +27,6 @@ const tools = [
     title: "Grocery list",
     url: "/grocery-list",
     icon: ShoppingCart,
-  },
-];
-
-const collections = [
-  {
-    title: "All recipes",
-    url: "/allrecipes",
-    icon: Folders,
-  },
-  {
-    title: "Uncategorized",
-    url: "/uncategorized",
-    icon: PackageOpen,
-  },
-  {
-    title: "Archive",
-    url: "/archive",
-    icon: Trash2,
   },
 ];
 

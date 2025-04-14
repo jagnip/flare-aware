@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import { getRecipeBySlug } from "@/lib/actions/recipe.actions";
 import Header from "@/components/shared/header";
 import { getCollectionBySlug } from "@/lib/actions/collection.actions";
 import RecipeList from "@/components/shared/recipe/recipe-list";

@@ -7,7 +7,6 @@ import Link from "next/link";
 import { RecipeIngredients } from "@/components/shared/recipe/recipe-ingredients";
 import { RecipeNutrition } from "@/components/shared/recipe/recipe-nutrition";
 import { RecipeInfo } from "@/components/shared/recipe/recipe-info";
-import { RecipeSection } from "@/components/shared/recipe/recipe-section";
 import { RecipeInstructions } from "@/components/shared/recipe/recipe-instructions";
 import { RecipeNotes } from "@/components/shared/recipe/recipe-notes";
 import RecipeImages from "@/components/shared/recipe/recipe-image";
