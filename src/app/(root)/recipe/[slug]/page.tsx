@@ -35,7 +35,7 @@ const RecipeDetailsPage = async (props: {
 
   return (
     <>
-      <Header />
+      <Header recipeId={recipe.id} />
       <section>
         <div className="grid grid-cols-1 md:grid-cols-5">
           {/* Images Column */}
