@@ -1,37 +1,44 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-export const insertIngredientSchema = z.object({
-  name: z.string().min(1, 'Ingredient name is required'),
+export const createSourceSchema = z.object({
+  name: z.string(),
+  url: z.string(),
+});
+
+export const createIngredientSchema = z.object({
+  name: z.string(),
   amount: z.string().nullable().optional(),
 });
 
-export const insertSourceSchema = z.object({
-  name: z.string().min(1, 'Source name is required'),
-  url: z.string().url('Please provide a valid URL'),
+export const createRecipeVariantSchema = z.object({
+  name: z.string().min(1),
+  ingredients: z.array(createIngredientSchema).optional(),
 });
 
-export const insertCollectionSchema = z.object({
-  name: z.string().min(1, 'Category name is required'),
+export const createCollectionSchema = z.object({
+  name: z.string().min(1),
+  slug: z.string().min(1),
 });
 
-export const insertRecipeVariantSchema = z.object({
-  name: z.string().min(3, 'Variant name must be at least 3 characters'),
-  ingredients: z.array(insertIngredientSchema).optional().default([]),
+export const createRecipeSchema = z.object({
+  name: z.string(),
+  slug: z.string(),
+  images: z.array(z.string()).optional(),
+  servings: z.number().int().nullable().optional(),
+  handsOnTime: z.number().int().nullable().optional(),
+  handsOffTime: z.number().int().nullable().optional(),
+  instructions: z.array(z.string()).optional(),
+  notes: z.string().nullable().optional(),
+  source: createSourceSchema.nullable().optional(),
+  ingredients: z.array(createIngredientSchema).optional(),
+  variants: z.array(createRecipeVariantSchema).optional(),
+  collections: z.array(createCollectionSchema).optional()
 });
 
-export const insertRecipeSchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 characters'),
-  collections: z.array(insertCollectionSchema).optional().default([]),
-  images: z.array(z.string()).optional().default([]),
-  servings: z.number().int().positive().optional().nullable(),
-  handsOnTime: z.number().int().nonnegative().optional().nullable(),
-  handsOffTime: z.number().int().nonnegative().optional().nullable(),
-  instructions: z.array(z.string()).optional().default([]),
-  notes: z.string().nullable(),
-  ingredients: z.array(insertIngredientSchema).optional().default([]),
-  source: insertSourceSchema.optional().nullable(),
-  variants: z.array(insertRecipeVariantSchema).optional().default([])
-});
-
-export type RecipeVariantInput = z.infer<typeof insertRecipeVariantSchema>;
-export type InsertRecipeInput = z.infer<typeof insertRecipeSchema>;
+export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
+export type CreateSourceInput = z.infer<typeof createSourceSchema>;
+export type CreateIngredientInput = z.infer<typeof createIngredientSchema>;
+export type CreateRecipeVariantInput = z.infer<
+  typeof createRecipeVariantSchema
+>;
+export type CreateCollectionInput = z.infer<typeof createCollectionSchema>;

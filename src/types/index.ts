@@ -1,17 +1,14 @@
+import { CreateRecipeVariantInput } from './../lib/validator';
+import { CreateCollectionInput, CreateIngredientInput, CreateRecipeInput } from "@/lib/validator";
 
-
-export type RecipeVariant = {
+export type RecipeVariant = CreateRecipeVariantInput & {
   id: string;
-  name: string;
   recipeId: string;
-  ingredients: Ingredient[];
   nutritionalValue: NutritionalValue | null;
 };
 
-export type Ingredient = {
+export type Ingredient = CreateIngredientInput & {
   id: string;
-  name: string;
-  amount: string | null;
   recipeId: string | null;
   variantId: string | null;
 };
@@ -26,35 +23,14 @@ export type NutritionalValue = {
   variantId: string | null;
 };
 
-export type Collection = {
+export type Collection = CreateCollectionInput &{
   id: string;
-  name: string;
-  slug: string;
-  recipes?: RecipePreview[];
 };
 
-export type FullRecipe = {
+export type FullRecipe = CreateRecipeInput & {
   id: string;
-  name: string;
-  slug: string;
-  images: string[];
-  servings: number | null;
-  handsOnTime: number | null;
-  handsOffTime: number | null;
-  instructions: string[];
-  notes: string | null;
   createdAt: Date;
-  //relationships
   nutritionalValue: NutritionalValue | null;
-  source: {
-    id: string;
-    name: string;
-    url: string;
-    recipeId: string;
-  } | null;
-  variants: RecipeVariant[];
-  collections: Collection[];
-  ingredients: Ingredient[];
 };
 
 export type RecipePreview = {
