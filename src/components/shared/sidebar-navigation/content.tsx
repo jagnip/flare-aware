@@ -1,8 +1,4 @@
-import {
-  Calendar,
-  ShoppingCart,
-  Plus,
-} from "lucide-react";
+import { Calendar, ShoppingCart, Plus } from "lucide-react";
 
 import {
   SidebarContent,
@@ -16,6 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { Collection } from "@/types";
 import Link from "next/link";
+import { ROUTES } from "@/lib/constants";
 
 const tools = [
   {
@@ -30,7 +27,7 @@ const tools = [
   },
 ];
 
-const AppSidebarContent = ({ collections }: {collections:Collection[]}) => {
+const AppSidebarContent = ({ collections }: { collections: Collection[] }) => {
   return (
     <SidebarContent>
       <SidebarGroup>
@@ -61,8 +58,12 @@ const AppSidebarContent = ({ collections }: {collections:Collection[]}) => {
             {collections.map((collection) => (
               <SidebarMenuItem key={collection.slug}>
                 <SidebarMenuButton asChild>
-                  <Link href={`/collection/${collection.slug}`}>{collection.name}</Link>
-
+                  <Link
+                    href={ROUTES.COLLECTION_DETAIL(collection.slug)}
+                    className="flex items-center gap-2 py-1.5"
+                  >
+                    {collection.name}
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}

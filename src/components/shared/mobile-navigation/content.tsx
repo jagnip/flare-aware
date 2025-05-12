@@ -4,6 +4,7 @@ import { Calendar, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import { SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { Collection } from "@/types";
+import { ROUTES } from "@/lib/constants";
 
 // Same data
 const tools = [
@@ -52,7 +53,7 @@ const MobileMenuSheet = ({ collections }: { collections: Collection[] }) => {
             {collections.map((collection) => (
               <li key={collection.id}>
                 <Link
-                  href={`/collection/${collection.slug}`}
+                  href={ROUTES.COLLECTION_DETAIL(collection.slug)}
                   className="flex items-center gap-2 py-1.5"
                 >
                   {/* <collection.icon size={16} /> */}
