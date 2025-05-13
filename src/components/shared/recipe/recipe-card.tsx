@@ -4,12 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { RecipePreview } from "@/types";
+import { ROUTES } from "@/lib/constants";
 
 const RecipeCard = ({ recipe }: { recipe: RecipePreview }) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 flex justify-center items-center">
-        <Link href={`/recipe/${recipe.slug}`}>
+        <Link href={ROUTES.RECIPE_DETAIL(recipe.slug)}>
           {recipe.images ? (
             <Image
               priority={true}
