@@ -11,3 +11,16 @@ export const ROUTES = {
     COLLECTIONS: '/collections',
     COLLECTION_DETAIL: (slug: string) => `/collections/${slug}`,
   };
+
+  export const RECIPE_DEFAULT_VALUES = {
+    name: '',
+    slug: '',
+    images: [],
+    handsOnTime: 0,
+    handsOffTime: 0,
+    instructions: [],
+    notes: '',
+    ingredients: [],
+    variants: [],
+    collections: []
+  };

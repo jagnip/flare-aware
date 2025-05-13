@@ -20,6 +20,15 @@ export const createCollectionSchema = z.object({
   slug: z.string().min(1),
 });
 
+export const linkCollectionSchema = z.object({
+  id: z.string().uuid(),
+});
+
+export const recipeCollectionSchema = z.union([
+  createCollectionSchema,
+  linkCollectionSchema,
+]);
+
 export const createRecipeSchema = z.object({
   name: z.string(),
   slug: z.string(),
@@ -32,7 +41,11 @@ export const createRecipeSchema = z.object({
   source: createSourceSchema.nullable().optional(),
   ingredients: z.array(createIngredientSchema).optional(),
   variants: z.array(createRecipeVariantSchema).optional(),
-  collections: z.array(createCollectionSchema).optional()
+  collections: z.array(recipeCollectionSchema).optional(),
+});
+
+export const updateRecipeSchema = createRecipeSchema.extend({
+  id: z.string().min(1, 'Id is required'),
 });
 
 export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
@@ -42,3 +55,4 @@ export type CreateRecipeVariantInput = z.infer<
   typeof createRecipeVariantSchema
 >;
 export type CreateCollectionInput = z.infer<typeof createCollectionSchema>;
+export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;

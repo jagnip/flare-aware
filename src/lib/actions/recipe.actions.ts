@@ -3,6 +3,9 @@ import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { FullRecipe, RecipePreview } from "@/types";
 import { revalidatePath } from "next/cache";
+import { createRecipeSchema } from "../validator";
+import { z } from "zod";
+import { ROUTES } from "../constants";
 
 export async function getRecipePreviews(): Promise<RecipePreview[]> {
   const data = await prisma.recipe.findMany({
@@ -47,25 +50,12 @@ export async function deleteRecipe(id: string) {
 
     if (!recipe) throw new Error("Recipe not found");
 
-    const collections = await prisma.collection.findMany({
-      where: {
-        recipes: {
-          some: {
-            id: id,
-          },
-        },
-      },
-      select: {
-        slug: true,
-      },
-    });
-
+    const slug = recipe.slug;
     await prisma.recipe.delete({ where: { id } });
 
-    revalidatePath("/");
-    revalidatePath(`/recipe/${recipe.slug}`);
-    collections.forEach(({ slug }) => revalidatePath(`/collection/${slug}`));
-
+    revalidatePath(ROUTES.HOME);
+    revalidatePath(ROUTES.COLLECTIONS);
+    revalidateRecipeCollections(slug);
     return {
       success: true,
       message: "Recipe deleted successfully",
@@ -73,4 +63,69 @@ export async function deleteRecipe(id: string) {
   } catch (error) {
     return { success: false, message: error };
   }
+}
+
+export async function createRecipe(data: z.infer<typeof createRecipeSchema>) {
+  try {
+    const { source, collections, ingredients, variants, ...rest } =
+      createRecipeSchema.parse(data);
+    await prisma.recipe.create({
+      data: {
+        ...rest,
+        ...(source ? { source: { create: source } } : {}),
+        ...(collections
+          ? {
+              collections: {
+                create: collections.filter(
+                  (c): c is { name: string; slug: string } => "name" in c
+                ),
+                connect: collections
+                  .filter((c): c is { id: string } => "id" in c)
+                  .map((c) => ({ id: c.id })),
+              },
+            }
+          : {}),
+        ...(ingredients ? { ingredients: { create: ingredients } } : {}),
+        ...(variants
+          ? {
+              variants: {
+                create: variants.map((variant) => ({
+                  name: variant.name,
+                  ...(variant.ingredients
+                    ? { ingredients: { create: variant.ingredients } }
+                    : {}),
+                })),
+              },
+            }
+          : {}),
+      },
+    });
+
+    revalidatePath(ROUTES.HOME);
+    revalidatePath(ROUTES.COLLECTIONS);
+    revalidateRecipeCollections(rest.slug);
+
+    return {
+      success: true,
+      message: "Product created successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error };
+  }
+}
+
+async function revalidateRecipeCollections(slug: string) {
+  const recipe = await prisma.recipe.findFirst({
+    where: { slug },
+    include: { collections: true },
+  });
+
+  if (!recipe) return;
+
+  recipe.collections.forEach(({ slug }) => {
+    revalidatePath(ROUTES.COLLECTION_DETAIL(slug));
+  });
+
+  revalidatePath(ROUTES.HOME);
+  revalidatePath(ROUTES.COLLECTIONS);
 }

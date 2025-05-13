@@ -1,4 +1,4 @@
-import { CreateRecipeVariantInput } from './../lib/validator';
+import { CreateRecipeVariantInput} from './../lib/validator';
 import { CreateCollectionInput, CreateIngredientInput, CreateRecipeInput } from "@/lib/validator";
 
 export type RecipeVariant = CreateRecipeVariantInput & {
@@ -23,7 +23,7 @@ export type NutritionalValue = {
   variantId: string | null;
 };
 
-export type Collection = CreateCollectionInput &{
+export type Collection = CreateCollectionInput & {
   id: string;
 };
 
