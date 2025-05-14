@@ -8,7 +8,6 @@ export const metadata = {
 };
 
 const CreateRecipe = async () => {
-  const recipes = await getRecipePreviews();
 
   return (
     <>

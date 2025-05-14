@@ -3,7 +3,7 @@ import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { FullRecipe, RecipePreview } from "@/types";
 import { revalidatePath } from "next/cache";
-import { createRecipeSchema } from "../validator";
+import { createRecipeSchema, updateRecipeSchema } from "../validator";
 import { z } from "zod";
 import { ROUTES } from "../constants";
 
@@ -108,6 +108,106 @@ export async function createRecipe(data: z.infer<typeof createRecipeSchema>) {
     return {
       success: true,
       message: "Product created successfully",
+    };
+  } catch (error) {
+    return { success: false, message: error };
+  }
+}
+
+export async function updateRecipe(data: z.infer<typeof updateRecipeSchema>) {
+  try {
+    const { id, slug, source, collections, ingredients, variants, ...rest } =
+      updateRecipeSchema.parse(data);
+
+    const existingRecipe = await prisma.recipe.findFirst({
+      where: { id },
+      include: {
+        source: true,
+        ingredients: true,
+        collections: true,
+        variants: {
+          include: { ingredients: true },
+        },
+      },
+    });
+
+    if (!existingRecipe) throw new Error('Recipe not found');
+
+    const flatChanged = Object.entries(rest).some(
+      ([key, val]) => val !== (existingRecipe as any)[key]
+    );
+
+    if (flatChanged) {
+      await prisma.recipe.update({ where: { id }, data: { ...rest } });
+    }
+
+    if (source && JSON.stringify(existingRecipe.source) !== JSON.stringify(source)) {
+      await prisma.source.upsert({
+        where: { recipeId: id },
+        update: source,
+        create: { ...source, recipeId: id },
+      });
+    }
+
+
+    const existingIngredients = existingRecipe.ingredients.map(({ name, amount }) => ({ name, amount }));
+    const newIngredients = ingredients || [];
+    const ingredientsChanged =
+      JSON.stringify(existingIngredients) !== JSON.stringify(newIngredients);
+
+    if (ingredientsChanged) {
+      await prisma.ingredient.deleteMany({ where: { recipeId: id } });
+      await prisma.ingredient.createMany({
+        data: newIngredients.map((i) => ({ ...i, recipeId: id })),
+      });
+    }
+
+    if (collections) {
+      await prisma.recipe.update({
+        where: { id },
+        data: {
+          collections: {
+            set: [],
+            connect: collections
+              .filter((c): c is { id: string } => 'id' in c)
+              .map((c) => ({ id: c.id })),
+            create: collections.filter(
+              (c): c is { name: string; slug: string } => 'name' in c
+            ),
+          },
+        },
+      });
+    }
+
+    if (variants) {
+      await prisma.recipeVariant.deleteMany({ where: { recipeId: id } });
+
+      for (const variant of variants) {
+        const createdVariant = await prisma.recipeVariant.create({
+          data: {
+            name: variant.name,
+            recipeId: id,
+          },
+        });
+
+        if (variant.ingredients) {
+          await prisma.ingredient.createMany({
+            data: variant.ingredients.map((i) => ({
+              ...i,
+              variantId: createdVariant.id,
+            })),
+          });
+        }
+      }
+    }
+
+    revalidatePath(ROUTES.HOME);
+    revalidatePath(ROUTES.COLLECTIONS);
+    await revalidateRecipeCollections(slug);
+
+    return {
+      success: true,
+      message: 'Recipe updated successfully',
     };
   } catch (error) {
     return { success: false, message: error };
