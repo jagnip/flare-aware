@@ -13,7 +13,7 @@ const CreateRecipe = async () => {
     <>
       <Header />
       <div className="my-8">
-        <RecipeForm type="Create" />
+        <RecipeForm />
       </div>
     </>
   );
