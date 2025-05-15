@@ -1,6 +1,6 @@
 "use client";
 import { createRecipeSchema, updateRecipeSchema } from "@/lib/validator";
-import { FullRecipe } from "@/types";
+import { Recipe } from "@/types";
 import { useRouter } from "next/router";
 import { Form, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import type { CreateRecipeInput, UpdateRecipeInput } from "@/lib/validator";
 import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
 
-const RecipeForm = ({ recipe }: { recipe?: FullRecipe }) => {
+const RecipeForm = ({ recipe }: { recipe?: Recipe }) => {
   let updateDefaults;
   if (recipe) {
     updateDefaults = {

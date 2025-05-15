@@ -27,7 +27,7 @@ export type Collection = CreateCollectionInput & {
   id: string;
 };
 
-export type FullRecipe = CreateRecipeInput & {
+export type Recipe = CreateRecipeInput & {
   id: string;
   createdAt: Date;
   nutritionalValue: NutritionalValue | null;

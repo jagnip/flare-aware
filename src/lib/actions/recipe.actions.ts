@@ -1,7 +1,7 @@
 "use server";
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
-import { FullRecipe, RecipePreview } from "@/types";
+import { Recipe, RecipePreview } from "@/types";
 import { revalidatePath } from "next/cache";
 import { createRecipeSchema, updateRecipeSchema } from "../validator";
 import { z } from "zod";
@@ -24,7 +24,7 @@ export async function getRecipePreviews(): Promise<RecipePreview[]> {
 
 export async function getRecipeBySlug(
   slug: string
-): Promise<FullRecipe | null> {
+): Promise<Recipe | null> {
   return await prisma.recipe.findFirst({
     where: { slug: slug },
     include: {
