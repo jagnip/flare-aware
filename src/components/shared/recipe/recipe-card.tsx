@@ -28,7 +28,7 @@ const RecipeCard = ({ recipe }: { recipe: RecipePreview }) => {
         </Link>
       </CardHeader>
       <CardContent>
-        <Link href={`/recipe/${recipe.slug}`}>
+        <Link href={ROUTES.RECIPE_DETAIL(recipe.slug)}>
           <h2>{recipe.name}</h2>
         </Link>
         {recipe.handsOnTime && <Badge>{recipe.handsOnTime} mins</Badge>}
