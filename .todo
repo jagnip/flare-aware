@@ -1,1 +1,5 @@
-Recipe display page (for example bolognese)
+Done:
+        * simplified prisma models
+
+To do:
+        * Seed your database with new flat data

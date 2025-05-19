@@ -72,7 +72,6 @@ export async function createRecipe(data: z.infer<typeof createRecipeSchema>) {
     await prisma.recipe.create({
       data: {
         ...rest,
-        ...(source ? { source: { create: source } } : {}),
         ...(collections
           ? {
               collections: {
@@ -85,19 +84,7 @@ export async function createRecipe(data: z.infer<typeof createRecipeSchema>) {
               },
             }
           : {}),
-        ...(ingredients ? { ingredients: { create: ingredients } } : {}),
-        ...(variants
-          ? {
-              variants: {
-                create: variants.map((variant) => ({
-                  name: variant.name,
-                  ...(variant.ingredients
-                    ? { ingredients: { create: variant.ingredients } }
-                    : {}),
-                })),
-              },
-            }
-          : {}),
+  
       },
     });
 
