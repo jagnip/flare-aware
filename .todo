@@ -1,5 +1,6 @@
 Done:
         * simplified prisma models
+        * Seed your database with new flat data
 
 To do:
-        * Seed your database with new flat data
+        * display recipes (action getRecipes should be ready)
