@@ -3,10 +3,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import Link from "next/link";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
-import { RecipePreview } from "@/types";
+import { Recipe} from "@/types";
 import { ROUTES } from "@/lib/constants";
 
-const RecipeCard = ({ recipe }: { recipe: RecipePreview }) => {
+const RecipeCard = ({ recipe }: { recipe: Recipe }) => {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader className="p-0 flex justify-center items-center">
