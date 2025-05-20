@@ -1,59 +1,59 @@
 import { z } from "zod";
 
-
-export const createSourceSchema = z.object({
-  name: z.string(),
-  url: z.string(),
+export const ingredientSchema = z.object({
+  name: z.string().min(1, "Ingredient name is required"),
+  quantity: z.number().int().positive().optional(),
+  unit: z.string().optional(),
 });
 
-export const createIngredientSchema = z.object({
-  name: z.string(),
-  amount: z.string().nullable().optional(),
+export const sourceSchema = z
+  .object({
+    name: z.string().optional(),
+    url: z.string().url("Invalid URL").optional(),
+  })
+  .optional();
+
+export const collectionSchema = z.object({
+  name: z.string().min(1, "Collection name is required"),
 });
 
-export const createRecipeVariantSchema = z.object({
-  name: z.string().min(1),
-  ingredients: z.array(createIngredientSchema).optional(),
+export const recipeSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  images: z.array(z.string()).default([]),
+  servings: z
+    .union([
+      z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
+        message: "Must be a whole number ≥ 1 or empty",
+      }),
+      z.number().int().min(1),
+    ])
+    .optional()
+    .transform((val) => (val === "" ? null : Number(val))),
+  handsOnTime: z
+    .union([
+      z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
+        message: "Must be a whole number ≥ 1 or empty",
+      }),
+      z.number().int().min(1),
+    ])
+    .optional()
+    .transform((val) => (val === "" ? null : Number(val))),
+  handsOffTime: z
+    .union([
+      z.string().refine((val) => val === "" || /^\d+$/.test(val), {
+        message: "Must be a whole number ≥ 1 or empty",
+      }),
+      z.number().int().min(0),
+    ])
+    .optional()
+    .transform((val) => (val === "" ? null : Number(val))),
+
+  instructions: z.array(z.string()).default([]),
+  notes: z.string().optional(),
+  ingredients: z.array(ingredientSchema).default([]),
+  source: sourceSchema,
+  collections: z.array(z.string().uuid()).default([]),
 });
 
-export const createCollectionSchema = z.object({
-  name: z.string().min(1),
-  slug: z.string().min(1),
-});
-
-export const linkCollectionSchema = z.object({
-  id: z.string().uuid(),
-});
-
-export const recipeCollectionSchema = z.union([
-  createCollectionSchema,
-  linkCollectionSchema,
-]);
-
-export const createRecipeSchema = z.object({
-  name: z.string(),
-  slug: z.string(),
-  images: z.array(z.string()).optional(),
-  servings: z.number().int().nullable().optional(),
-  handsOnTime: z.number().int().nullable().optional(),
-  handsOffTime: z.number().int().nullable().optional(),
-  instructions: z.array(z.string()).optional(),
-  notes: z.string().nullable().optional(),
-  source: createSourceSchema.nullable().optional(),
-  ingredients: z.array(createIngredientSchema).optional(),
-  variants: z.array(createRecipeVariantSchema).optional(),
-  collections: z.array(recipeCollectionSchema).optional(),
-});
-
-export const updateRecipeSchema = createRecipeSchema.extend({
-  id: z.string().min(1, 'Id is required'),
-});
-
-export type CreateRecipeInput = z.infer<typeof createRecipeSchema>;
-export type CreateSourceInput = z.infer<typeof createSourceSchema>;
-export type CreateIngredientInput = z.infer<typeof createIngredientSchema>;
-export type CreateRecipeVariantInput = z.infer<
-  typeof createRecipeVariantSchema
->;
-export type CreateCollectionInput = z.infer<typeof createCollectionSchema>;
-export type UpdateRecipeInput = z.infer<typeof updateRecipeSchema>;
+export type recipeForm = z.infer<typeof recipeSchema>;
+export type collectionForm = z.infer<typeof collectionSchema>;

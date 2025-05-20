@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Header from "@/components/shared/header";
-import { getCollectionBySlug } from "@/lib/actions/collection.actions";
+import { getRecipesByCollectionSlug } from "@/lib/actions/collection.actions";
 import RecipeList from "@/components/shared/recipe/recipe-list";
 
 const CollectionPage = async (props: { params: Promise<{ slug: string }> }) => {
@@ -8,7 +8,7 @@ const CollectionPage = async (props: { params: Promise<{ slug: string }> }) => {
 
   const { slug } = params;
 
-  const collection = await getCollectionBySlug(slug);
+  const collection = await getRecipesByCollectionSlug(slug);
   if (!collection) notFound();
 
   return (

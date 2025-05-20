@@ -1,6 +1,13 @@
 Done:
         * simplified prisma models
         * Seed your database with new flat data
+        * display recipes (action getRecipes should be ready)
+        * Test adding new collections
 
 To do:
-        * display recipes (action getRecipes should be ready)
+       * Test adding new recipes (with a script)
+
+//////////////////////////////
+        Normalize your data 
+* for DB (mapFormToDb) 
+* for forms (mapDbToForm)

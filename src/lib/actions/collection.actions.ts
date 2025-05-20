@@ -8,7 +8,9 @@ export async function getCollections(): Promise<Collection[]> {
   return convertToPlainObject(data);
 }
 
-export async function getCollectionBySlug(slug: string): Promise<Collection | null> {
+export async function getRecipesByCollectionSlug(
+  slug: string
+): Promise<Collection | null> {
   const data = await prisma.collection.findFirst({
     where: { slug: slug },
     include: {
@@ -18,12 +20,11 @@ export async function getCollectionBySlug(slug: string): Promise<Collection | nu
           name: true,
           slug: true,
           images: true,
-          handsOnTime: true
-        }
-      }
-    }
+          handsOnTime: true,
+        },
+      },
+    },
   });
 
   return data;
-  
 }

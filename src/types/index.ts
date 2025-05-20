@@ -5,3 +5,5 @@ export type Recipe = Prisma.RecipeGetPayload<{
     collections: true;
   };
 }>;
+
+export type Collection = Prisma.CollectionGetPayload<{}>;

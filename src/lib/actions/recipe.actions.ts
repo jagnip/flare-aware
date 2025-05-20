@@ -3,7 +3,7 @@ import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Recipe } from "@/types";
 import { revalidatePath } from "next/cache";
-import { createRecipeSchema, updateRecipeSchema } from "../validator";
+import { recipeForm } from "../validator";
 import { z } from "zod";
 import { ROUTES } from "../constants";
 
