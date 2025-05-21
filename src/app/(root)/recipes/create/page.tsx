@@ -1,8 +1,5 @@
 import RecipeForm from "@/components/shared/form/recipe-form";
 import Header from "@/components/shared/header";
-import RecipeList from "@/components/shared/recipe/recipe-list";
-import { getRecipePreviews } from "@/lib/actions/recipe.actions";
-
 export const metadata = {
   title: "Brocololo",
 };

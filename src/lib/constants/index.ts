@@ -21,6 +21,5 @@ export const ROUTES = {
     instructions: [],
     notes: '',
     ingredients: [],
-    variants: [],
     collections: []
   };

@@ -3,9 +3,11 @@ import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Recipe } from "@/types";
 import { revalidatePath } from "next/cache";
-import { recipeForm } from "../validator";
+import { recipeForm, recipeSchema } from "../validator";
 import { z } from "zod";
 import { ROUTES } from "../constants";
+import slugify from "slugify";
+import { normalizeRecipeFormData } from "./utils";
 
 export async function getRecipes(): Promise<Recipe[]> {
   const recipes = await prisma.recipe.findMany({
@@ -36,9 +38,6 @@ export async function deleteRecipe(id: string) {
     const slug = recipe.slug;
     await prisma.recipe.delete({ where: { id } });
 
-    revalidatePath(ROUTES.HOME);
-    revalidatePath(ROUTES.COLLECTIONS);
-    revalidateRecipeCollections(slug);
     return {
       success: true,
       message: "Recipe deleted successfully",
@@ -48,18 +47,30 @@ export async function deleteRecipe(id: string) {
   }
 }
 
-async function revalidateRecipeCollections(slug: string) {
-  const recipe = await prisma.recipe.findFirst({
-    where: { slug },
-    include: { collections: true },
-  });
+async function createRecipe(input: recipeForm) {
+  try {
+    const parsed = recipeSchema.parse(input);
+    const normalized = normalizeRecipeFormData(parsed);
+    const slug = slugify(parsed.name, { lower: true });
+    const { collections, ...rest } = normalized;
 
-  if (!recipe) return;
+    const recipe = await prisma.recipe.create({
+      data: {
+        ...rest,
+        slug,
+        collections: {
+          connect: collections.map((id) => ({ id })),
+        },
+      },
+    });
 
-  recipe.collections.forEach(({ slug }) => {
-    revalidatePath(ROUTES.COLLECTION_DETAIL(slug));
-  });
-
-  revalidatePath(ROUTES.HOME);
-  revalidatePath(ROUTES.COLLECTIONS);
+    console.log("✅ Collection added:", recipe);
+  } catch (err) {
+    if (err instanceof Error && "errors" in err) {
+      console.error("❌ Zod validation failed:", (err as any).errors);
+    } else {
+      console.error("❌ An unexpected error occurred:", err);
+    }
+  }
 }
+

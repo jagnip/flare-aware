@@ -27,8 +27,7 @@ export const recipeSchema = z.object({
       }),
       z.number().int().min(1),
     ])
-    .optional()
-    .transform((val) => (val === "" ? null : Number(val))),
+    .optional(),
   handsOnTime: z
     .union([
       z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
@@ -36,8 +35,7 @@ export const recipeSchema = z.object({
       }),
       z.number().int().min(1),
     ])
-    .optional()
-    .transform((val) => (val === "" ? null : Number(val))),
+    .optional(),
   handsOffTime: z
     .union([
       z.string().refine((val) => val === "" || /^\d+$/.test(val), {
@@ -45,9 +43,7 @@ export const recipeSchema = z.object({
       }),
       z.number().int().min(0),
     ])
-    .optional()
-    .transform((val) => (val === "" ? null : Number(val))),
-
+    .optional(),
   instructions: z.array(z.string()).default([]),
   notes: z.string().optional(),
   ingredients: z.array(ingredientSchema).default([]),

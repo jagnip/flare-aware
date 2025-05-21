@@ -1,24 +1,17 @@
 "use client";
-import { createRecipeSchema, updateRecipeSchema } from "@/lib/validator";
 import { Recipe } from "@/types";
 import { useRouter } from "next/router";
 import { Form, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { CreateRecipeInput, UpdateRecipeInput } from "@/lib/validator";
+import {  recipeSchema, type recipeForm} from "@/lib/validator";
 import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
 
-const RecipeForm = ({ recipe }: { recipe?: Recipe }) => {
-  let updateDefaults;
-  if (recipe) {
-    updateDefaults = {
-      ...recipe,
-    };
+const RecipeForm = () => {
 
-    const form = useForm<CreateRecipeInput>({
-      resolver: zodResolver(createRecipeSchema),
-      defaultValues: recipe ? {} : RECIPE_DEFAULT_VALUES,
-    });
+  const form = useForm<z.input<typeof recipeSchema>>({
+    resolver: zodResolver(recipeSchema)
+  });
 
     return (
       <Form {...form}>
@@ -40,5 +33,5 @@ const RecipeForm = ({ recipe }: { recipe?: Recipe }) => {
       </Form>
     );
   }
-};
+
 export default RecipeForm;

@@ -1,4 +1,4 @@
-import { collectionForm } from './../validator';
+import { collectionForm } from '../validator';
 import { prisma } from "@/app/db/prisma";
 import { collectionSchema } from "../validator";
 import slugify from "slugify";
