@@ -23,3 +23,5 @@ export const ROUTES = {
     ingredients: [],
     collections: []
   };
+
+  export const INGREDIENT_UNITS = ["g", "kg", "ml", "l", "tsp", "tbsp", "cup", "pcs"];
