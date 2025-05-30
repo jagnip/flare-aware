@@ -1,37 +1,112 @@
 "use client";
-import { Recipe } from "@/types";
-import { useRouter } from "next/router";
-import { Form, useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {  recipeSchema, type recipeForm} from "@/lib/validator";
-import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
+
+import { useForm } from "react-hook-form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 const RecipeForm = () => {
+  const form = useForm();
 
-  const form = useForm<z.input<typeof recipeSchema>>({
-    resolver: zodResolver(recipeSchema)
-  });
-
-    return (
-      <Form {...form}>
-        <div className="grid grid-cols-1 md:grid-cols-5">
-          {/* Images Column */}
-          <div className="col-span-2">
-            <div className="flex flex-col">
-              Images, Collections, Ingredients
-            </div>
-          </div>
-
-          {/* Details Column */}
-          <div className="col-span-3">
-            <div className="flex flex-col">
-              Servings, times, source, instructions, notes
-            </div>
-          </div>
-        </div>
-      </Form>
-    );
+  function onSubmit(data: any) {
+    console.log("Submitted data:", data);
   }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          name="name"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{field.name}</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter recipe name" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="handsOnTime"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{field.name}</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter prep time in minutes"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="handsOffTime"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{field.name}</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter cooking time in minutes"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          name="instructions"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{field.name}</FormLabel>
+              <FormControl>
+                <Textarea
+                  name="instructions"
+                  placeholder="Enter your instructions"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+         <FormField
+          name="notes"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{field.name}</FormLabel>
+              <FormControl>
+                <Textarea
+                  name="notes"
+                  placeholder="Enter your notes"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button>Save</Button>
+      </form>
+    </Form>
+  );
+};
 
 export default RecipeForm;

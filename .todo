@@ -5,9 +5,4 @@ Done:
         * Test adding new collections
 
 To do:
-       * Test adding new recipes (with a script)
-
-//////////////////////////////
-        Normalize your data 
-* for DB (mapFormToDb) 
-* for forms (mapDbToForm)
+        * Add remaining fields to recipe create form
