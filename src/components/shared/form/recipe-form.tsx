@@ -1,5 +1,5 @@
 "use client";
-
+import { z } from "zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import {
   Form,
@@ -12,6 +12,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Select,
   SelectContent,
@@ -20,17 +21,22 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { INGREDIENT_UNITS } from "@/lib/constants";
+import { recipeSchema } from "@/lib/validator";
+import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
 
-const RecipeForm = () => {
-  const form = useForm();
+export function RecipeForm() {
+  const form = useForm<z.infer<typeof recipeSchema>>({
+    resolver: zodResolver(recipeSchema),
+    defaultValues: RECIPE_DEFAULT_VALUES,
+  });
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "ingredients",
   });
 
-  function onSubmit(data: any) {
-    console.log("Submitted data:", data);
+  function onSubmit(values: z.infer<typeof recipeSchema>) {
+    console.log(values);
   }
 
   return (
@@ -72,7 +78,7 @@ const RecipeForm = () => {
               <FormMessage />
               {/* Preview */}
               <div className="mt-4 flex gap-2 flex-wrap">
-                {(field.value || []).map((src:string, i:number) => (
+                {(field.value || []).map((src: string, i: number) => (
                   <img
                     key={i}
                     src={src}
@@ -300,6 +306,6 @@ const RecipeForm = () => {
       </form>
     </Form>
   );
-};
+}
 
 export default RecipeForm;

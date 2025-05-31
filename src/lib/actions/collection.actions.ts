@@ -2,7 +2,7 @@
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Collection } from "@/types";
-import { collectionForm, collectionSchema } from "../validator";
+import { collectionFormType, collectionSchema } from "../validator";
 import slugify from "slugify";
 
 export async function getCollections(): Promise<Collection[]> {
@@ -31,7 +31,7 @@ export async function getRecipesByCollectionSlug(
   return data;
 }
 
-async function createCollection(input: collectionForm) {
+async function createCollection(input: collectionFormType) {
   try {
     const parsed = collectionSchema.parse(input);
     const slug = slugify(parsed.name, { lower: true });
@@ -41,7 +41,6 @@ async function createCollection(input: collectionForm) {
     });
 
     console.log("✅ Collection added:", collection);
-
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);

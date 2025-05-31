@@ -1,9 +1,9 @@
-import { collectionForm } from '../validator';
+import { collectionFormType } from "../validator";
 import { prisma } from "@/app/db/prisma";
 import { collectionSchema } from "../validator";
 import slugify from "slugify";
 
-async function testCreateCollection(input: collectionForm) {
+async function testCreateCollection(input: collectionFormType) {
   try {
     const parsed = collectionSchema.parse(input);
     const slug = slugify(parsed.name, { lower: true });
@@ -13,7 +13,6 @@ async function testCreateCollection(input: collectionForm) {
     });
 
     console.log("✅ Collection added:", collection);
-
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);
@@ -23,6 +22,6 @@ async function testCreateCollection(input: collectionForm) {
   }
 }
 
-testCreateCollection( {
-    name: "Desserts",
-  });
+testCreateCollection({
+  name: "Desserts",
+});

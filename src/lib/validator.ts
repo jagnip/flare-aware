@@ -19,7 +19,7 @@ export const collectionSchema = z.object({
 
 export const recipeSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  images: z.array(z.string()).default([]),
+  images: z.array(z.string()),
   servings: z
     .union([
       z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
@@ -44,12 +44,13 @@ export const recipeSchema = z.object({
       z.number().int().min(0),
     ])
     .optional(),
-  instructions: z.array(z.string()).default([]),
+  instructions: z.array(z.string()),
   notes: z.string().optional(),
-  ingredients: z.array(ingredientSchema).default([]),
+  ingredients: z.array(ingredientSchema),
   source: sourceSchema,
-  collections: z.array(z.string().uuid()).default([]),
+  // collections: z.array(z.string().uuid()),
+  collections: z.string().optional(),
 });
 
-export type recipeForm = z.infer<typeof recipeSchema>;
-export type collectionForm = z.infer<typeof collectionSchema>;
+export type recipeFormType = z.infer<typeof recipeSchema>;
+export type collectionFormType = z.infer<typeof collectionSchema>;

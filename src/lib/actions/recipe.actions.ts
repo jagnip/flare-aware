@@ -3,7 +3,7 @@ import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Recipe } from "@/types";
 import { revalidatePath } from "next/cache";
-import { recipeForm, recipeSchema } from "../validator";
+import { recipeFormType, recipeSchema } from "../validator";
 import { z } from "zod";
 import { ROUTES } from "../constants";
 import slugify from "slugify";
@@ -47,7 +47,7 @@ export async function deleteRecipe(id: string) {
   }
 }
 
-async function createRecipe(input: recipeForm) {
+async function createRecipe(input: recipeFormType) {
   try {
     const parsed = recipeSchema.parse(input);
     const normalized = normalizeRecipeFormData(parsed);
@@ -73,4 +73,3 @@ async function createRecipe(input: recipeForm) {
     }
   }
 }
-
