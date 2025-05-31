@@ -22,14 +22,11 @@ import {
 } from "@/components/ui/select";
 import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
-import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
-import TextInputFieldProps from "./text-input-field";
 import TextInputField from "./text-input-field";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
     resolver: zodResolver(recipeSchema),
-    defaultValues: RECIPE_DEFAULT_VALUES,
   });
 
   const { fields, append, remove } = useFieldArray({
