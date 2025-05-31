@@ -21,11 +21,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { INGREDIENT_UNITS } from "@/lib/constants";
-import { recipeSchema } from "@/lib/validator";
+import { recipeFormType, recipeSchema } from "@/lib/validator";
 import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
+import CustomFormField from "./form-field";
 
 export function RecipeForm() {
-  const form = useForm<z.infer<typeof recipeSchema>>({
+  const form = useForm<recipeFormType>({
     resolver: zodResolver(recipeSchema),
     defaultValues: RECIPE_DEFAULT_VALUES,
   });
@@ -42,19 +43,9 @@ export function RecipeForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          name="name"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>{field.name}</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter recipe name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <CustomFormField form={form} name="name">
+          {(field) => <Input placeholder="Enter recipe name" {...field} />}
+        </CustomFormField>
         <FormField
           control={form.control}
           name="images"
