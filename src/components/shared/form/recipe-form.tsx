@@ -23,7 +23,8 @@ import {
 import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
 import { RECIPE_DEFAULT_VALUES } from "@/lib/constants";
-import CustomFormField from "./form-field";
+import TextInputFieldProps from "./text-input-field";
+import TextInputField from "./text-input-field";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
@@ -43,9 +44,12 @@ export function RecipeForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <CustomFormField form={form} name="name">
-          {(field) => <Input placeholder="Enter recipe name" {...field} />}
-        </CustomFormField>
+        <TextInputField
+          form={form}
+          name="name"
+          placeholder="Enter recipe name"
+        />
+
         <FormField
           control={form.control}
           name="images"

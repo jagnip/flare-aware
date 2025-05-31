@@ -1,31 +1,29 @@
 "use client";
 import {
-  Form,
   FormField,
   FormItem,
   FormLabel,
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { ReactNode } from "react";
+import { Input } from "@/components/ui/input";
 import {
   FieldValues,
   UseFormReturn,
-  ControllerRenderProps,
   Path,
 } from "react-hook-form";
 
-type RecipeFormFieldProps<T extends FieldValues> = {
+type TextInputFieldProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
-  children: (field: ControllerRenderProps<T, any>) => ReactNode;
+  placeholder?: string;
 };
 
-const CustomFormField = <T extends FieldValues>({
+const TextInputField = <T extends FieldValues>({
   form,
   name,
-  children,
-}: RecipeFormFieldProps<T>) => {
+  placeholder,
+}: TextInputFieldProps<T>) => {
   return (
     <FormField
       name={name}
@@ -33,7 +31,9 @@ const CustomFormField = <T extends FieldValues>({
       render={({ field }) => (
         <FormItem>
           <FormLabel>{field.name}</FormLabel>
-          <FormControl>{children(field)}</FormControl>
+          <FormControl>
+            <Input placeholder={placeholder} {...field} />
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}
@@ -41,4 +41,4 @@ const CustomFormField = <T extends FieldValues>({
   );
 };
 
-export default CustomFormField;
+export default TextInputField;
