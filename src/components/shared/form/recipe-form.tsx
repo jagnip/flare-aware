@@ -23,6 +23,7 @@ import {
 import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
+import { UploadButton } from "@/lib/uploadthing";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
