@@ -9,6 +9,7 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,11 +24,16 @@ import {
 import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
-import { UploadButton } from "@/lib/uploadthing";
+import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
+import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
     resolver: zodResolver(recipeSchema),
+    defaultValues: {
+      images: [],
+    },
   });
 
   const { fields, append, remove } = useFieldArray({
@@ -38,6 +44,8 @@ export function RecipeForm() {
   function onSubmit(values: z.infer<typeof recipeSchema>) {
     console.log(values);
   }
+
+  const images = form.watch("images");
 
   return (
     <Form {...form}>
@@ -55,28 +63,35 @@ export function RecipeForm() {
             <FormItem className="w-full">
               <FormLabel>Images</FormLabel>
               <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files || []);
-                    const imageUrls = files.map((file) =>
-                      URL.createObjectURL(file)
-                    );
-                    field.onChange(imageUrls);
+                <UploadDropzone
+                  endpoint="imageUploader"
+                  appearance={{
+                    button: {
+                      color: "#000",
+                    },
+                    container: {
+                      display: "flex",
+                    },
+                  }}
+                  onClientUploadComplete={(res: { url: string }[]) => {
+                    const uploadedUrls = res.map((file) => file.url);
+                    form.setValue("images", [...images, ...uploadedUrls]);
+                  }}
+                  onUploadError={(error: Error) => {
+                    toast(`${error.message}`);
                   }}
                 />
               </FormControl>
               <FormMessage />
-              {/* Preview */}
               <div className="mt-4 flex gap-2 flex-wrap">
-                {(field.value || []).map((src: string, i: number) => (
-                  <img
-                    key={i}
-                    src={src}
-                    alt={`preview-${i}`}
-                    className="h-24 w-24 object-cover rounded border"
+                {images.map((image: string) => (
+                  <Image
+                    key={image}
+                    src={image}
+                    alt="product image"
+                    className="w-20 h-20 object-cover object-center rounded-sm"
+                    width={100}
+                    height={100}
                   />
                 ))}
               </div>
