@@ -5,4 +5,6 @@ Done:
         * Test adding new collections
 
 To do:
-        * Code image upload component
+        * Fix images component (links not being saved)
+        * Normalise data before storing in db
+        * Store in db

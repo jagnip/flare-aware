@@ -12,7 +12,6 @@ import {
   FieldValues,
   UseFormReturn,
   Path,
-  ControllerRenderProps,
 } from "react-hook-form";
 
 type TextAreaProps<T extends FieldValues> = {

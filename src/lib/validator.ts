@@ -47,9 +47,9 @@ export const recipeSchema = z.object({
   instructions: z.string().min(1, "Instructions are required"),
   notes: z.string().optional(),
   ingredients: z.string(),
-  source: sourceSchema,
-  // collections: z.array(z.string().uuid()),
-  collections: z.string().optional(),
+  source: z.string().optional(),
+  collections: z.array(z.string()),
+
 });
 
 export type recipeFormType = z.infer<typeof recipeSchema>;
