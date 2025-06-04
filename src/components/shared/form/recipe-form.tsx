@@ -24,12 +24,15 @@ import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
 import ImageUpload from "./image-upload";
+import NumberInputField from "./number-input-field";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
     resolver: zodResolver(recipeSchema),
     defaultValues: {
+      name: "",
       images: [],
+      handsOnTime: 0,
     },
   });
 
@@ -51,40 +54,8 @@ export function RecipeForm() {
           placeholder="Enter recipe name"
         />
         <ImageUpload form={form} name="images" />
-        <FormField
-          name="handsOnTime"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>{field.name}</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Enter prep time in minutes"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="handsOffTime"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>{field.name}</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="Enter cooking time in minutes"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <NumberInputField form={form} name="handsOnTime" placeholder="Enter prep time in minutes" />
+        <NumberInputField form={form} name="handsOffTime" placeholder="Enter cooking time in minutes" />
         <FormField
           name="instructions"
           control={form.control}

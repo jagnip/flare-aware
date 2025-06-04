@@ -126,3 +126,15 @@
     @apply max-w-7xl lg:mx-auto p-5 md:px-10 w-full;
   }
 }
+
+/* Hide native number input arrows for Chrome, Safari, Edge */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
