@@ -1,11 +1,7 @@
 "use server";
 import { prisma } from "@/app/db/prisma";
-import { convertToPlainObject } from "../utils";
 import { Recipe } from "@/types";
-import { revalidatePath } from "next/cache";
-import { recipeFormType, recipeSchema } from "../validator";
-import { z } from "zod";
-import { ROUTES } from "../constants";
+import { RecipeFormInput, recipeSchema } from "../validator";
 import slugify from "slugify";
 import { normalizeRecipeFormData } from "./utils";
 
@@ -47,24 +43,11 @@ export async function deleteRecipe(id: string) {
   }
 }
 
-async function createRecipe(input: recipeFormType) {
+export async function createRecipe(input: RecipeFormInput) {
   try {
-    const parsed = recipeSchema.parse(input);
-    const normalized = normalizeRecipeFormData(parsed);
-    const slug = slugify(parsed.name, { lower: true });
-    const { collections, ...rest } = normalized;
-
-    const recipe = await prisma.recipe.create({
-      data: {
-        ...rest,
-        slug,
-        collections: {
-          connect: collections.map((id) => ({ id })),
-        },
-      },
-    });
-
-    console.log("✅ Collection added:", recipe);
+    // const normalized = normalizeRecipeFormData(parsed);
+    // const slug = slugify(parsed.name, { lower: true });
+    // const { collections, ...rest } = normalized;
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);

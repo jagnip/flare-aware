@@ -1,9 +1,9 @@
-import { recipeFormType, recipeSchema } from "../validator";
+import { RecipeFormInput, recipeSchema } from "../validator";
 import { prisma } from "@/app/db/prisma";
 import slugify from "slugify";
 import { normalizeRecipeFormData } from "../actions/utils";
 
-async function createRecipe(input: recipeFormType) {
+async function createRecipe(input: RecipeFormInput) {
   try {
     const parsed = recipeSchema.parse(input);
     const normalized = normalizeRecipeFormData(parsed);

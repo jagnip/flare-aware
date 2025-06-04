@@ -26,7 +26,7 @@ model Recipe {
   notes        String?
   collections  Collection[]
   ingredients  Json[]       @default([])
-  source       Json?
+  source       String?
   createdAt    DateTime     @default(now()) @db.Timestamp(6)
   updatedAt    DateTime     @updatedAt @db.Timestamp(6)
 }

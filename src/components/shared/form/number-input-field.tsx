@@ -14,12 +14,14 @@ type NumberInputFieldProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   placeholder?: string;
+  stepper?: number;
 };
 
 const NumberInputField = <T extends FieldValues>({
   form,
   name,
   placeholder,
+  stepper = 1,
 }: NumberInputFieldProps<T>) => {
   return (
     <FormField
@@ -32,14 +34,14 @@ const NumberInputField = <T extends FieldValues>({
             <div className="flex items-center space-x-2">
               <Button
                 type="button"
-                onClick={() => field.onChange((Number(field.value) || 0) - 5)}
+                onClick={() => field.onChange((Number(field.value) || 0) - stepper)}
               >
                 –
               </Button>
               <Input placeholder={placeholder} {...field} type="number" />
               <Button
                 type="button"
-                onClick={() => field.onChange((Number(field.value) || 0) + 5)}
+                onClick={() => field.onChange((Number(field.value) || 0) + stepper)}
               >
                 +
               </Button>

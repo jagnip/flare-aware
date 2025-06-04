@@ -1,9 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { recipes, collections } from "./sample-data";
+import { recipes } from "./sample-data";
 
 async function main() {
   const prisma = new PrismaClient();
-  await prisma.collection.createMany({ data: collections });
+  // await prisma.collection.createMany({ data: collections });
 
   for (const recipe of recipes) {
     const { collections, ...rest } = recipe;
@@ -12,7 +12,7 @@ async function main() {
       data: {
         ...rest,
         collections: {
-          connect: collections.map((id) => ({ id }))
+          connect: collections
         }
       }
     });

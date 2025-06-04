@@ -5,6 +5,7 @@ Done:
         * Test adding new collections
 
 To do:
-        * Fix images component (links not being saved)
         * Normalise data before storing in db
+                * collections IDs done
+                * next: instructions as string[] instead of string and parsing ingredients
         * Store in db

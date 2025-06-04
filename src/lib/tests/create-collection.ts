@@ -1,9 +1,9 @@
-import { collectionFormType } from "../validator";
+import { CollectionFormInput } from "../validator";
 import { prisma } from "@/app/db/prisma";
 import { collectionSchema } from "../validator";
 import slugify from "slugify";
 
-async function testCreateCollection(input: collectionFormType) {
+async function testCreateCollection(input: CollectionFormInput) {
   try {
     const parsed = collectionSchema.parse(input);
     const slug = slugify(parsed.name, { lower: true });

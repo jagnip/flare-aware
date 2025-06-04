@@ -30,7 +30,7 @@ const ImageUpload = <T extends FieldValues>({
       name={name}
       render={() => (
         <FormItem className="w-full">
-          <FormLabel>Images</FormLabel>
+          <FormLabel>{name}</FormLabel>
           <FormControl>
             <UploadDropzone
               endpoint="imageUploader"

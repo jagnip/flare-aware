@@ -49,8 +49,7 @@ export const recipeSchema = z.object({
   ingredients: z.string(),
   source: z.string().optional(),
   collections: z.array(z.string()),
-
 });
 
-export type recipeFormType = z.infer<typeof recipeSchema>;
-export type collectionFormType = z.infer<typeof collectionSchema>;
+export type RecipeFormInput = z.infer<typeof recipeSchema>;
+export type CollectionFormInput = z.infer<typeof collectionSchema>;

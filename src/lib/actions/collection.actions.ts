@@ -2,7 +2,7 @@
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
 import { Collection } from "@/types";
-import { collectionFormType, collectionSchema } from "../validator";
+import { CollectionFormInput, collectionSchema } from "../validator";
 import slugify from "slugify";
 
 export async function getCollections(): Promise<Collection[]> {
@@ -31,7 +31,7 @@ export async function getRecipesByCollectionSlug(
   return data;
 }
 
-async function createCollection(input: collectionFormType) {
+async function createCollection(input: CollectionFormInput) {
   try {
     const parsed = collectionSchema.parse(input);
     const slug = slugify(parsed.name, { lower: true });

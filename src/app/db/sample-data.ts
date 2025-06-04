@@ -33,11 +33,8 @@ export const recipes = [
       { name: "salt", quantity: 0.25, unit: "tsp" },
       { name: "pepper", quantity: 0.25, unit: "tsp" },
     ],
-    source: {
-      name: "My Own Creation",
-      url: "https://example.com/avocado-toast",
-    },
-    collections: ["00000000-0000-0000-0000-000000000001"],
+    source: "https://example.com/avocado-toast",
+    collections: [{ id: "00000000-0000-0000-0000-000000000002" }],
   },
   {
     id: "00000000-0000-0000-0000-000000000002",
@@ -62,10 +59,7 @@ export const recipes = [
       { name: "garlic", quantity: 2, unit: "clove" },
       { name: "tomato sauce", quantity: 500, unit: "ml" },
     ],
-    source: {
-      name: "Family Recipe",
-      url: "https://example.com/bolognese",
-    },
-    collections: ["00000000-0000-0000-0000-000000000002"],
+    source: "https://example.com/avocado-toast",
+    collections: [{ id: "00000000-0000-0000-0000-000000000001" }],
   },
 ];

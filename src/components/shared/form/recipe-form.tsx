@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { recipeFormType, recipeSchema } from "@/lib/validator";
+import { RecipeFormInput, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
 import ImageUpload from "./image-upload";
 import NumberInputField from "./number-input-field";
@@ -13,11 +13,12 @@ import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
 import { Collection } from "@/types";
+import { createRecipe } from "@/lib/actions/recipe.actions";
 
 export function RecipeForm() {
   const [collections, setCollections] = useState<Collection[]>([]);
 
-  const form = useForm<recipeFormType>({
+  const form = useForm<RecipeFormInput>({
     resolver: zodResolver(recipeSchema),
     mode: "onBlur",
     defaultValues: {
@@ -35,7 +36,24 @@ export function RecipeForm() {
   });
 
   function onSubmit(values: z.infer<typeof recipeSchema>) {
-    console.log(values);
+    const parsed = recipeSchema.parse(values);
+    const collectionIds = parsed.collections.map((name) => {
+      const match = collections.find((c) => c.name === name);
+      if (!match) {
+        throw new Error(`Collection with name "${name}" not found`);
+      }
+      return { id: match.id };
+    });
+
+    const parsedWithIds = {
+      ...parsed,
+      collections: collectionIds,
+    };
+
+    console.log(parsedWithIds);
+    console.log(collectionIds);
+
+    //contunue normalisation 
   }
 
   useEffect(() => {
@@ -59,11 +77,13 @@ export function RecipeForm() {
           form={form}
           name="handsOnTime"
           placeholder="Enter prep time in minutes"
+          stepper={5}
         />
         <NumberInputField
           form={form}
           name="handsOffTime"
           placeholder="Enter cooking time in minutes"
+          stepper={5}
         />
         <NumberInputField
           form={form}

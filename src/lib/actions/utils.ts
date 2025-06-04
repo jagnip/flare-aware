@@ -1,9 +1,9 @@
 import { prisma } from "@/app/db/prisma";
 import { revalidatePath } from "next/cache";
 import { ROUTES } from "../constants";
-import { recipeFormType } from "../validator";
+import { RecipeFormInput } from "../validator";
 
-export function normalizeRecipeFormData(input: recipeFormType) {
+export function normalizeRecipeFormData(input: RecipeFormInput) {
   return {
     ...input,
     servings: input.servings === "" ? null : Number(input.servings),
