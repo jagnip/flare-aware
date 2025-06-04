@@ -9,7 +9,6 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,9 +23,7 @@ import {
 import { INGREDIENT_UNITS } from "@/lib/constants";
 import { recipeFormType, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
-import { UploadButton, UploadDropzone } from "@/lib/uploadthing";
-import { Card, CardContent } from "@/components/ui/card";
-import Image from "next/image";
+import ImageUpload from "./image-upload";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
@@ -45,8 +42,6 @@ export function RecipeForm() {
     console.log(values);
   }
 
-  const images = form.watch("images");
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -55,49 +50,7 @@ export function RecipeForm() {
           name="name"
           placeholder="Enter recipe name"
         />
-
-        <FormField
-          control={form.control}
-          name="images"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>Images</FormLabel>
-              <FormControl>
-                <UploadDropzone
-                  endpoint="imageUploader"
-                  appearance={{
-                    button: {
-                      color: "#000",
-                    },
-                    container: {
-                      display: "flex",
-                    },
-                  }}
-                  onClientUploadComplete={(res: { url: string }[]) => {
-                    const uploadedUrls = res.map((file) => file.url);
-                    form.setValue("images", [...images, ...uploadedUrls]);
-                  }}
-                  onUploadError={(error: Error) => {
-                    toast(`${error.message}`);
-                  }}
-                />
-              </FormControl>
-              <FormMessage />
-              <div className="mt-4 flex gap-2 flex-wrap">
-                {images.map((image: string) => (
-                  <Image
-                    key={image}
-                    src={image}
-                    alt="product image"
-                    className="w-20 h-20 object-cover object-center rounded-sm"
-                    width={100}
-                    height={100}
-                  />
-                ))}
-              </div>
-            </FormItem>
-          )}
-        />
+        <ImageUpload form={form} name="images" />
         <FormField
           name="handsOnTime"
           control={form.control}
