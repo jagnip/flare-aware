@@ -25,20 +25,19 @@ import { recipeFormType, recipeSchema } from "@/lib/validator";
 import TextInputField from "./text-input-field";
 import ImageUpload from "./image-upload";
 import NumberInputField from "./number-input-field";
+import TextArea from "./text-area";
 
 export function RecipeForm() {
   const form = useForm<recipeFormType>({
     resolver: zodResolver(recipeSchema),
+    mode: "onBlur",
     defaultValues: {
       name: "",
       images: [],
       handsOnTime: 0,
+      handsOffTime: 0,
+      instructions: "",
     },
-  });
-
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "ingredients",
   });
 
   function onSubmit(values: z.infer<typeof recipeSchema>) {
@@ -54,158 +53,39 @@ export function RecipeForm() {
           placeholder="Enter recipe name"
         />
         <ImageUpload form={form} name="images" />
-        <NumberInputField form={form} name="handsOnTime" placeholder="Enter prep time in minutes" />
-        <NumberInputField form={form} name="handsOffTime" placeholder="Enter cooking time in minutes" />
-        <FormField
+        <NumberInputField
+          form={form}
+          name="handsOnTime"
+          placeholder="Enter prep time in minutes"
+        />
+        <NumberInputField
+          form={form}
+          name="handsOffTime"
+          placeholder="Enter cooking time in minutes"
+        />
+        <TextArea
+          form={form}
           name="instructions"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>{field.name}</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter your instructions" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          name="notes"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel>{field.name}</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Enter your notes" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          placeholder="Enter recipe name"
         />
 
-        <div className="space-y-4">
-          <FormLabel>Ingredients</FormLabel>
-
-          {fields.map((field, index) => (
-            <div key={field.id} className="flex gap-4">
-              {/* Name */}
-              <FormField
-                control={form.control}
-                name={`ingredients.${index}.name`}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Flour" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Quantity */}
-              <FormField
-                control={form.control}
-                name={`ingredients.${index}.quantity`}
-                render={({ field }) => (
-                  <FormItem className="w-28">
-                    <FormLabel>Qty</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="e.g. 200"
-                        {...field}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          field.onChange(val === "" ? "" : Number(val));
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Unit */}
-              <FormField
-                control={form.control}
-                name={`ingredients.${index}.unit`}
-                render={({ field }) => (
-                  <FormItem className="w-32">
-                    <FormLabel>Unit</FormLabel>
-                    <Select
-                      value={field.value || ""}
-                      onValueChange={field.onChange}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {INGREDIENT_UNITS.map((unit) => (
-                          <SelectItem key={unit} value={unit}>
-                            {unit}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              {/* Remove Button */}
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => remove(index)}
-              >
-                ✕
-              </Button>
-            </div>
-          ))}
-
-          {/* Add new ingredient button */}
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => append({ name: "", quantity: undefined, unit: "" })}
-          >
-            + Add Ingredient
-          </Button>
-        </div>
+        <TextArea
+          form={form}
+          name="ingredients"
+          placeholder="Enter ingredients"
+        />
 
         <div className="flex flex-col gap-5 md:flex-row">
-          {/* Source Name */}
-          <FormField
-            control={form.control}
+          <TextInputField
+            form={form}
             name="source.name"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Source Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="e.g. Grandma’s Cookbook" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Enter source name"
           />
 
-          {/* Source URL */}
-          <FormField
-            control={form.control}
+          <TextInputField
+            form={form}
             name="source.url"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Source URL</FormLabel>
-                <FormControl>
-                  <Input placeholder="https://example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Enter source URL"
           />
         </div>
 

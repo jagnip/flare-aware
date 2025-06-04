@@ -44,9 +44,9 @@ export const recipeSchema = z.object({
       z.number().int().min(0),
     ])
     .optional(),
-  instructions: z.array(z.string()),
+  instructions: z.string().min(1, "Instructions are required"),
   notes: z.string().optional(),
-  ingredients: z.array(ingredientSchema),
+  ingredients: z.string(),
   source: sourceSchema,
   // collections: z.array(z.string().uuid()),
   collections: z.string().optional(),
