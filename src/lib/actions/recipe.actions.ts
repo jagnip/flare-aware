@@ -3,7 +3,6 @@ import { prisma } from "@/app/db/prisma";
 import { Recipe } from "@/types";
 import { RecipeFormInput, recipeSchema } from "../validator";
 import slugify from "slugify";
-import { normalizeRecipeFormData } from "./utils";
 
 export async function getRecipes(): Promise<Recipe[]> {
   const recipes = await prisma.recipe.findMany({

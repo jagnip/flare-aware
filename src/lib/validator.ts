@@ -44,7 +44,7 @@ export const recipeSchema = z.object({
       z.number().int().min(0),
     ])
     .optional(),
-  instructions: z.string().min(1, "Instructions are required"),
+  instructions: z.string().optional(),
   notes: z.string().optional(),
   ingredients: z.string(),
   source: z.string().optional(),

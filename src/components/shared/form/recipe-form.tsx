@@ -13,7 +13,12 @@ import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
 import { Collection } from "@/types";
+import {
+  parseIngredient,
+  parseInstruction,
+} from "@jlucaspains/sharp-recipe-parser";
 import { createRecipe } from "@/lib/actions/recipe.actions";
+import { normalizeRecipeFormInput } from "@/lib/actions/utils";
 
 export function RecipeForm() {
   const [collections, setCollections] = useState<Collection[]>([]);
@@ -22,11 +27,11 @@ export function RecipeForm() {
     resolver: zodResolver(recipeSchema),
     mode: "onBlur",
     defaultValues: {
-      name: "",
+      name: "test",
       images: [],
-      handsOnTime: 0,
+      handsOnTime: 5,
       handsOffTime: 0,
-      instructions: "",
+      instructions: "test",
       ingredients: "",
       source: "",
       collections: [],
@@ -35,25 +40,14 @@ export function RecipeForm() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof recipeSchema>) {
-    const parsed = recipeSchema.parse(values);
-    const collectionIds = parsed.collections.map((name) => {
-      const match = collections.find((c) => c.name === name);
-      if (!match) {
-        throw new Error(`Collection with name "${name}" not found`);
-      }
-      return { id: match.id };
-    });
+  function onSubmit(
+    values: z.infer<typeof recipeSchema>,
+    collections: Collection[]
+  ) {
+    console.log(collections);
+    const normalisedValues = normalizeRecipeFormInput(values, collections);
 
-    const parsedWithIds = {
-      ...parsed,
-      collections: collectionIds,
-    };
-
-    console.log(parsedWithIds);
-    console.log(collectionIds);
-
-    //contunue normalisation 
+    console.log(normalisedValues);
   }
 
   useEffect(() => {
@@ -66,7 +60,10 @@ export function RecipeForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit((values) => onSubmit(values, collections))}
+        className="space-y-8"
+      >
         <TextInputField
           form={form}
           name="name"
