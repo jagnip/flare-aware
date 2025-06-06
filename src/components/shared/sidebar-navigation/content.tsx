@@ -32,6 +32,7 @@ const AppSidebarContent = ({
   collections: CollectionDB[];
 }) => {
   const [isCollectionAdding, setIsCollectionAdding] = useState(false);
+  const [collectionList, setCollectionList] = useState<CollectionDB[]>(collections);
 
   const form = useForm<CollectionFormInput>({
     resolver: zodResolver(collectionSchema),
@@ -52,10 +53,10 @@ const AppSidebarContent = ({
         </SidebarGroupAction>
         <SidebarGroupContent>
           {isCollectionAdding && (
-            <CollectionForm setIsCollectionAdding={setIsCollectionAdding} />
+            <CollectionForm setIsCollectionAdding={setIsCollectionAdding} setCollectionList={setCollectionList} />
           )}
           <SidebarMenu>
-            {collections.map((collection) => (
+            {collectionList.map((collection) => (
               <SidebarMenuItem key={collection.slug}>
                 <SidebarMenuButton asChild>
                   <Link

@@ -23,12 +23,17 @@ import { CollectionFormInput, collectionSchema } from "@/lib/validator";
 import { formatCollectionForDB } from "@/lib/actions/utils";
 import { createCollection } from "@/lib/actions/collection.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Collection } from "@prisma/client";
+
+type CollectionFormProps = {
+  setIsCollectionAdding: (value: boolean) => void;
+  setCollectionList: React.Dispatch<React.SetStateAction<Collection[]>>;
+};
 
 const CollectionForm = ({
   setIsCollectionAdding,
-}: {
-  setIsCollectionAdding: (value: boolean) => void;
-}) => {
+  setCollectionList,
+}: CollectionFormProps) => {
   const form = useForm<CollectionFormInput>({
     resolver: zodResolver(collectionSchema),
     mode: "onBlur",
@@ -42,7 +47,12 @@ const CollectionForm = ({
     const formattedFormInputValues = formatCollectionForDB(
       zodValidatedCollection
     );
-    await createCollection(formattedFormInputValues);
+    const newCollection = await createCollection(formattedFormInputValues);
+    if (!newCollection) {
+      console.error("Failed to create collection");
+      return;
+    }
+    setCollectionList((prev) => [...prev, newCollection]);
     setIsCollectionAdding(false);
   }
 

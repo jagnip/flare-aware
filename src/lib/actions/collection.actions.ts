@@ -36,7 +36,8 @@ export async function createCollection(
   collectionData: Prisma.CollectionCreateArgs["data"]
 ) {
   try {
-    const newRecipe = await prisma.collection.create({ data: collectionData });
+    const newCollection = await prisma.collection.create({ data: collectionData });
+    return newCollection;
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);
