@@ -19,9 +19,9 @@ model Recipe {
   name         String       @unique
   slug         String       @unique
   images       String[]     @default([])
-  servings     Int?
-  handsOnTime  Int?
-  handsOffTime Int?
+  servings     Int
+  handsOnTime  Int
+  handsOffTime Int
   instructions String[]     @default([])
   notes        String?
   collections  Collection[]

@@ -5,7 +5,7 @@ export const metadata = {
   title: "Brocololo",
 };
 
-const CreateRecipe = async () => {
+const UpdateRecipe = async () => {
 
   return (
     <>
@@ -17,4 +17,4 @@ const CreateRecipe = async () => {
   );
 };
 
-export default CreateRecipe;
+export default UpdateRecipe;

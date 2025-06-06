@@ -12,24 +12,24 @@ import TextArea from "./text-area";
 import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
-import { CollectionDB } from "@/types";
+import { CollectionDB, RecipeWithId } from "@/types";
 import {
   parseIngredient,
   parseInstruction,
 } from "@jlucaspains/sharp-recipe-parser";
-import { createRecipe } from "@/lib/actions/recipe.actions";
+import { createRecipe, updateRecipe } from "@/lib/actions/recipe.actions";
 import { normalizeRecipeFormInput } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
 
-export function RecipeForm() {
+export function RecipeForm({ recipe }: { recipe?: RecipeWithId }) {
   const [collections, setCollections] = useState<CollectionDB[]>([]);
   const router = useRouter();
 
   const form = useForm<RecipeFormInput>({
     resolver: zodResolver(recipeSchema),
     mode: "onBlur",
-    defaultValues: {
+    defaultValues: recipe || {
       name: "test",
       images: [],
       handsOnTime: 5,
@@ -56,7 +56,13 @@ export function RecipeForm() {
     collections: CollectionDB[]
   ) {
     const normalisedValues = normalizeRecipeFormInput(values, collections);
-    await createRecipe(normalisedValues);
+
+    if (recipe) {
+      await updateRecipe(normalisedValues, recipe.id);
+    } else {
+      await createRecipe(normalisedValues);
+    }
+
     router.push(`${ROUTES.RECIPES}`);
   }
 

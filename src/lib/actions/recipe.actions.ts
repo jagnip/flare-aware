@@ -55,3 +55,21 @@ export async function createRecipe(
     }
   }
 }
+
+export async function updateRecipe(
+  recipeData: Prisma.RecipeCreateArgs["data"],
+  id: string
+) {
+  try {
+    const updatedRecipe = await prisma.recipe.update({
+      where: { id },
+      data: recipeData,
+    });
+  } catch (err) {
+    if (err instanceof Error && "errors" in err) {
+      console.error("❌ Zod validation failed:", (err as any).errors);
+    } else {
+      console.error("❌ An unexpected error occurred:", err);
+    }
+  }
+}

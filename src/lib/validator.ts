@@ -23,21 +23,16 @@ export const recipeSchema = z.object({
   servings: z.coerce
     .number()
     .int()
-    .min(1, { message: "Must be a whole number ≥ 1" })
-    .optional(),
-
+    .min(1, { message: "Must be a whole number ≥ 1" }),
   handsOnTime: z.coerce
     .number()
     .int()
-    .min(0, { message: "Must be a whole number ≥ 1" })
-    .optional(),
-
+    .min(0, { message: "Must be a whole number ≥ 1" }),
   handsOffTime: z.coerce
     .number()
     .int()
-    .min(0, { message: "Must be a whole number ≥ 0" })
-    .optional(),
-  instructions: z.string().optional(),
+    .min(0, { message: "Must be a whole number ≥ 0" }),
+  instructions: z.string(),
   notes: z.string().optional(),
   ingredients: z.string(),
   source: z.string().optional(),

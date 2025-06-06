@@ -1,3 +1,4 @@
+import { RecipeFormInput } from "@/lib/validator";
 import { Prisma } from "@prisma/client";
 
 export type RecipeDB = Prisma.RecipeGetPayload<{
@@ -25,3 +26,5 @@ export type IngredientDB = {
     maxQuantity: number;
   }[];
 };
+
+export type RecipeWithId = RecipeFormInput & { id: string };

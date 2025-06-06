@@ -34,7 +34,7 @@ const AppSidebarContent = ({
 }) => {
   return (
     <SidebarContent>
-      <SidebarGroup>
+      {/* <SidebarGroup>
         <SidebarGroupLabel>Tools</SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -50,7 +50,7 @@ const AppSidebarContent = ({
             ))}
           </SidebarMenu>
         </SidebarGroupContent>
-      </SidebarGroup>
+      </SidebarGroup> */}
 
       <SidebarGroup>
         <SidebarGroupLabel>Collections</SidebarGroupLabel>
