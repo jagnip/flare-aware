@@ -19,9 +19,12 @@ import {
 } from "@jlucaspains/sharp-recipe-parser";
 import { createRecipe } from "@/lib/actions/recipe.actions";
 import { normalizeRecipeFormInput } from "@/lib/actions/utils";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/lib/constants";
 
 export function RecipeForm() {
   const [collections, setCollections] = useState<CollectionDB[]>([]);
+  const router = useRouter();
 
   const form = useForm<RecipeFormInput>({
     resolver: zodResolver(recipeSchema),
@@ -48,12 +51,13 @@ export function RecipeForm() {
     fetchCollections();
   }, []);
 
-  function onSubmit(
+  async function onSubmit(
     values: z.infer<typeof recipeSchema>,
     collections: CollectionDB[]
   ) {
     const normalisedValues = normalizeRecipeFormInput(values, collections);
-    createRecipe(normalisedValues);
+    await createRecipe(normalisedValues);
+    router.push(`${ROUTES.RECIPES}`);
   }
 
   return (
