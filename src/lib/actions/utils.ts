@@ -1,5 +1,9 @@
 import { CollectionDB } from "@/types";
-import { RecipeFormInput, recipeSchema } from "../validator";
+import {
+  CollectionFormInput,
+  RecipeFormInput,
+  recipeSchema,
+} from "../validator";
 import slugify from "slugify";
 import { Prisma } from "@prisma/client";
 
@@ -44,4 +48,15 @@ function formatIngredientsForDB(instructions: string): string[] {
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
+}
+
+export function formatCollectionForDB(
+  formInputValues: CollectionFormInput
+): Prisma.CollectionCreateArgs["data"] {
+  const slug = slugify(formInputValues.name, { lower: true });
+
+  return {
+    ...formInputValues,
+    slug,
+  };
 }

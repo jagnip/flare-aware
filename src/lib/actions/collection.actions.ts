@@ -4,6 +4,7 @@ import { convertToPlainObject } from "../utils";
 import { CollectionDB } from "@/types";
 import { CollectionFormInput, collectionSchema } from "../validator";
 import slugify from "slugify";
+import { Prisma } from "@prisma/client";
 
 export async function getCollections(): Promise<CollectionDB[]> {
   const data = await prisma.collection.findMany();
@@ -31,16 +32,11 @@ export async function getRecipesByCollectionSlug(
   return data;
 }
 
-async function createCollection(input: CollectionFormInput) {
+export async function createCollection(
+  collectionData: Prisma.CollectionCreateArgs["data"]
+) {
   try {
-    const parsed = collectionSchema.parse(input);
-    const slug = slugify(parsed.name, { lower: true });
-
-    const collection = await prisma.collection.create({
-      data: { ...parsed, slug },
-    });
-
-    console.log("✅ Collection added:", collection);
+    const newRecipe = await prisma.collection.create({ data: collectionData });
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);

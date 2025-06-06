@@ -1,17 +1,5 @@
 import { z } from "zod";
 
-export const ingredientSchema = z.object({
-  name: z.string().min(1, "Ingredient name is required"),
-  quantity: z.number().int().positive().optional(),
-  unit: z.string().optional(),
-});
-
-export const sourceSchema = z
-  .object({
-    name: z.string().optional(),
-    url: z.string().url("Invalid URL").optional(),
-  })
-  .optional();
 
 export const collectionSchema = z.object({
   name: z.string().min(1, "Collection name is required"),

@@ -1,3 +1,4 @@
+"use client";
 import { Calendar, ShoppingCart, Plus } from "lucide-react";
 
 import {
@@ -13,51 +14,46 @@ import {
 import { CollectionDB } from "@/types";
 import Link from "next/link";
 import { ROUTES } from "@/lib/constants";
-
-const tools = [
-  {
-    title: "Planner",
-    url: "/planner",
-    icon: Calendar,
-  },
-  {
-    title: "Grocery list",
-    url: "/grocery-list",
-    icon: ShoppingCart,
-  },
-];
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Form } from "@/components/ui/form";
+import TextInputField from "../form/text-input-field";
+import { Button } from "@/components/ui/button";
+import { CollectionFormInput, collectionSchema } from "@/lib/validator";
+import { formatCollectionForDB } from "@/lib/actions/utils";
+import { create } from "domain";
+import { createCollection } from "@/lib/actions/collection.actions";
+import { zodResolver } from "@hookform/resolvers/zod";
+import CollectionForm from "./collection-form";
 
 const AppSidebarContent = ({
   collections,
 }: {
   collections: CollectionDB[];
 }) => {
+  const [isCollectionAdding, setIsCollectionAdding] = useState(false);
+
+  const form = useForm<CollectionFormInput>({
+    resolver: zodResolver(collectionSchema),
+    mode: "onBlur",
+    defaultValues: {
+      name: "",
+    },
+  });
+
   return (
     <SidebarContent>
-      {/* <SidebarGroup>
-        <SidebarGroupLabel>Tools</SidebarGroupLabel>
-        <SidebarGroupContent>
-          <SidebarMenu>
-            {tools.map((tool) => (
-              <SidebarMenuItem key={tool.url}>
-                <SidebarMenuButton asChild>
-                  <a href={tool.url}>
-                    <tool.icon />
-                    <span>{tool.title}</span>
-                  </a>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            ))}
-          </SidebarMenu>
-        </SidebarGroupContent>
-      </SidebarGroup> */}
-
       <SidebarGroup>
         <SidebarGroupLabel>Collections</SidebarGroupLabel>
-        <SidebarGroupAction>
+        <SidebarGroupAction
+          onClick={() => setIsCollectionAdding(!isCollectionAdding)}
+        >
           <Plus /> <span className="sr-only">Add collection</span>
         </SidebarGroupAction>
         <SidebarGroupContent>
+          {isCollectionAdding && (
+            <CollectionForm setIsCollectionAdding={setIsCollectionAdding} />
+          )}
           <SidebarMenu>
             {collections.map((collection) => (
               <SidebarMenuItem key={collection.slug}>

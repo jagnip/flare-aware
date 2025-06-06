@@ -13,10 +13,6 @@ import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
 import { CollectionDB, RecipeFormInputWithId } from "@/types";
-import {
-  parseIngredient,
-  parseInstruction,
-} from "@jlucaspains/sharp-recipe-parser";
 import { createRecipe, updateRecipe } from "@/lib/actions/recipe.actions";
 import { formatRecipeForDB } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
