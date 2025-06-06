@@ -4,12 +4,12 @@ import { parseIngredient } from "@jlucaspains/sharp-recipe-parser";
 import slugify from "slugify";
 import { Prisma } from "@prisma/client";
 
-export function normalizeRecipeFormInput(
-  input: RecipeFormInput,
+export function formatRecipeForDB(
+  formInputValues: RecipeFormInput,
   collections: CollectionDB[]
 ): Prisma.RecipeCreateArgs["data"] {
-  const parsed = recipeSchema.parse(input);
-  const parsedCollections = parsed.collections.map((name) => {
+
+  const formattedCollections = formInputValues.collections.map((name) => {
     const match = collections.find((c) => c.name === name);
     if (!match) {
       throw new Error(`Collection with name "${name}" not found`);
@@ -17,14 +17,9 @@ export function normalizeRecipeFormInput(
     return { id: match.id };
   });
 
-  const parsedInstructions = parsed.instructions
-    ? parsed.instructions
-        .split("\n")
-        .map((line) => line.trim())
-        .filter((line) => line.length > 0)
-    : [];
+  const formattedInstructions = formatInstructionsForDB(formInputValues.instructions);
 
-  const parsedIngredients = parsed.ingredients
+  const formattedIngredients = formInputValues.ingredients
     .split("\n")
     .map((ingredient) =>
       parseIngredient(ingredient, "en", {
@@ -34,15 +29,20 @@ export function normalizeRecipeFormInput(
     )
     .filter((i): i is IngredientDB => i !== null);
 
-  const slug = slugify(parsed.name, { lower: true });
-
-  console.log("Let us inspect parsed: ", parsed);
+  const slug = slugify(formInputValues.name, { lower: true });
 
   return {
-    ...parsed,
+    ...formInputValues,
     slug,
-    collections: { connect: parsedCollections },
-    instructions: parsedInstructions,
-    ingredients: parsedIngredients,
+    collections: { connect: formattedCollections },
+    instructions: formattedInstructions,
+    ingredients: formattedIngredients,
   };
+}
+
+function formatInstructionsForDB(instructions: string) : string[] {
+  return instructions
+    .split("\n")
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
 }

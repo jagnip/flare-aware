@@ -18,7 +18,7 @@ import {
   parseInstruction,
 } from "@jlucaspains/sharp-recipe-parser";
 import { createRecipe, updateRecipe } from "@/lib/actions/recipe.actions";
-import { normalizeRecipeFormInput } from "@/lib/actions/utils";
+import { formatRecipeForDB } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
 
@@ -52,10 +52,11 @@ export function RecipeForm({ recipe }: { recipe?: RecipeWithId }) {
   }, []);
 
   async function onSubmit(
-    values: z.infer<typeof recipeSchema>,
+    formInputValues: z.infer<typeof recipeSchema>,
     collections: CollectionDB[]
   ) {
-    const normalisedValues = normalizeRecipeFormInput(values, collections);
+    const zodValidatedRecipe = recipeSchema.parse(formInputValues);
+    const normalisedValues = formatRecipeForDB(zodValidatedRecipe, collections);
 
     if (recipe) {
       await updateRecipe(normalisedValues, recipe.id);
