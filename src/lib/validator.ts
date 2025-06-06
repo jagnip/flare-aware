@@ -20,29 +20,22 @@ export const collectionSchema = z.object({
 export const recipeSchema = z.object({
   name: z.string().min(1, "Name is required"),
   images: z.array(z.string()),
-  servings: z
-    .union([
-      z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
-        message: "Must be a whole number ≥ 1 or empty",
-      }),
-      z.number().int().min(1),
-    ])
+  servings: z.coerce
+    .number()
+    .int()
+    .min(1, { message: "Must be a whole number ≥ 1" })
     .optional(),
-  handsOnTime: z
-    .union([
-      z.string().refine((val) => val === "" || /^[1-9]\d*$/.test(val), {
-        message: "Must be a whole number ≥ 1 or empty",
-      }),
-      z.number().int().min(1),
-    ])
+
+  handsOnTime: z.coerce
+    .number()
+    .int()
+    .min(0, { message: "Must be a whole number ≥ 1" })
     .optional(),
-  handsOffTime: z
-    .union([
-      z.string().refine((val) => val === "" || /^\d+$/.test(val), {
-        message: "Must be a whole number ≥ 1 or empty",
-      }),
-      z.number().int().min(0),
-    ])
+
+  handsOffTime: z.coerce
+    .number()
+    .int()
+    .min(0, { message: "Must be a whole number ≥ 0" })
     .optional(),
   instructions: z.string().optional(),
   notes: z.string().optional(),

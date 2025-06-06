@@ -12,7 +12,7 @@ import TextArea from "./text-area";
 import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
-import { Collection } from "@/types";
+import { CollectionDB } from "@/types";
 import {
   parseIngredient,
   parseInstruction,
@@ -21,7 +21,7 @@ import { createRecipe } from "@/lib/actions/recipe.actions";
 import { normalizeRecipeFormInput } from "@/lib/actions/utils";
 
 export function RecipeForm() {
-  const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<CollectionDB[]>([]);
 
   const form = useForm<RecipeFormInput>({
     resolver: zodResolver(recipeSchema),
@@ -40,16 +40,6 @@ export function RecipeForm() {
     },
   });
 
-  function onSubmit(
-    values: z.infer<typeof recipeSchema>,
-    collections: Collection[]
-  ) {
-    console.log(collections);
-    const normalisedValues = normalizeRecipeFormInput(values, collections);
-
-    console.log(normalisedValues);
-  }
-
   useEffect(() => {
     async function fetchCollections() {
       const data = await getCollections();
@@ -57,6 +47,14 @@ export function RecipeForm() {
     }
     fetchCollections();
   }, []);
+
+  function onSubmit(
+    values: z.infer<typeof recipeSchema>,
+    collections: CollectionDB[]
+  ) {
+    const normalisedValues = normalizeRecipeFormInput(values, collections);
+    createRecipe(normalisedValues);
+  }
 
   return (
     <Form {...form}>

@@ -2,9 +2,9 @@ import { notFound } from "next/navigation";
 import { getRecipeBySlug } from "@/lib/actions/recipe.actions";
 import Header from "@/components/shared/header";
 import { Badge } from "@/components/ui/badge";
-import { FullRecipe } from "@/types";
+import { RecipeDB } from "@/types";
 import Link from "next/link";
-import { RecipeIngredients } from "@/components/shared/recipe/recipe-ingredients";
+// import { RecipeIngredients } from "@/components/shared/recipe/recipe-ingredients";
 import { RecipeNutrition } from "@/components/shared/recipe/recipe-nutrition";
 import { RecipeInfo } from "@/components/shared/recipe/recipe-info";
 import { RecipeInstructions } from "@/components/shared/recipe/recipe-instructions";
@@ -23,7 +23,6 @@ const RecipeDetailsPage = async (props: {
   const {
     collections,
     ingredients,
-    nutritionalValue,
     servings,
     handsOffTime,
     handsOnTime,
@@ -31,7 +30,9 @@ const RecipeDetailsPage = async (props: {
     instructions,
     notes,
     images,
-  } = recipe as FullRecipe;
+  } = recipe as RecipeDB;
+
+  console.log(recipe)
 
   return (
     <>
@@ -49,8 +50,8 @@ const RecipeDetailsPage = async (props: {
                   <Badge key={collection.id}>{collection.name}</Badge>
                 ))}
               </div>
-              <RecipeIngredients ingredients={ingredients} />
-              <RecipeNutrition nutritionalValue={nutritionalValue} />
+              {/* <RecipeIngredients ingredients={ingredients} /> */}
+              {/* <RecipeNutrition nutritionalValue={nutritionalValue} /> */}
             </div>
           </div>
 
@@ -63,16 +64,7 @@ const RecipeDetailsPage = async (props: {
                 handsOffTime={handsOffTime}
               />
 
-              {source && (
-                <Link
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  {source.name}
-                </Link>
-              )}
+              {source && <p>{source}</p>}
 
               <RecipeInstructions instructions={instructions} />
               {notes && <RecipeNotes notes={notes} />}

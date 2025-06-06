@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Recipe" ALTER COLUMN "source" SET DATA TYPE TEXT;

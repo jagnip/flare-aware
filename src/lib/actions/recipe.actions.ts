@@ -1,10 +1,10 @@
 "use server";
-import { prisma } from "@/app/db/prisma";
-import { Recipe } from "@/types";
-import { RecipeFormInput, recipeSchema } from "../validator";
-import slugify from "slugify";
 
-export async function getRecipes(): Promise<Recipe[]> {
+import { prisma } from "@/app/db/prisma";
+import { RecipeDB } from "@/types";
+import { Prisma } from "@prisma/client";
+
+export async function getRecipes(): Promise<RecipeDB[]> {
   const recipes = await prisma.recipe.findMany({
     include: {
       collections: true,
@@ -13,7 +13,7 @@ export async function getRecipes(): Promise<Recipe[]> {
   return recipes;
 }
 
-export async function getRecipeBySlug(slug: string): Promise<Recipe | null> {
+export async function getRecipeBySlug(slug: string): Promise<RecipeDB | null> {
   return await prisma.recipe.findFirst({
     where: { slug: slug },
     include: {
@@ -42,11 +42,11 @@ export async function deleteRecipe(id: string) {
   }
 }
 
-export async function createRecipe(input: RecipeFormInput) {
+export async function createRecipe(
+  recipeData: Prisma.RecipeCreateArgs["data"]
+) {
   try {
-    // const normalized = normalizeRecipeFormData(parsed);
-    // const slug = slugify(parsed.name, { lower: true });
-    // const { collections, ...rest } = normalized;
+    const newRecipe = await prisma.recipe.create({ data: recipeData });
   } catch (err) {
     if (err instanceof Error && "errors" in err) {
       console.error("❌ Zod validation failed:", (err as any).errors);

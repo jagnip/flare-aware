@@ -1,18 +1,18 @@
 "use server";
 import { prisma } from "@/app/db/prisma";
 import { convertToPlainObject } from "../utils";
-import { Collection } from "@/types";
+import { CollectionDB } from "@/types";
 import { CollectionFormInput, collectionSchema } from "../validator";
 import slugify from "slugify";
 
-export async function getCollections(): Promise<Collection[]> {
+export async function getCollections(): Promise<CollectionDB[]> {
   const data = await prisma.collection.findMany();
   return convertToPlainObject(data);
 }
 
 export async function getRecipesByCollectionSlug(
   slug: string
-): Promise<Collection | null> {
+): Promise<CollectionDB | null> {
   const data = await prisma.collection.findFirst({
     where: { slug: slug },
     include: {

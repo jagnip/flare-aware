@@ -1,9 +1,27 @@
 import { Prisma } from "@prisma/client";
 
-export type Recipe = Prisma.RecipeGetPayload<{
+export type RecipeDB = Prisma.RecipeGetPayload<{
   include: {
     collections: true;
   };
 }>;
 
-export type Collection = Prisma.CollectionGetPayload<{}>;
+export type CollectionDB = Prisma.CollectionGetPayload<{}>;
+
+export type IngredientDB = {
+  quantity: number;
+  quantityText: string;
+  minQuantity: number;
+  maxQuantity: number;
+  unit: string;
+  unitText: string;
+  ingredient: string;
+  extra: string;
+  alternativeQuantities: {
+    quantity: number;
+    unit: string;
+    unitText: string;
+    minQuantity: number;
+    maxQuantity: number;
+  }[];
+};

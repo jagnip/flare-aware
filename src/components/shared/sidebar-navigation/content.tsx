@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Collection } from "@/types";
+import { CollectionDB } from "@/types";
 import Link from "next/link";
 import { ROUTES } from "@/lib/constants";
 
@@ -27,7 +27,11 @@ const tools = [
   },
 ];
 
-const AppSidebarContent = ({ collections }: { collections: Collection[] }) => {
+const AppSidebarContent = ({
+  collections,
+}: {
+  collections: CollectionDB[];
+}) => {
   return (
     <SidebarContent>
       <SidebarGroup>

@@ -17,13 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Collection } from "@/types";
+import { CollectionDB } from "@/types";
 
 type MultiSelectProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   placeholder?: string;
-  collections: Collection[];
+  collections: CollectionDB[];
 };
 
 export const MultiSelectField = <T extends FieldValues>({
@@ -54,7 +54,10 @@ export const MultiSelectField = <T extends FieldValues>({
               <MultiSelectorContent>
                 <MultiSelectorList>
                   {collections.map((collection) => (
-                    <MultiSelectorItem value={collection.name} key={collection.id}>
+                    <MultiSelectorItem
+                      value={collection.name}
+                      key={collection.id}
+                    >
                       {collection.name}
                     </MultiSelectorItem>
                   ))}
