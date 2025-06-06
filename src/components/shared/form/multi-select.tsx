@@ -55,7 +55,7 @@ export const MultiSelectField = <T extends FieldValues>({
                 <MultiSelectorList>
                   {collections.map((collection) => (
                     <MultiSelectorItem
-                      value={collection.name}
+                      value={collection.id}
                       key={collection.id}
                     >
                       {collection.name}

@@ -12,7 +12,7 @@ import TextArea from "./text-area";
 import { MultiSelectField } from "./multi-select";
 import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
-import { CollectionDB, RecipeWithId } from "@/types";
+import { CollectionDB, RecipeFormInputWithId } from "@/types";
 import {
   parseIngredient,
   parseInstruction,
@@ -22,7 +22,7 @@ import { formatRecipeForDB } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
 
-export function RecipeForm({ recipe }: { recipe?: RecipeWithId }) {
+export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
   const [collections, setCollections] = useState<CollectionDB[]>([]);
   const router = useRouter();
 
