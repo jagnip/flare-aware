@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { getCollections } from "@/lib/actions/collection.actions";
 import { CollectionDB, RecipeFormInputWithId } from "@/types";
 import { createRecipe, updateRecipe } from "@/lib/actions/recipe.actions";
-import { formatRecipeForDB } from "@/lib/actions/utils";
+import { parseRecipeForDB } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
 
@@ -52,7 +52,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
     collections: CollectionDB[]
   ) {
     const zodValidatedRecipe = recipeSchema.parse(formInputValues);
-    const normalisedValues = formatRecipeForDB(zodValidatedRecipe, collections);
+    const normalisedValues = parseRecipeForDB(zodValidatedRecipe, collections);
 
     if (recipe) {
       await updateRecipe(normalisedValues, recipe.id);
