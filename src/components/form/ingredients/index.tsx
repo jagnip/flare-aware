@@ -12,9 +12,11 @@ import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 import TextArea from "../text-area";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Ingredient } from "@/types";
+import { IngredientDB } from "@/types";
 import { parse } from "path";
 import { parseIngredients } from "./parsing";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import IngredientCard from "./ingredient-card";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -27,7 +29,9 @@ const AddIngredientsInput = <T extends FieldValues>({
   name,
   placeholder,
 }: AddIngredientsInputProps<T>) => {
-  const [parsedIngredients, setParsedIngredients] = useState<Ingredient[]>([]);
+  const [parsedIngredients, setParsedIngredients] = useState<IngredientDB[]>(
+    []
+  );
   console.log("Parsed Ingredients:", parsedIngredients);
 
   const handleClick = () => {
@@ -41,8 +45,17 @@ const AddIngredientsInput = <T extends FieldValues>({
 
   return (
     <div>
+      {parsedIngredients.map((ingredient, index) => (
+       <IngredientCard
+          key={index}
+          ingredient={ingredient}
+       
+        />
+      ))}
       <TextArea form={form} name={name} placeholder={placeholder} />
-      <Button onClick={handleClick} type="button">Add ingredients</Button>
+      <Button onClick={handleClick} type="button">
+        Add ingredients
+      </Button>
     </div>
   );
 };

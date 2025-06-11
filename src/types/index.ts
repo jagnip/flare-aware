@@ -11,10 +11,13 @@ export type CollectionDB = Prisma.CollectionGetPayload<{}>;
 
 export type RecipeFormInputWithId = RecipeFormInput & { id: string };
 
-export type Ingredient = {
-  name: string;
+export type IngredientDB = {
+  ingredient: {
+    name: string;
+    iconUrl: string;
+  };
   amount: string;
   unit: string;
   extraInfo?: string;
   rawIngredient: string;
-}
+};

@@ -66,7 +66,12 @@ export function parseIngredients(ingredients: string): any[] {
     if (!unit) {
       unit = words.find((word) => INGREDIENT_UNITS.includes(word)) || "";
     }
-  
+
+    const isAmountNumeric = /^(\d+\s*[-–]?\s*\d+|\d+\s+\d+\/\d+|\d+\/\d+|\d+(\.\d+)?|[¼½¾⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞])$/;
+    if (amount && !unit && isAmountNumeric.test(amount.trim())) {
+        unit = "pc"; 
+      }
+      
     return {
       amount,
       unit,
