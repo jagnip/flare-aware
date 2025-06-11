@@ -21,10 +21,6 @@ export function parseIngredients(ingredients: string): any[] {
         const { amount, unit } = parseIngredientAmountAndUnit(preprocessedLine);
         const { ingredient } = fetchIngredientFromDB(preprocessedLine);
         const { extraInfo } = parseExtraInfo(preprocessedLine, {amount, unit, name:ingredient?.name || ""});
-
-        console.log("Formatted Ingredients:", {
-          ingredient, amount, unit, extraInfo, rawIngredient: line.trim(),
-        });
   
         return {
           ingredient,
