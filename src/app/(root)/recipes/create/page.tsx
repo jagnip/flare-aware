@@ -1,11 +1,10 @@
-import RecipeForm from "@/components/shared/form/recipe-form";
-import Header from "@/components/shared/header";
+import RecipeForm from "@/components/form/recipe-form";
+import Header from "@/components/header";
 export const metadata = {
   title: "Brocololo",
 };
 
 const CreateRecipe = async () => {
-
   return (
     <>
       <Header />

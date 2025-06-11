@@ -17,6 +17,7 @@ import { createRecipe, updateRecipe } from "@/lib/actions/recipe.actions";
 import { parseRecipeForDB } from "@/lib/actions/utils";
 import { useRouter } from "next/navigation";
 import { ROUTES } from "@/lib/constants";
+import AddIngredientsInput from "./ingredients";
 
 export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
   const [collections, setCollections] = useState<CollectionDB[]>([]);
@@ -100,7 +101,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
 
         <TextArea form={form} name="notes" placeholder="Enter notes" />
 
-        <TextArea
+        <AddIngredientsInput
           form={form}
           name="ingredients"
           placeholder="Enter ingredients"

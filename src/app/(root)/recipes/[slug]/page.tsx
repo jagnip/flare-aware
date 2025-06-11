@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import { getRecipeBySlug } from "@/lib/actions/recipe.actions";
-import Header from "@/components/shared/header";
+import Header from "@/components/header";
 import { Badge } from "@/components/ui/badge";
 import { RecipeDB } from "@/types";
 import Link from "next/link";
 // import { RecipeIngredients } from "@/components/shared/recipe/recipe-ingredients";
-import { RecipeNutrition } from "@/components/shared/recipe/recipe-nutrition";
-import { RecipeInfo } from "@/components/shared/recipe/recipe-info";
-import { RecipeInstructions } from "@/components/shared/recipe/recipe-instructions";
-import { RecipeNotes } from "@/components/shared/recipe/recipe-notes";
-import RecipeImages from "@/components/shared/recipe/recipe-image";
+import { RecipeNutrition } from "@/components/recipe/recipe-nutrition";
+import { RecipeInfo } from "@/components/recipe/recipe-info";
+import { RecipeInstructions } from "@/components/recipe/recipe-instructions";
+import { RecipeNotes } from "@/components/recipe/recipe-notes";
+import RecipeImages from "@/components/recipe/recipe-image";
 
 const RecipeDetailsPage = async (props: {
   params: Promise<{ slug: string }>;
@@ -32,7 +32,7 @@ const RecipeDetailsPage = async (props: {
     images,
   } = recipe as RecipeDB;
 
-  console.log(recipe)
+  console.log(recipe);
 
   return (
     <>

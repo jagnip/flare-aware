@@ -1,5 +1,5 @@
-import Header from "@/components/shared/header";
-import RecipeList from "@/components/shared/recipe/recipe-list";
+import Header from "@/components/header";
+import RecipeList from "@/components/recipe/recipe-list";
 import { getRecipes } from "@/lib/actions/recipe.actions";
 
 export const metadata = {

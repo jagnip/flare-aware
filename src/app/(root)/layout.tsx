@@ -1,7 +1,7 @@
-import MobileNavigation from "@/components/shared/mobile-navigation";
-import MobileMenuSheet from "@/components/shared/mobile-navigation/content";
-import MobileMenuTrigger from "@/components/shared/mobile-navigation/trigger";
-import AppSidebar from "@/components/shared/sidebar-navigation";
+import MobileNavigation from "@/components/mobile-navigation";
+import MobileMenuSheet from "@/components/mobile-navigation/content";
+import MobileMenuTrigger from "@/components/mobile-navigation/trigger";
+import AppSidebar from "@/components/sidebar-navigation";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
 import { getCollections } from "@/lib/actions/collection.actions";
