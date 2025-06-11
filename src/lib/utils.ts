@@ -3,6 +3,7 @@ import { clsx, type ClassValue } from "clsx"
 import { revalidatePath } from "next/cache";
 import { twMerge } from "tailwind-merge"
 import { ROUTES } from "./constants";
+import pluralize from "pluralize";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -13,3 +14,14 @@ export function convertToPlainObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value));
 }
 
+const UNCOUNTABLE_UNITS = new Set(["g", "kg", "ml", "l", "tsp", "tbsp"]);
+
+export function getDisplayUnit(unit: string, amount: string): string {
+  if (!unit) return "";
+  const numericAmount = parseFloat(amount);
+  if (isNaN(numericAmount) || numericAmount <= 1) return unit;
+
+  if (UNCOUNTABLE_UNITS.has(unit)) return unit;
+
+  return pluralize(unit);
+}
