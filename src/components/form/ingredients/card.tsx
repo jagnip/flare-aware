@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IngredientDB, IngredientDummyDB } from "@/types";
 import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { getDisplayString } from "@/lib/utils";
@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IngredientSelect } from "./ingredient-select";
 import { UnitSelect } from "./unit-select";
 import { INGREDIENTS_MAP } from "@/app/db/ingredients";
+import { Input } from "@/components/ui/input";
+import AmountInput from "./amount-input";
 
 type ParsedIngredient = {
   ingredient: IngredientDummyDB;
@@ -20,16 +22,14 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [selectedIngredient, setSelectedIngredient] = useState(
     ingredient.ingredient
   );
+  const [selectedAmount, setSelectedAmount] = useState(ingredient.amount);
+
 
   return (
     <Card className="mb-2">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <img
-            src={selectedIngredient.iconUrl}
-            alt="Ingredient"
-            className="h-6 w-6 rounded-sm"
-          />
+          <img src="" alt="Ingredient" className="h-6 w-6 rounded-sm" />
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
@@ -40,9 +40,7 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
               />
             </div>
             <div>
-              <span className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10">
-                {ingredient.amount}
-              </span>
+              <AmountInput ingredient={ingredient} />
               <UnitSelect
                 selectedUnit={selectedUnit}
                 amount={ingredient.amount}
