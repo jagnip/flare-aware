@@ -14,22 +14,23 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { IngredientOption } from "@/types"; 
+import { IngredientDummyDB } from "@/types";
 
 type IngredientSelectProps = {
-  selected: IngredientOption | null;
-  onChange: (ingredient: IngredientOption) => void;
-  options: Record<string, IngredientOption>;
+  selectedIngredient: IngredientDummyDB | null;
+  onChange: (ingredient: IngredientDummyDB) => void;
+  options: Record<string, IngredientDummyDB>;
+  amount: string;
 };
 
 export const IngredientSelect = ({
-  selected,
+  selectedIngredient,
   onChange,
   options,
 }: IngredientSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const label = selected?.name ?? "Select ingredient";
+  const label = selectedIngredient?.name ?? "Select ingredient";
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>

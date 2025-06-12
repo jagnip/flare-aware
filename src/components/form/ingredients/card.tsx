@@ -1,17 +1,14 @@
 import { useState } from "react";
-import { IngredientDB, IngredientOption } from "@/types";
-import {
-  INGREDIENT_UNITS_SELECT,
-  UNCOUNTABLE_UNITS,
-} from "@/lib/constants";
+import { IngredientDB, IngredientDummyDB } from "@/types";
+import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { getDisplayString } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IngredientSelect } from "./ingredient-select";
 import { UnitSelect } from "./unit-select";
 import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 
- type ParsedIngredient = {
-  ingredient: IngredientOption;
+type ParsedIngredient = {
+  ingredient: IngredientDummyDB;
   amount: string;
   unit: string;
   extraInfo?: string;
@@ -20,7 +17,9 @@ import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 
 const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [selectedUnit, setSelectedUnit] = useState(ingredient.unit);
-  const [selectedIngredient, setSelectedIngredient] = useState(ingredient.ingredient);
+  const [selectedIngredient, setSelectedIngredient] = useState(
+    ingredient.ingredient
+  );
 
   return (
     <Card className="mb-2">
@@ -33,12 +32,12 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
           />
           <CardTitle className="flex justify-between items-center w-full">
             <div>
-              {/* <IngredientSelect
+              <IngredientSelect
                 selectedIngredient={selectedIngredient}
                 amount={ingredient.amount}
                 onChange={setSelectedIngredient}
                 options={INGREDIENTS_MAP}
-              /> */}
+              />
             </div>
             <div>
               <span className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10">

@@ -22,8 +22,7 @@ export type IngredientDB = {
   rawIngredient: string;
 };
 
-export type IngredientOption = {
+export type IngredientDummyDB = {
   name: string;
   iconUrl: string;
 };
-
