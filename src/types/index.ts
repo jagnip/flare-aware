@@ -21,3 +21,9 @@ export type IngredientDB = {
   extraInfo?: string;
   rawIngredient: string;
 };
+
+export type IngredientOption = {
+  name: string;
+  iconUrl: string;
+};
+

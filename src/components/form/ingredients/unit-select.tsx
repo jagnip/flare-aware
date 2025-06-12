@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import pluralize from "pluralize";
 import {
@@ -12,21 +14,22 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
-import { getDisplayUnit } from "@/lib/utils";
-import { IngredientCardSelectTrigger } from "./select-trigger";
+import { UNCOUNTABLE_UNITS } from "@/lib/constants";
+import { getDisplayString } from "@/lib/utils";
 
-type IngredientCardSelectProps = {
-  selectedOption: string;
+type UnitSelectProps = {
+  selectedUnit: string;
   amount: string;
+  options: string[];
   onChange: (unit: string) => void;
 };
 
-export const IngredientCardSelect = ({
-  selectedOption,
+export const UnitSelect = ({
+  selectedUnit,
   amount,
+  options,
   onChange,
-}: IngredientCardSelectProps) => {
+}: UnitSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -36,15 +39,15 @@ export const IngredientCardSelect = ({
           className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
           onClick={() => setIsOpen(true)}
         >
-          {getDisplayUnit(selectedOption, amount)}
+          {getDisplayString(selectedUnit, amount)}
         </span>
       </PopoverTrigger>
       <PopoverContent className="w-[120px] p-0 max-h-48 overflow-y-auto">
         <Command>
-          <CommandInput placeholder="Search" />
+          <CommandInput placeholder="Search unit..." />
           <CommandEmpty>No unit found.</CommandEmpty>
           <CommandGroup>
-            {INGREDIENT_UNITS_SELECT.map((unit) => {
+            {options.map((unit) => {
               const label =
                 Number(amount) > 1 && !UNCOUNTABLE_UNITS.has(unit)
                   ? pluralize(unit)

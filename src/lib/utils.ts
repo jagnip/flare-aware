@@ -16,7 +16,7 @@ export function convertToPlainObject<T>(value: T): T {
 
 const UNCOUNTABLE_UNITS = new Set(["g", "kg", "ml", "l", "tsp", "tbsp"]);
 
-export function getDisplayUnit(option: string, amount: string): string {
+export function getDisplayString(option: string, amount: string): string {
   if (!option) return "";
   const numericAmount = parseFloat(amount);
   if (isNaN(numericAmount) || numericAmount <= 1) return option;
