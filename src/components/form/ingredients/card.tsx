@@ -24,7 +24,6 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   );
   const [selectedAmount, setSelectedAmount] = useState(ingredient.amount);
 
-
   return (
     <Card className="mb-2">
       <CardHeader>
@@ -40,7 +39,10 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
               />
             </div>
             <div>
-              <AmountInput ingredient={ingredient} />
+              <AmountInput
+                selectedAmount={selectedAmount}
+                onChange={setSelectedAmount}
+              />
               <UnitSelect
                 selectedUnit={selectedUnit}
                 amount={ingredient.amount}

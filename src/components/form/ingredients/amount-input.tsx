@@ -16,8 +16,12 @@ type ParsedIngredient = {
   rawIngredient: string;
 };
 
-const AmountInput = ({ ingredient }: { ingredient: ParsedIngredient }) => {
-  const [selectedAmount, setSelectedAmount] = useState(ingredient.amount);
+type AmountInputProps = {
+  selectedAmount: string;
+  onChange: (value: string) => void;
+};
+
+const AmountInput = ({ selectedAmount, onChange }: AmountInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -44,7 +48,7 @@ const AmountInput = ({ ingredient }: { ingredient: ParsedIngredient }) => {
           ref={inputRef}
           type="number"
           value={selectedAmount}
-          onChange={(e) => setSelectedAmount(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
           onBlur={handleAmountBlur}
           onKeyDown={handleAmountKeyDown}
           className="w-20 h-7 px-2 text-right"
