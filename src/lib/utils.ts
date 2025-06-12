@@ -16,12 +16,12 @@ export function convertToPlainObject<T>(value: T): T {
 
 const UNCOUNTABLE_UNITS = new Set(["g", "kg", "ml", "l", "tsp", "tbsp"]);
 
-export function getDisplayUnit(unit: string, amount: string): string {
-  if (!unit) return "";
+export function getDisplayUnit(option: string, amount: string): string {
+  if (!option) return "";
   const numericAmount = parseFloat(amount);
-  if (isNaN(numericAmount) || numericAmount <= 1) return unit;
+  if (isNaN(numericAmount) || numericAmount <= 1) return option;
 
-  if (UNCOUNTABLE_UNITS.has(unit)) return unit;
+  if (UNCOUNTABLE_UNITS.has(option)) return option;
 
-  return pluralize(unit);
+  return pluralize(option);
 }

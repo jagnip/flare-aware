@@ -6,7 +6,7 @@ export const INGREDIENTS_MAP = {
     strawberry: { name: "strawberry", iconUrl: "/icons/strawberry.svg" },
     pineapple: { name: "pineapple", iconUrl: "/icons/pineapple.svg" },
     pomegranate: { name: "pomegranate", iconUrl: "/icons/pomegranate.svg" },
-    apple: { name: "apple", iconUrl: "/icons/apple.svg" },
+    apple: { name: "red apple", iconUrl: "/icons/apple.svg" },
     orange: { name: "orange", iconUrl: "/icons/orange.svg" },
     lemon: { name: "lemon", iconUrl: "/icons/lemon.svg" },
     lime: { name: "lime", iconUrl: "/icons/lime.svg" },

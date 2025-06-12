@@ -16,7 +16,7 @@ import { IngredientDB } from "@/types";
 import { parse } from "path";
 import { parseIngredients } from "./parsing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import IngredientCard from "./ingredient-card";
+import IngredientCard from "./card";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
