@@ -4,6 +4,7 @@ import {
   QUALITATIVE_INGREDIENT_AMOUNTS,
 } from "@/lib/constants";
 import pluralize from "pluralize";
+import nlp from "compromise";
 
 export function parseIngredients(ingredients: string): any[] {
   return ingredients
@@ -25,7 +26,7 @@ export function parseIngredients(ingredients: string): any[] {
         parseIngredientAmountAndUnit(preprocessedLine);
       const { ingredient, lineWithoutAmountUnitAndIngredient } =
         fetchIngredientFromDB(lineWithoutAmountAndUnit);
-  
+
       const extraInfo = lineWithoutAmountUnitAndIngredient;
 
       console.log("Parsed ingredient:", {
@@ -114,37 +115,75 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
   };
 }
 
-function fetchIngredientFromDB(ingredientLine: string): {
+
+function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
   ingredient: { name: string; iconUrl: string } | null;
   lineWithoutAmountUnitAndIngredient: string;
 } {
-  const words = ingredientLine.toLowerCase().split(" ");
+  // Extract noun phrases using compromise
+  const doc = nlp(lineWithoutAmountAndUnit);
+  const nounPhrases = doc.nouns().out("array");
 
-  const normalizedWords = new Set(
-    words.flatMap((word) => [
-      pluralize.singular(word).toLowerCase(),
-      pluralize.plural(word).toLowerCase(),
-    ])
+  // Lowercased ingredient names for matching
+  const normalizedIngredients = new Set(
+    Object.keys(INGREDIENTS_MAP).map((key) => key.toLowerCase())
   );
 
-  const matchedKey = Object.keys(INGREDIENTS_MAP).find((key) =>
-    normalizedWords.has(key.toLowerCase())
+  // Helper to generate all combinations of a phrase by removing one word at a time
+  const generateCombinations = (words: string[], size: number): string[][] => {
+    if (size === words.length) return [words];
+    const results: string[][] = [];
+    for (let i = 0; i < words.length; i++) {
+      const reduced = [...words.slice(0, i), ...words.slice(i + 1)];
+      if (reduced.length === size) results.push(reduced);
+    }
+    return results;
+  };
+
+  let bestGuess = "";
+  outer: for (const phrase of nounPhrases) {
+    const words = phrase.toLowerCase().split(" ");
+    for (let i = words.length; i > 0; i--) {
+      const variations = generateCombinations(words, i);
+      for (const variant of variations) {
+        console.log("Checking variant:", variant);
+        const candidate = variant.join(" ");
+        const singular = pluralize.singular(candidate);
+        const plural = pluralize.plural(candidate);
+        if (
+          normalizedIngredients.has(candidate) ||
+          normalizedIngredients.has(singular) ||
+          normalizedIngredients.has(plural)
+        ) {
+          bestGuess = normalizedIngredients.has(candidate)
+            ? candidate
+            : normalizedIngredients.has(singular)
+            ? singular
+            : plural;
+          break outer;
+        }
+      }
+    }
+  }
+  // Fallback: use the last noun phrase as the guessed ingredient
+  if (!bestGuess && nounPhrases.length > 0) {
+    bestGuess = nounPhrases.at(-1)?.toLowerCase().trim() || "";
+  }
+
+  const matchedKey = Object.keys(INGREDIENTS_MAP).find(
+    (key) => key.toLowerCase() === bestGuess
   );
 
-  const ingredient =
-    matchedKey && matchedKey in INGREDIENTS_MAP
-      ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
-      : null;
+  const ingredient = matchedKey
+    ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
+    : bestGuess
+    ? { name: bestGuess, iconUrl: "" }
+    : null;
 
-  const nameWords = matchedKey?.toLowerCase().split(" ") || [];
-  const wordsToRemove = new Set([
-    ...nameWords,
-    pluralize.singular(matchedKey || "").toLowerCase(),
-    pluralize.plural(matchedKey || "").toLowerCase(),
-  ]);
-
-  const lineWithoutAmountUnitAndIngredient = words
-    .filter((word) => !wordsToRemove.has(word))
+  const lineWords = lineWithoutAmountAndUnit.toLowerCase().split(" ");
+  const nameWords = bestGuess.split(" ");
+  const lineWithoutAmountUnitAndIngredient = lineWords
+    .filter((word) => !nameWords.includes(word))
     .join(" ")
     .trim();
 
@@ -153,4 +192,3 @@ function fetchIngredientFromDB(ingredientLine: string): {
     lineWithoutAmountUnitAndIngredient,
   };
 }
-
