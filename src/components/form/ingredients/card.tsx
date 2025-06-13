@@ -8,6 +8,7 @@ import { UnitSelect } from "./unit-select";
 import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 import { Input } from "@/components/ui/input";
 import AmountInput from "./amount-input";
+import ExtraInfoInput from "./extra-info-input";
 
 type ParsedIngredient = {
   ingredient: IngredientDummyDB;
@@ -18,11 +19,12 @@ type ParsedIngredient = {
 };
 
 const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
-  const [selectedUnit, setSelectedUnit] = useState(ingredient.unit);
+  const [unit, setUnit] = useState(ingredient.unit);
   const [selectedIngredient, setSelectedIngredient] = useState(
     ingredient.ingredient
   );
-  const [selectedAmount, setSelectedAmount] = useState(ingredient.amount);
+  const [amount, setAmount] = useState(ingredient.amount);
+  const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
 
   return (
     <Card className="mb-2">
@@ -33,31 +35,26 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
             <div>
               <IngredientSelect
                 selectedIngredient={selectedIngredient}
-                amount={ingredient.amount}
+                amount={amount}
                 onChange={setSelectedIngredient}
                 options={INGREDIENTS_MAP}
               />
             </div>
             <div>
-              <AmountInput
-                selectedAmount={selectedAmount}
-                onChange={setSelectedAmount}
-              />
+              <AmountInput selectedAmount={amount} onChange={setAmount} />
               <UnitSelect
-                selectedUnit={selectedUnit}
-                amount={ingredient.amount}
-                onChange={setSelectedUnit}
+                selectedUnit={unit}
+                amount={amount}
+                onChange={setUnit}
                 options={INGREDIENT_UNITS_SELECT}
               />
             </div>
           </CardTitle>
         </div>
       </CardHeader>
-      {ingredient.extraInfo && (
-        <CardContent className="text-sm text-muted-foreground">
-          {ingredient.extraInfo}
-        </CardContent>
-      )}
+      <CardContent className="text-sm text-muted-foreground">
+        <ExtraInfoInput onChange={setExtraInfo} extraInfo={extraInfo} />
+      </CardContent>
     </Card>
   );
 };

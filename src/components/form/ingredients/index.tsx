@@ -32,7 +32,6 @@ const AddIngredientsInput = <T extends FieldValues>({
   const [parsedIngredients, setParsedIngredients] = useState<IngredientDB[]>(
     []
   );
-  console.log("Parsed Ingredients:", parsedIngredients);
 
   const handleClick = () => {
     const rawIngredients = form.watch(name);

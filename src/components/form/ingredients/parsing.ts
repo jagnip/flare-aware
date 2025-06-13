@@ -21,12 +21,21 @@ export function parseIngredients(ingredients: string): any[] {
         .replace(/\s+/g, " ")
         .trim();
 
-      const { amount, unit } = parseIngredientAmountAndUnit(preprocessedLine);
+      const { amount, unit, remainingLine } =
+        parseIngredientAmountAndUnit(preprocessedLine);
       const { ingredient } = fetchIngredientFromDB(preprocessedLine);
       const { extraInfo } = parseExtraInfo(preprocessedLine, {
         amount,
         unit,
         name: ingredient?.name || "",
+      });
+
+      console.log("Parsed ingredient:", {
+        ingredient,
+        amount,
+        unit,
+        remainingLine,
+        extraInfo,
       });
 
       return {
@@ -42,24 +51,27 @@ export function parseIngredients(ingredients: string): any[] {
 function parseIngredientAmountAndUnit(ingredientLine: string): {
   amount: string;
   unit: string;
+  remainingLine: string;
 } {
+  let unit;
+
+  //Regex for qualitative amounts
   const qualitativeAmountsRegex = QUALITATIVE_INGREDIENT_AMOUNTS.map((word) =>
     word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
   ).join("|");
 
+  //Regex for numeric or qualitative amounts
   const amountPattern = new RegExp(
     `(${qualitativeAmountsRegex}|\\d+\\s*[-–]\\s*\\d+|\\d+\\s+\\d+/\\d+|\\d+/\\d+|\\d+(\\.\\d+)?|[¼½¾⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞])`,
     "i"
   );
+  const matchedAmount = ingredientLine.match(amountPattern);
+  let amount = matchedAmount ? matchedAmount[0].trim() : "";
 
-  const amountMatch = ingredientLine.match(amountPattern);
-  let amount = amountMatch ? amountMatch[0].trim() : "";
-  let unit;
-
+  //Handle cases like "a pinch of salt" by setting both amount and unit to "pinch".
   const qualitativeAmount = QUALITATIVE_INGREDIENT_AMOUNTS.find((word) =>
     ingredientLine.includes(word)
   );
-
   if (
     amount &&
     qualitativeAmount &&
@@ -70,17 +82,36 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
   }
 
   const words = ingredientLine.split(" ");
+
+  //Try to find a standard unit if not already set as qualitative amount
   if (!unit) {
     unit = words.find((word) => INGREDIENT_UNITS.includes(word)) || "";
   }
 
+  //Fallback to “pc” if you found a number but no unit
   const isAmountNumeric =
     /^(\d+\s*[-–]?\s*\d+|\d+\s+\d+\/\d+|\d+\/\d+|\d+(\.\d+)?|[¼½¾⅓⅔⅕⅖⅗⅘⅙⅚⅛⅜⅝⅞])$/;
   if (amount && !unit && isAmountNumeric.test(amount.trim())) {
     unit = "pc";
   }
 
+  // Remove amount and unit from the line to get the remaining part
+  const escapeRegex = (str: string) =>
+    str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+  const amountRegex = amount
+    ? new RegExp(`${escapeRegex(amount)}`, "gi")
+    : null;
+  const unitRegex = unit
+    ? new RegExp(`\\b${escapeRegex(unit)}\\b`, "gi")
+    : null;
+
+  let remainingLine = ingredientLine;
+  if (amountRegex) remainingLine = remainingLine.replace(amountRegex, "");
+  if (unitRegex) remainingLine = remainingLine.replace(unitRegex, "");
+
   return {
+    remainingLine: remainingLine.trim().replace(/\s{2,}/g, " "),
     amount,
     unit,
   };
