@@ -23,7 +23,7 @@ export function parseIngredients(ingredients: string): any[] {
 
       const { amount, unit, remainingLine } =
         parseIngredientAmountAndUnit(preprocessedLine);
-      const { ingredient } = fetchIngredientFromDB(preprocessedLine);
+      const { ingredient } = fetchIngredientFromDB(remainingLine);
       const { extraInfo } = parseExtraInfo(preprocessedLine, {
         amount,
         unit,
