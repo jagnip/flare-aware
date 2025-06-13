@@ -24,13 +24,14 @@ export function parseIngredients(ingredients: string): any[] {
 
       const { amount, unit, lineWithoutAmountAndUnit } =
         parseIngredientAmountAndUnit(preprocessedLine);
-      const { ingredient, lineWithoutAmountUnitAndIngredient } =
+      const { ingredient, name, lineWithoutAmountUnitAndIngredient } =
         fetchIngredientFromDB(lineWithoutAmountAndUnit);
 
       const extraInfo = lineWithoutAmountUnitAndIngredient;
 
       console.log("Parsed ingredient:", {
         ingredient,
+        name,
         amount,
         unit,
         extraInfo,
@@ -38,6 +39,7 @@ export function parseIngredients(ingredients: string): any[] {
 
       return {
         ingredient,
+        name,
         amount,
         unit,
         extraInfo,
@@ -118,6 +120,7 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
 
 function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
   ingredient: { name: string; iconUrl: string } | null;
+  name: string;
   lineWithoutAmountUnitAndIngredient: string;
 } {
   // Extract noun phrases using compromise
@@ -146,7 +149,7 @@ function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
     for (let i = words.length; i > 0; i--) {
       const variations = generateCombinations(words, i);
       for (const variant of variations) {
-        console.log("Checking variant:", variant);
+       
         const candidate = variant.join(" ");
         const singular = pluralize.singular(candidate);
         const plural = pluralize.plural(candidate);
@@ -176,8 +179,6 @@ function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
 
   const ingredient = matchedKey
     ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
-    : bestGuess
-    ? { name: bestGuess, iconUrl: "" }
     : null;
 
   const lineWords = lineWithoutAmountAndUnit.toLowerCase().split(" ");
@@ -189,6 +190,7 @@ function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
 
   return {
     ingredient,
+    name: matchedKey ? matchedKey : bestGuess,
     lineWithoutAmountUnitAndIngredient,
   };
 }

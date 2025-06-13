@@ -12,6 +12,7 @@ import ExtraInfoInput from "./extra-info-input";
 
 type ParsedIngredient = {
   ingredient: IngredientDummyDB;
+  name: string;
   amount: string;
   unit: string;
   extraInfo?: string;
@@ -34,6 +35,7 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
+              name={ingredient.name}
                 selectedIngredient={selectedIngredient}
                 amount={amount}
                 onChange={setSelectedIngredient}

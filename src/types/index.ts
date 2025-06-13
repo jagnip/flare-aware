@@ -16,6 +16,7 @@ export type IngredientDB = {
     name: string;
     iconUrl: string;
   };
+  name: string;
   amount: string;
   unit: string;
   extraInfo?: string;

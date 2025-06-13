@@ -21,16 +21,18 @@ type IngredientSelectProps = {
   onChange: (ingredient: IngredientDummyDB) => void;
   options: Record<string, IngredientDummyDB>;
   amount: string;
+  name: string;
 };
 
 export const IngredientSelect = ({
   selectedIngredient,
+  name,
   onChange,
   options,
 }: IngredientSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const label = selectedIngredient?.name ?? "Select ingredient";
+  const label = selectedIngredient?.name ?? name;
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
