@@ -21,20 +21,17 @@ export function parseIngredients(ingredients: string): any[] {
         .replace(/\s+/g, " ")
         .trim();
 
-      const { amount, unit, remainingLine } =
+      const { amount, unit, lineWithoutAmountAndUnit } =
         parseIngredientAmountAndUnit(preprocessedLine);
-      const { ingredient } = fetchIngredientFromDB(remainingLine);
-      const { extraInfo } = parseExtraInfo(preprocessedLine, {
-        amount,
-        unit,
-        name: ingredient?.name || "",
-      });
+      const { ingredient, lineWithoutAmountUnitAndIngredient } =
+        fetchIngredientFromDB(lineWithoutAmountAndUnit);
+  
+      const extraInfo = lineWithoutAmountUnitAndIngredient;
 
       console.log("Parsed ingredient:", {
         ingredient,
         amount,
         unit,
-        remainingLine,
         extraInfo,
       });
 
@@ -51,7 +48,7 @@ export function parseIngredients(ingredients: string): any[] {
 function parseIngredientAmountAndUnit(ingredientLine: string): {
   amount: string;
   unit: string;
-  remainingLine: string;
+  lineWithoutAmountAndUnit: string;
 } {
   let unit;
 
@@ -111,7 +108,7 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
   if (unitRegex) remainingLine = remainingLine.replace(unitRegex, "");
 
   return {
-    remainingLine: remainingLine.trim().replace(/\s{2,}/g, " "),
+    lineWithoutAmountAndUnit: remainingLine.trim().replace(/\s{2,}/g, " "),
     amount,
     unit,
   };
@@ -119,6 +116,7 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
 
 function fetchIngredientFromDB(ingredientLine: string): {
   ingredient: { name: string; iconUrl: string } | null;
+  lineWithoutAmountUnitAndIngredient: string;
 } {
   const words = ingredientLine.toLowerCase().split(" ");
 
@@ -133,42 +131,26 @@ function fetchIngredientFromDB(ingredientLine: string): {
     normalizedWords.has(key.toLowerCase())
   );
 
-  return {
-    ingredient:
-      matchedKey && matchedKey in INGREDIENTS_MAP
-        ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
-        : null,
-  };
-}
+  const ingredient =
+    matchedKey && matchedKey in INGREDIENTS_MAP
+      ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
+      : null;
 
-function parseExtraInfo(
-  ingredientLine: string,
-  {
-    amount,
-    unit,
-    name,
-  }: {
-    amount: string;
-    unit: string;
-    name: string;
-  }
-): {
-  extraInfo: string;
-} {
-  const words = ingredientLine.split(" ");
-
+  const nameWords = matchedKey?.toLowerCase().split(" ") || [];
   const wordsToRemove = new Set([
-    ...(amount?.toLowerCase().split(" ") || []),
-    ...(unit?.toLowerCase().split(" ") || []),
-    pluralize.singular(name || "").toLowerCase(),
-    pluralize.plural(name || "").toLowerCase(),
+    ...nameWords,
+    pluralize.singular(matchedKey || "").toLowerCase(),
+    pluralize.plural(matchedKey || "").toLowerCase(),
   ]);
-  const extraInfo = words
+
+  const lineWithoutAmountUnitAndIngredient = words
     .filter((word) => !wordsToRemove.has(word))
     .join(" ")
     .trim();
 
   return {
-    extraInfo,
+    ingredient,
+    lineWithoutAmountUnitAndIngredient,
   };
 }
+
