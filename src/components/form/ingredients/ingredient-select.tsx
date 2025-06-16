@@ -25,15 +25,14 @@ type IngredientSelectProps = {
 };
 
 export const IngredientSelect = ({
-  selectedIngredient,
+  // selectedIngredient,
   name,
   onChange,
   options,
 }: IngredientSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const label = selectedIngredient?.name ?? name;
-
+  
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -41,7 +40,7 @@ export const IngredientSelect = ({
           className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
           onClick={() => setIsOpen(true)}
         >
-          {label}
+          {name}
         </span>
       </PopoverTrigger>
       <PopoverContent className="w-[160px] p-0 max-h-48 overflow-y-auto">

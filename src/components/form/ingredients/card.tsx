@@ -9,6 +9,8 @@ import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 import { Input } from "@/components/ui/input";
 import AmountInput from "./amount-input";
 import ExtraInfoInput from "./extra-info-input";
+import { Button } from "@/components/ui/button";
+import { NewIngredientDialog } from "./new-ingredient-dialog";
 
 type ParsedIngredient = {
   ingredient: IngredientDummyDB;
@@ -24,24 +26,39 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [selectedIngredient, setSelectedIngredient] = useState(
     ingredient.ingredient
   );
+  const [name, setName] = useState(ingredient.name);
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
+
+  const handleNewIngredientSave = (newIngredientName: string) => {
+    setName(newIngredientName);
+  };
 
   return (
     <Card className="mb-2">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <img src="" alt="Ingredient" className="h-6 w-6 rounded-sm" />
+          <span className="h-6 w-6 text-xl">
+            {" "}
+            {selectedIngredient?.iconUrl || "❔"}
+          </span>
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
-              name={ingredient.name}
+                name={name}
                 selectedIngredient={selectedIngredient}
                 amount={amount}
                 onChange={setSelectedIngredient}
                 options={INGREDIENTS_MAP}
               />
             </div>
+            {!ingredient.ingredient && (
+              <NewIngredientDialog
+                name={name}
+                onSave={handleNewIngredientSave}
+              />
+            )}
+
             <div>
               <AmountInput selectedAmount={amount} onChange={setAmount} />
               <UnitSelect

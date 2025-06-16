@@ -29,14 +29,6 @@ export function parseIngredients(ingredients: string): any[] {
 
       const extraInfo = lineWithoutAmountUnitAndIngredient;
 
-      console.log("Parsed ingredient:", {
-        ingredient,
-        name,
-        amount,
-        unit,
-        extraInfo,
-      });
-
       return {
         ingredient,
         name,
