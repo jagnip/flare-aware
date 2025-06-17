@@ -48,7 +48,7 @@ const AddIngredientsInput = <T extends FieldValues>({
        <IngredientCard
           key={index}
           ingredient={ingredient}
-       
+      
         />
       ))}
       <TextArea form={form} name={name} placeholder={placeholder} />

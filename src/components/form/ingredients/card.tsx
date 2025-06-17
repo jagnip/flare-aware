@@ -28,21 +28,11 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
   const [icon, setIcon] = useState(ingredient.ingredient?.iconUrl || "❔");
+  
   const handleNewIngredientSave = (newName: string, newIcon: string) => {
     setName(newName);
     setIcon(newIcon);
   };
-
-  console.log("IngredientCard rendered", {
-    ingredient,
-    ingredientDB,  
-    name,
-    amount,
-    unit,
-    extraInfo,
-    icon,
-  });
-
 
   return (
     <Card className="mb-2">
