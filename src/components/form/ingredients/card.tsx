@@ -23,32 +23,39 @@ type ParsedIngredient = {
 
 const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [unit, setUnit] = useState(ingredient.unit);
-  const [selectedIngredient, setSelectedIngredient] = useState(
-    ingredient.ingredient
-  );
+  const [ingredientDB, setIngredientDB] = useState(ingredient.ingredient);
   const [name, setName] = useState(ingredient.name);
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
-
-  const handleNewIngredientSave = (newIngredientName: string) => {
-    setName(newIngredientName);
+  const [icon, setIcon] = useState(ingredient.ingredient?.iconUrl || "❔");
+  const handleNewIngredientSave = (newName: string, newIcon: string) => {
+    setName(newName);
+    setIcon(newIcon);
   };
+
+  console.log("IngredientCard rendered", {
+    ingredient,
+    ingredientDB,  
+    name,
+    amount,
+    unit,
+    extraInfo,
+    icon,
+  });
+
 
   return (
     <Card className="mb-2">
       <CardHeader>
         <div className="flex items-center gap-2">
-          <span className="h-6 w-6 text-xl">
-            {" "}
-            {selectedIngredient?.iconUrl || "❔"}
-          </span>
+          <span className="h-6 w-6 text-xl">{icon}</span>
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
                 name={name}
-                selectedIngredient={selectedIngredient}
+                selectedIngredient={ingredientDB}
                 amount={amount}
-                onChange={setSelectedIngredient}
+                onChange={setIngredientDB}
                 options={INGREDIENTS_MAP}
               />
             </div>

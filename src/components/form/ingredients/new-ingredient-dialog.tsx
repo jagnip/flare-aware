@@ -17,16 +17,16 @@ import { useEffect, useState } from "react";
 
 type IngredientDialogProps = {
   name: string;
-  onSave: (name: string) => void;
+  onSave: (name: string, icon: string) => void;
 };
 export function NewIngredientDialog({ name, onSave }: IngredientDialogProps) {
   const [inputName, setInputName] = useState(name);
+  const [selectedIcon, setSelectedIcon] = useState("❔");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onSave(inputName);
-    console.log("hello from handle Submit");
+    onSave(inputName, selectedIcon);
   };
 
   return (
@@ -55,7 +55,13 @@ export function NewIngredientDialog({ name, onSave }: IngredientDialogProps) {
             </div>
             <div>
               {AVAILABLE_ICONS.map((icon) => (
-                <Button type="button" >{icon}</Button>
+                <Button
+                  type="button"
+                  variant={icon === selectedIcon ? "default" : "outline"}
+                  onClick={() => setSelectedIcon(icon)}
+                >
+                  {icon}
+                </Button>
               ))}
             </div>
           </div>
