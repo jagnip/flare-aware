@@ -11,8 +11,6 @@ import AmountInput from "./amount-input";
 import ExtraInfoInput from "./extra-info-input";
 import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
-import { useDraggable } from "@dnd-kit/core";
-import { CSS } from "@dnd-kit/utilities";
 
 type ParsedIngredient = {
   ingredient: IngredientDummyDB;
@@ -30,61 +28,50 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
   const [icon, setIcon] = useState(ingredient.ingredient?.iconUrl || "❔");
-
+  
   const handleNewIngredientSave = (newName: string, newIcon: string) => {
     setName(newName);
     setIcon(newIcon);
   };
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: ingredient.rawIngredient,
-  });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition: "transform 200ms ease",
-  };
-
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Card className="mb-2">
-        <CardHeader>
-          <div className="flex items-center gap-2">
-            <span className="h-6 w-6 text-xl">{icon}</span>
-            <CardTitle className="flex justify-between items-center w-full">
-              <div>
-                <IngredientSelect
-                  name={name}
-                  selectedIngredient={ingredientDB}
-                  amount={amount}
-                  onChange={setIngredientDB}
-                  options={INGREDIENTS_MAP}
-                />
-              </div>
-              {!ingredient.ingredient && (
-                <NewIngredientDialog
-                  name={name}
-                  onSave={handleNewIngredientSave}
-                />
-              )}
+    <Card className="mb-2">
+      <CardHeader>
+        <div className="flex items-center gap-2">
+          <span className="h-6 w-6 text-xl">{icon}</span>
+          <CardTitle className="flex justify-between items-center w-full">
+            <div>
+              <IngredientSelect
+                name={name}
+                selectedIngredient={ingredientDB}
+                amount={amount}
+                onChange={setIngredientDB}
+                options={INGREDIENTS_MAP}
+              />
+            </div>
+            {!ingredient.ingredient && (
+              <NewIngredientDialog
+                name={name}
+                onSave={handleNewIngredientSave}
+              />
+            )}
 
-              <div>
-                <AmountInput selectedAmount={amount} onChange={setAmount} />
-                <UnitSelect
-                  selectedUnit={unit}
-                  amount={amount}
-                  onChange={setUnit}
-                  options={INGREDIENT_UNITS_SELECT}
-                />
-              </div>
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent className="text-sm text-muted-foreground">
-          <ExtraInfoInput onChange={setExtraInfo} extraInfo={extraInfo} />
-        </CardContent>
-      </Card>
-    </div>
+            <div>
+              <AmountInput selectedAmount={amount} onChange={setAmount} />
+              <UnitSelect
+                selectedUnit={unit}
+                amount={amount}
+                onChange={setUnit}
+                options={INGREDIENT_UNITS_SELECT}
+              />
+            </div>
+          </CardTitle>
+        </div>
+      </CardHeader>
+      <CardContent className="text-sm text-muted-foreground">
+        <ExtraInfoInput onChange={setExtraInfo} extraInfo={extraInfo} />
+      </CardContent>
+    </Card>
   );
 };
 
