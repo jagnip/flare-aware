@@ -12,7 +12,7 @@ import ExtraInfoInput from "./extra-info-input";
 import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
 
-type ParsedIngredient = {
+type UserIngredient = {
   ingredient: IngredientDummyDB;
   name: string;
   amount: string;
@@ -25,7 +25,7 @@ const IngredientCard = ({
   ingredient,
   onRemove,
 }: {
-  ingredient: ParsedIngredient;
+  ingredient: UserIngredient;
   onRemove: () => void;
 }) => {
   const [unit, setUnit] = useState(ingredient.unit);

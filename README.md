@@ -24,7 +24,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 npx prisma generate
 ```
 
-```bash
+```bash (only if needed to drop db)
 npx prisma migrate reset
 ```
 

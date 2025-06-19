@@ -15,20 +15,21 @@ datasource db {
 }
 
 model Recipe {
-  id           String       @id @default(uuid()) @db.Uuid
-  name         String       @unique
-  slug         String       @unique
-  images       String[]     @default([])
-  servings     Int
-  handsOnTime  Int
-  handsOffTime Int
-  instructions String[]     @default([])
-  notes        String?
-  collections  Collection[]
-  ingredients  String[]       @default([])
-  source       String?
-  createdAt    DateTime     @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime     @updatedAt @db.Timestamp(6)
+  id             String           @id @default(uuid()) @db.Uuid
+  name           String           @unique
+  slug           String           @unique
+  images         String[]         @default([])
+  servings       Int
+  handsOnTime    Int
+  handsOffTime   Int
+  instructions   String[]         @default([])
+  notes          String?
+  collections    Collection[]
+  ingredients    String[]         @default([])
+  source         String?
+  createdAt      DateTime         @default(now()) @db.Timestamp(6)
+  updatedAt      DateTime         @updatedAt @db.Timestamp(6)
+  // UserIngredient UserIngredient[]
 }
 
 model Collection {
@@ -36,4 +37,46 @@ model Collection {
   name    String   @unique
   slug    String   @unique
   recipes Recipe[]
+}
+
+model Ingredient {
+  id        String             @id @default(cuid())
+  name      String             @unique
+  slug      String             @unique
+  category  IngredientCategory
+  iconFile  String
+  nutrition Json?
+
+  // userIngredients UserIngredient[]
+}
+
+// model UserIngredient {
+//   id       String @id @default(cuid())
+//   recipe   Recipe @relation(fields: [recipeId], references: [id])
+//   recipeId String
+
+//   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+//   ingredientId String
+
+//   amount    String
+//   unit      String
+//   extraInfo String?
+// }
+
+enum IngredientCategory {
+  FRUITS
+  VEGETABLES
+  GRAIN
+  DAIRY_PRODUCTS
+  MEAT_PRODUCTS
+  FISH_AND_SEAFOOD
+  PASTA
+  LEGUMES
+  BAKERY_PRODUCTS
+  BAKING_AND_SWEETS
+  BEVERAGES_AND_LIQUIDS
+  CONDIMENTS_AND_SAUCES
+  HERBS_AND_SPICES
+  SEEDS_AND_NUTS
+  PRESERVED_AND_PICKLED
 }

@@ -1,3 +1,5 @@
+import { IngredientCategory } from "@prisma/client";
+
 export const collections = [
   {
     id: "00000000-0000-0000-0000-000000000001",
@@ -11,55 +13,95 @@ export const collections = [
   },
 ];
 
-export const recipes = [
+export const ingredients = [
   {
-    id: "00000000-0000-0000-0000-000000000001",
-    name: "Avocado Toast",
-    slug: "avocado-toast",
-    images: ["/images/recipe.jpg"],
-    servings: 1,
-    handsOnTime: 5,
-    handsOffTime: 0,
-    instructions: [
-      "Toast the bread.",
-      "Mash the avocado with lemon juice, salt, and pepper.",
-      "Spread avocado on toast and serve.",
-    ],
-    notes: "You can add chili flakes for a little kick.",
-    ingredients: [
-      { name: "bread", quantity: 2, unit: "slice" },
-      { name: "avocado", quantity: 1, unit: "piece" },
-      { name: "lemon juice", quantity: 1, unit: "tbsp" },
-      { name: "salt", quantity: 0.25, unit: "tsp" },
-      { name: "pepper", quantity: 0.25, unit: "tsp" },
-    ],
-    source: "https://example.com/avocado-toast",
-    collections: [{ id: "00000000-0000-0000-0000-000000000002" }],
+    name: "Apples",
+    slug: "apple",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/apple.svg",
+    nutrition: {
+      per100g: {
+        calories: 52,
+        protein: 0.3,
+        fat: 0.2,
+        carbs: 14,
+      },
+      density: 0.61,
+    },
   },
   {
-    id: "00000000-0000-0000-0000-000000000002",
-    name: "Spaghetti Bolognese",
-    slug: "spaghetti-bolognese",
-    images: ["/images/recipe.jpg"],
-    servings: 4,
-    handsOnTime: 20,
-    handsOffTime: 40,
-    instructions: [
-      "Heat oil and sauté onion and garlic.",
-      "Add ground beef and cook until browned.",
-      "Add tomato sauce and simmer.",
-      "Cook spaghetti according to package.",
-      "Serve sauce over spaghetti.",
-    ],
-    notes: "Great with parmesan on top.",
-    ingredients: [
-      { name: "spaghetti", quantity: 400, unit: "g" },
-      { name: "ground beef", quantity: 500, unit: "g" },
-      { name: "onion", quantity: 1, unit: "piece" },
-      { name: "garlic", quantity: 2, unit: "clove" },
-      { name: "tomato sauce", quantity: 500, unit: "ml" },
-    ],
-    source: "https://example.com/avocado-toast",
-    collections: [{ id: "00000000-0000-0000-0000-000000000001" }],
+    name: "Bananas",
+    slug: "banana",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/banana.svg",
+    nutrition: {
+      per100g: {
+        calories: 89,
+        protein: 1.1,
+        fat: 0.3,
+        carbs: 23,
+      },
+      density: 0.94,
+    },
+  },
+  {
+    name: "Strawberries",
+    slug: "strawberry",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/strawberry.svg",
+    nutrition: {
+      per100g: {
+        calories: 32,
+        protein: 0.7,
+        fat: 0.3,
+        carbs: 7.7,
+      },
+      density: 0.59,
+    },
+  },
+  {
+    name: "Milk",
+    slug: "milk",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/milk.svg",
+    nutrition: {
+      per100g: {
+        calories: 42,
+        protein: 3.4,
+        fat: 1,
+        carbs: 5,
+      },
+      density: 1.03,
+    },
+  },
+  {
+    name: "Cheese",
+    slug: "cheese",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/cheese.svg",
+    nutrition: {
+      per100g: {
+        calories: 402,
+        protein: 25,
+        fat: 33,
+        carbs: 1.3,
+      },
+      density: 1.1,
+    },
+  },
+  {
+    name: "Yogurt",
+    slug: "yogurt",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/yogurt.svg",
+    nutrition: {
+      per100g: {
+        calories: 59,
+        protein: 10,
+        fat: 0.4,
+        carbs: 3.6,
+      },
+      density: 1.03,
+    },
   },
 ];
