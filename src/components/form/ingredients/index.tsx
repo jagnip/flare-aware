@@ -45,10 +45,16 @@ const AddIngredientsInput = <T extends FieldValues>({
   return (
     <div>
       {parsedIngredients.map((ingredient, index) => (
-       <IngredientCard
-          key={index}
+        <IngredientCard
+          key={ingredient.rawIngredient}
           ingredient={ingredient}
-      
+          onRemove={() => {
+            setParsedIngredients((currentIngredients) =>
+              currentIngredients.filter(
+                (ing) => ing.rawIngredient !== ingredient.rawIngredient
+              )
+            );
+          }}
         />
       ))}
       <TextArea form={form} name={name} placeholder={placeholder} />

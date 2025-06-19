@@ -21,21 +21,32 @@ type ParsedIngredient = {
   rawIngredient: string;
 };
 
-const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
+const IngredientCard = ({
+  ingredient,
+  onRemove,
+}: {
+  ingredient: ParsedIngredient;
+  onRemove: () => void;
+}) => {
   const [unit, setUnit] = useState(ingredient.unit);
   const [ingredientDB, setIngredientDB] = useState(ingredient.ingredient);
   const [name, setName] = useState(ingredient.name);
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
   const [icon, setIcon] = useState(ingredient.ingredient?.iconUrl || "❔");
-  
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleNewIngredientSave = (newName: string, newIcon: string) => {
     setName(newName);
     setIcon(newIcon);
   };
 
   return (
-    <Card className="mb-2">
+    <Card
+      className="mb-2"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <CardHeader>
         <div className="flex items-center gap-2">
           <span className="h-6 w-6 text-xl">{icon}</span>
@@ -70,6 +81,11 @@ const IngredientCard = ({ ingredient }: { ingredient: ParsedIngredient }) => {
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground">
         <ExtraInfoInput onChange={setExtraInfo} extraInfo={extraInfo} />
+        {isHovered && (
+          <Button type="button" onClick={onRemove}>
+            X
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
