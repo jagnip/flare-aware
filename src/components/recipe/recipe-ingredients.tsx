@@ -1,9 +1,9 @@
 import { JsonValue } from "@prisma/client/runtime/library";
 import { RecipeSection } from "./recipe-section";
-import { IngredientDB } from "@/types";
+import { UserIngredientDB } from "@/types";
 
 const RecipeIngredients = ({ ingredients }: { ingredients: JsonValue[] }) => {
-  const typedIngredients = ingredients as IngredientDB[];
+  const typedIngredients = ingredients as UserIngredientDB[];
 
   return (
     <RecipeSection title="Ingredients">

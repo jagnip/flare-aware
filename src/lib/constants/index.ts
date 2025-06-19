@@ -14,6 +14,12 @@ export const ROUTES = {
   COLLECTION_DETAIL: (slug: string) => `/collections/${slug}`,
 };
 
+export const API_ROUTES = {
+  INGREDIENT_SEARCH: "/api/ingredients/search",
+  COLLECTIONS: "/api/collections",
+  // add others as needed
+};
+
 //amounts with "a" have to be first for regex to work correctly
 export const QUALITATIVE_INGREDIENT_AMOUNTS = [
   "a pinch",

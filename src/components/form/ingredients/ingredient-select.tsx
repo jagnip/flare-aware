@@ -14,12 +14,12 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { IngredientDummyDB } from "@/types";
+import { IngredientDB } from "@/types";
 
 type IngredientSelectProps = {
-  selectedIngredient: IngredientDummyDB | null;
-  onChange: (ingredient: IngredientDummyDB) => void;
-  options: Record<string, IngredientDummyDB>;
+  selectedIngredient: IngredientDB | null;
+  onChange: (ingredient: IngredientDB) => void;
+  options: IngredientDB[];
   amount: string;
   name: string;
 };
@@ -32,7 +32,6 @@ export const IngredientSelect = ({
 }: IngredientSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>

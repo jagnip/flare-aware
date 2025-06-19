@@ -1,22 +1,15 @@
 "use client";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 import TextArea from "../text-area";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { IngredientDB } from "@/types";
+import { useEffect, useState } from "react";
+import { IngredientDB, UserIngredientDB } from "@/types";
 import { parse } from "path";
 import { parseIngredients } from "./parsing";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import IngredientCard from "./card";
+import { prisma } from "@/app/db/prisma";
+import { getIngredients } from "@/lib/actions/ingredient.actions";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -29,13 +22,22 @@ const AddIngredientsInput = <T extends FieldValues>({
   name,
   placeholder,
 }: AddIngredientsInputProps<T>) => {
-  const [parsedIngredients, setParsedIngredients] = useState<IngredientDB[]>(
-    []
-  );
+  const [parsedIngredients, setParsedIngredients] = useState<
+    UserIngredientDB[]
+  >([]);
+  const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
 
-  const handleClick = () => {
+  // useEffect(() => {
+  //   async function fetchIngredients() {
+  //     const ingredients = await getIngredients();
+  //     setIngredients(ingredients);
+  //   }
+  //   fetchIngredients();
+  // }, []);
+
+  const handleClick = async () => {
     const rawIngredients = form.watch(name);
-    const parsedIngredients = parseIngredients(rawIngredients);
+    const parsedIngredients = await parseIngredients(rawIngredients);
     setParsedIngredients((currentIngredients) => [
       ...currentIngredients,
       ...parsedIngredients,
@@ -48,6 +50,7 @@ const AddIngredientsInput = <T extends FieldValues>({
         <IngredientCard
           key={ingredient.rawIngredient}
           ingredient={ingredient}
+          allIngredients={ingredients}
           onRemove={() => {
             setParsedIngredients((currentIngredients) =>
               currentIngredients.filter(

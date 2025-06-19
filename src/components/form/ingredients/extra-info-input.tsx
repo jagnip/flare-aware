@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IngredientDB, IngredientDummyDB } from "@/types";
+import { UserIngredientDB, IngredientDB } from "@/types";
 import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { getDisplayString } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +9,7 @@ import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 import { Input } from "@/components/ui/input";
 
 type ParsedIngredient = {
-  ingredient: IngredientDummyDB;
+  ingredient: IngredientDB;
   amount: string;
   unit: string;
   extraInfo?: string;

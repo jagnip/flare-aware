@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IngredientDB, IngredientDummyDB } from "@/types";
+import { UserIngredientDB, IngredientDB } from "@/types";
 import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { getDisplayString } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
 
 type UserIngredient = {
-  ingredient: IngredientDummyDB;
+  ingredient: IngredientDB;
   name: string;
   amount: string;
   unit: string;
@@ -23,9 +23,11 @@ type UserIngredient = {
 
 const IngredientCard = ({
   ingredient,
+  allIngredients,
   onRemove,
 }: {
-  ingredient: UserIngredient;
+  ingredient: UserIngredientDB;
+  allIngredients: IngredientDB[];
   onRemove: () => void;
 }) => {
   const [unit, setUnit] = useState(ingredient.unit);
@@ -33,7 +35,7 @@ const IngredientCard = ({
   const [name, setName] = useState(ingredient.name);
   const [amount, setAmount] = useState(ingredient.amount);
   const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
-  const [icon, setIcon] = useState(ingredient.ingredient?.iconUrl || "❔");
+  const [icon, setIcon] = useState(ingredient.ingredient?.iconFile || "❔");
   const [isHovered, setIsHovered] = useState(false);
 
   const handleNewIngredientSave = (newName: string, newIcon: string) => {
@@ -57,7 +59,7 @@ const IngredientCard = ({
                 selectedIngredient={ingredientDB}
                 amount={amount}
                 onChange={setIngredientDB}
-                options={INGREDIENTS_MAP}
+                options={allIngredients}
               />
             </div>
             {!ingredient.ingredient && (

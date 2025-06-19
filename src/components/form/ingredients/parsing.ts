@@ -1,17 +1,22 @@
-import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 import {
+  API_ROUTES,
   INGREDIENT_UNITS,
   QUALITATIVE_INGREDIENT_AMOUNTS,
 } from "@/lib/constants";
 import pluralize from "pluralize";
 import nlp from "compromise";
+import { IngredientDB, UserIngredientDB } from "@/types";
 
-export function parseIngredients(ingredients: string): any[] {
-  return ingredients
+export async function parseIngredients(
+  ingredients: string
+): Promise<UserIngredientDB[]> {
+  const lines = ingredients
     .split("\n")
     .map((line: string) => line.trim())
-    .filter((line) => line.length > 0)
-    .map((line) => {
+    .filter((line) => line.length > 0);
+
+  const parsed = await Promise.all(
+    lines.map(async (line) => {
       const preprocessedLine = line
         .toLowerCase()
         .replace(
@@ -24,20 +29,22 @@ export function parseIngredients(ingredients: string): any[] {
 
       const { amount, unit, lineWithoutAmountAndUnit } =
         parseIngredientAmountAndUnit(preprocessedLine);
-      const { ingredient, name, lineWithoutAmountUnitAndIngredient } =
-        fetchIngredientFromDB(lineWithoutAmountAndUnit);
 
-      const extraInfo = lineWithoutAmountUnitAndIngredient;
+      const { ingredient, name, lineWithoutAmountUnitAndIngredient } =
+        await fetchIngredientFromDB(lineWithoutAmountAndUnit);
 
       return {
         ingredient,
         name,
         amount,
         unit,
-        extraInfo,
+        extraInfo: lineWithoutAmountUnitAndIngredient,
         rawIngredient: line.trim(),
       };
-    });
+    })
+  );
+
+  return parsed;
 }
 
 function parseIngredientAmountAndUnit(ingredientLine: string): {
@@ -109,20 +116,18 @@ function parseIngredientAmountAndUnit(ingredientLine: string): {
   };
 }
 
-
-function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
-  ingredient: { name: string; iconUrl: string } | null;
+async function fetchIngredientFromDB(
+  lineWithoutAmountAndUnit: string
+): Promise<{
+  ingredient: IngredientDB | null;
   name: string;
   lineWithoutAmountUnitAndIngredient: string;
-} {
+}> {
   // Extract noun phrases using compromise
   const doc = nlp(lineWithoutAmountAndUnit);
   const nounPhrases = doc.nouns().out("array");
-
-  // Lowercased ingredient names for matching
-  const normalizedIngredients = new Set(
-    Object.keys(INGREDIENTS_MAP).map((key) => key.toLowerCase())
-  );
+  const safeNounPhrases =
+    nounPhrases.length > 0 ? nounPhrases : [lineWithoutAmountAndUnit];
 
   // Helper to generate all combinations of a phrase by removing one word at a time
   const generateCombinations = (words: string[], size: number): string[][] => {
@@ -136,25 +141,27 @@ function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
   };
 
   let bestGuess = "";
-  outer: for (const phrase of nounPhrases) {
+  let match: IngredientDB | null = null;
+  outer: for (const phrase of safeNounPhrases) {
     const words = phrase.toLowerCase().split(" ");
     for (let i = words.length; i > 0; i--) {
       const variations = generateCombinations(words, i);
       for (const variant of variations) {
-       
         const candidate = variant.join(" ");
-        const singular = pluralize.singular(candidate);
-        const plural = pluralize.plural(candidate);
-        if (
-          normalizedIngredients.has(candidate) ||
-          normalizedIngredients.has(singular) ||
-          normalizedIngredients.has(plural)
-        ) {
-          bestGuess = normalizedIngredients.has(candidate)
-            ? candidate
-            : normalizedIngredients.has(singular)
-            ? singular
-            : plural;
+
+        // Check if the candidate is a known ingredient
+        const res = await fetch(API_ROUTES.INGREDIENT_SEARCH, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: candidate }),
+        });
+
+        match = await res.json();
+
+        if (match) {
+          bestGuess = match.name;
           break outer;
         }
       }
@@ -165,24 +172,19 @@ function fetchIngredientFromDB(lineWithoutAmountAndUnit: string): {
     bestGuess = nounPhrases.at(-1)?.toLowerCase().trim() || "";
   }
 
-  const matchedKey = Object.keys(INGREDIENTS_MAP).find(
-    (key) => key.toLowerCase() === bestGuess
-  );
-
-  const ingredient = matchedKey
-    ? INGREDIENTS_MAP[matchedKey as keyof typeof INGREDIENTS_MAP]
-    : null;
-
   const lineWords = lineWithoutAmountAndUnit.toLowerCase().split(" ");
-  const nameWords = bestGuess.split(" ");
+  const nameWords = bestGuess
+    .split(" ")
+    .map((w) => pluralize.singular(w.toLowerCase()));
+
   const lineWithoutAmountUnitAndIngredient = lineWords
-    .filter((word) => !nameWords.includes(word))
+    .filter((word) => !nameWords.includes(pluralize.singular(word)))
     .join(" ")
     .trim();
 
   return {
-    ingredient,
-    name: matchedKey ? matchedKey : bestGuess,
+    ingredient: match,
+    name: match ? match.name : bestGuess,
     lineWithoutAmountUnitAndIngredient,
   };
 }
