@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import IngredientCard from "./card";
 import { prisma } from "@/app/db/prisma";
 import { getIngredients } from "@/lib/actions/ingredient.actions";
+import { API_ROUTES } from "@/lib/constants";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -27,13 +28,19 @@ const AddIngredientsInput = <T extends FieldValues>({
   >([]);
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
 
-  // useEffect(() => {
-  //   async function fetchIngredients() {
-  //     const ingredients = await getIngredients();
-  //     setIngredients(ingredients);
-  //   }
-  //   fetchIngredients();
-  // }, []);
+  useEffect(() => {
+    async function fetchIngredients() {
+      try {
+        const res = await fetch(API_ROUTES.INGREDIENTS);
+        const data = await res.json();
+        setIngredients(data);
+      } catch (err) {
+        console.error("Failed to fetch ingredients:", err);
+      }
+    }
+  
+    fetchIngredients();
+  }, []);
 
   const handleClick = async () => {
     const rawIngredients = form.watch(name);

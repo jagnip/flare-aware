@@ -16,6 +16,7 @@ export const ROUTES = {
 
 export const API_ROUTES = {
   INGREDIENT_SEARCH: "/api/ingredients/search",
+  INGREDIENTS: "/api/ingredients",
   COLLECTIONS: "/api/collections",
   // add others as needed
 };
