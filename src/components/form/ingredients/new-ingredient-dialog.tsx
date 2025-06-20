@@ -47,6 +47,7 @@ export function NewIngredientDialog({
     },
   });
   const [selectedIcon, setSelectedIcon] = useState("❔");
+  const [open, setOpen] = useState(false);
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -56,10 +57,11 @@ export function NewIngredientDialog({
       console.log("hello from handleSubmit");
       onSave(data.name, selectedIcon);
     })(e);
+    setOpen(false);
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">Add ingredient</Button>
       </DialogTrigger>
