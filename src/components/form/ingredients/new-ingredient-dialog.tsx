@@ -190,9 +190,7 @@ export function NewIngredientDialog({
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>
               </DialogClose>
-              <DialogClose asChild>
-                <Button type="submit">Save changes</Button>
-              </DialogClose>
+              <Button type="submit">Save changes</Button>
             </DialogFooter>
           </form>
         </Form>
