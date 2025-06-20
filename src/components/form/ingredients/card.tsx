@@ -43,7 +43,6 @@ const IngredientCard = ({
     setIcon(newIcon);
   };
 
-  console.log(ingredientDB);
   return (
     <Card
       className={`mb-2 ${
@@ -75,6 +74,7 @@ const IngredientCard = ({
             </div>
             {!ingredient.ingredient && (
               <NewIngredientDialog
+              ingredients={allIngredients}
                 name={name}
                 onSave={handleNewIngredientSave}
               />

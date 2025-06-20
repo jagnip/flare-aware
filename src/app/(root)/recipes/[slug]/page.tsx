@@ -32,7 +32,7 @@ const RecipeDetailsPage = async (props: {
     images,
   } = recipe as RecipeDB;
 
-  console.log(recipe);
+
 
   return (
     <>
