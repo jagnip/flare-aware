@@ -41,6 +41,7 @@ const IngredientCard = ({
   const handleNewIngredientSave = (newName: string, newIcon: string) => {
     setName(newName);
     setIcon(newIcon);
+    console.log("New ingredient saved:", newName, newIcon);
   };
 
   return (

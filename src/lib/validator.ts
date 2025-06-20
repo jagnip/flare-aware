@@ -27,5 +27,16 @@ export const recipeSchema = z.object({
   collections: z.array(z.string()),
 });
 
+export const ingredientSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  iconFile: z.string().min(1, "Icon is required"),
+  calories: z.number().min(1, "Calories must be 1 or greater"),
+  protein: z.number().min(0, "Protein must be 0 or greater"),
+  fat: z.number().min(0, "Fat must be 0 or greater"),
+  carbs: z.number().min(0, "Carbs must be 0 or greater"),
+  density: z.number().min(0, "Density must be 0 or greater"),
+})
+
 export type RecipeFormInput = z.infer<typeof recipeSchema>;
 export type CollectionFormInput = z.infer<typeof collectionSchema>;
+export type IngredientFormInput = z.infer<typeof ingredientSchema>;
