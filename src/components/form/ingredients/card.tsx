@@ -43,15 +43,26 @@ const IngredientCard = ({
     setIcon(newIcon);
   };
 
+  console.log(ingredientDB);
   return (
     <Card
-      className="mb-2"
+      className={`mb-2 ${
+        !ingredientDB ? "bg-yellow-100 border-yellow-300" : ""
+      }`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <CardHeader>
         <div className="flex items-center gap-2">
-          <span className="h-6 w-6 text-xl">{icon}</span>
+          {ingredientDB ? (
+            <img
+              src={`/ingredients/${ingredientDB.iconFile}`}
+              alt={name}
+              className="h-6 w-6"
+            />
+          ) : (
+            <span className="h-6 w-6 text-xl">{icon}</span>
+          )}
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
