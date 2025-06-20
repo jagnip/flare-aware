@@ -56,8 +56,8 @@ export function NewIngredientDialog({
     form.handleSubmit((data) => {
       console.log("hello from handleSubmit");
       onSave(data.name, selectedIcon);
+      setOpen(false);
     })(e);
-    setOpen(false);
   };
 
   return (
