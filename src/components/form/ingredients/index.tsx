@@ -16,6 +16,7 @@ type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
   placeholder?: string;
+ 
 };
 
 const AddIngredientsInput = <T extends FieldValues>({
@@ -38,12 +39,12 @@ const AddIngredientsInput = <T extends FieldValues>({
         console.error("Failed to fetch ingredients:", err);
       }
     }
-  
+
     fetchIngredients();
   }, []);
 
   const handleClick = async () => {
-    const rawIngredients = form.watch(name);
+    const rawIngredients = form.watch(name); 
     const parsedIngredients = await parseIngredients(rawIngredients);
     setParsedIngredients((currentIngredients) => [
       ...currentIngredients,

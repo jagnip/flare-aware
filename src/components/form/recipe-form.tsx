@@ -1,6 +1,6 @@
-"use client"
+"use client";
 import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,6 +39,16 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
       notes: "",
     },
   });
+
+  // const {
+  //   fields, 
+  //   append, 
+  //   remove, 
+  //   update, 
+  // } = useFieldArray({
+  //   control: form.control,
+  //   name: "ingredients",
+  // });
 
   useEffect(() => {
     async function fetchCollections() {

@@ -23,6 +23,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ingredientSchema, IngredientFormInput } from "@/lib/validator";
+import IconPicker from "./icon-picker";
 
 type IngredientDialogProps = {
   name: string;
@@ -46,18 +47,22 @@ export function NewIngredientDialog({
       density: 0,
     },
   });
-  const [selectedIcon, setSelectedIcon] = useState("❔");
   const [open, setOpen] = useState(false);
 
-  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    console.log(form.getValues());
-    form.handleSubmit((data) => {
-      console.log("hello from handleSubmit");
-      onSave(data.name, selectedIcon);
-      setOpen(false);
-    })(e);
+  const onInnerSubmit = (data: IngredientFormInput) => {
+    onSave(data.name, data.iconFile);
+    setOpen(false);
+    //this saving doesn't work yet 
+  };
+
+  const handleInnerSubmit = form.handleSubmit;
+
+  const handleSubmitForm: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event?.stopPropagation?.();
+
+    return handleInnerSubmit(onInnerSubmit, (errors) =>
+      console.log("❌ Zod/RHF validation failed:", errors)
+    )(event);
   };
 
   return (
@@ -156,7 +161,25 @@ export function NewIngredientDialog({
                 )}
               />
               <div>
-                {Object.entries(
+                <FormField
+                  control={form.control}
+                  name="iconFile"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Density (g/mL)</FormLabel>
+                      <FormControl>
+                        <IconPicker
+                          ingredients={ingredients}
+                          value={field.value}
+                          onChange={field.onChange}
+                        ></IconPicker>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/* {Object.entries(
                   ingredients.reduce((acc, ingredient) => {
                     const { category, iconFile } = ingredient;
                     if (!acc[category]) acc[category] = new Set();
@@ -185,7 +208,7 @@ export function NewIngredientDialog({
                       ))}
                     </div>
                   </div>
-                ))}
+                ))} */}
               </div>
             </div>
             <DialogFooter>
