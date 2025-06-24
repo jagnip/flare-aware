@@ -3,30 +3,26 @@ import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { IngredientDB } from "@/types";
+import { IngredientDB, UserIngredientDB } from "@/types";
 import { parseIngredients } from "./parsing";
 import IngredientCard from "./card";
 import { API_ROUTES } from "@/lib/constants";
-
+import { useFormContext } from "react-hook-form";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
-  form: UseFormReturn<T>;
-  name: Path<T>;
   append: (value: any) => void;
   fields: any[];
   remove: (index: number) => void;
 };
 
 const AddIngredientsInput = <T extends FieldValues>({
-  form,
-  name,
   append,
   remove,
   fields,
 }: AddIngredientsInputProps<T>) => {
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
-
+  
   useEffect(() => {
     async function fetchIngredients() {
       try {
@@ -43,7 +39,7 @@ const AddIngredientsInput = <T extends FieldValues>({
 
   const handleClick = async () => {
     const parsedIngredients = await parseIngredients(rawIngredients);
-    console.log(parsedIngredients);
+
     parsedIngredients.forEach((ing) => {
       append({
         ingredientId: ing.ingredient?.id ?? null,
@@ -55,7 +51,6 @@ const AddIngredientsInput = <T extends FieldValues>({
     });
 
     setRawIngredients("");
-
   };
 
   return (
@@ -63,7 +58,6 @@ const AddIngredientsInput = <T extends FieldValues>({
       {fields.map((field, index) => (
         <IngredientCard
           key={field.id}
-          ingredient={field}
           allIngredients={ingredients}
           onRemove={() => {
             remove(field.id);

@@ -17,7 +17,6 @@ export type UserIngredientDB = {
   amount: string;
   unit: string;
   extraInfo?: string;
-  rawIngredient?: string;
 };
 
 export type IngredientDB = Prisma.IngredientGetPayload<{}>;

@@ -40,12 +40,8 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
     },
   });
 
-  const {
-    fields, 
-    append, 
-    remove, 
-    update, 
-  } = useFieldArray({
+
+  const { fields, append, remove, update } = useFieldArray({
     control: form.control,
     name: "ingredients",
   });
@@ -111,14 +107,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
 
         <TextArea form={form} name="notes" placeholder="Enter notes" />
 
-        <AddIngredientsInput
-          form={form}
-          fields={fields}
-          append={append}
-          remove={remove}
-          name="ingredients"
-         
-        />
+        <AddIngredientsInput fields={fields} append={append} remove={remove} />
 
         <TextInputField
           form={form}

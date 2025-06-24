@@ -1,44 +1,25 @@
-import { useEffect, useRef, useState } from "react";
-import { UserIngredientDB, IngredientDB } from "@/types";
+import { useState } from "react";
+import { IngredientDB } from "@/types";
 import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
-import { getDisplayString } from "@/lib/utils";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IngredientSelect } from "./ingredient-select";
 import { UnitSelect } from "./unit-select";
-import { INGREDIENTS_MAP } from "@/app/db/ingredients";
-import { Input } from "@/components/ui/input";
 import AmountInput from "./amount-input";
 import ExtraInfoInput from "./extra-info-input";
 import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
-import { useController, useFormContext } from "react-hook-form";
-
-type UserIngredient = {
-  ingredient: IngredientDB;
-  name: string;
-  amount: string;
-  unit: string;
-  extraInfo?: string;
-  rawIngredient: string;
-};
+import { FieldErrors, useController, useFormContext } from "react-hook-form";
+import { UserIngredientFormInput } from "@/lib/validator";
 
 const IngredientCard = ({
-  ingredient,
   allIngredients,
   index,
   onRemove,
 }: {
-  ingredient: UserIngredientDB;
   allIngredients: IngredientDB[];
   onRemove: () => void;
   index: number;
 }) => {
-  // const [unit, setUnit] = useState(ingredient.unit);
-  // const [ingredientDB, setIngredientDB] = useState(ingredient.ingredient);
-  // const [name, setName] = useState(ingredient.name);
-  // const [amount, setAmount] = useState(ingredient.amount);
-  // const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
-  // const [icon, setIcon] = useState(ingredient.ingredient?.iconFile || "❔");
   const [isHovered, setIsHovered] = useState(false);
   const { control } = useFormContext();
 
@@ -119,6 +100,7 @@ const IngredientCard = ({
                 field={unit}
                 amount={amount.value}
                 options={INGREDIENT_UNITS_SELECT}
+                
               />
             </div>
           </CardTitle>
