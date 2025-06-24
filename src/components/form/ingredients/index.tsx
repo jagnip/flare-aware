@@ -3,15 +3,11 @@ import { FieldValues, UseFormReturn, Path } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
-import { IngredientDB, UserIngredientDB } from "@/types";
-import { parse } from "path";
+import { IngredientDB } from "@/types";
 import { parseIngredients } from "./parsing";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import IngredientCard from "./card";
-import { prisma } from "@/app/db/prisma";
-import { getIngredients } from "@/lib/actions/ingredient.actions";
 import { API_ROUTES } from "@/lib/constants";
-import { set } from "zod";
+
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -28,9 +24,6 @@ const AddIngredientsInput = <T extends FieldValues>({
   remove,
   fields,
 }: AddIngredientsInputProps<T>) => {
-  // const [parsedIngredients, setParsedIngredients] = useState<
-  //   UserIngredientDB[]
-  // >([]);
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
 
@@ -50,14 +43,10 @@ const AddIngredientsInput = <T extends FieldValues>({
 
   const handleClick = async () => {
     const parsedIngredients = await parseIngredients(rawIngredients);
-    // console.log("Parsed ingredients:", parsedIngredients);
-    // setParsedIngredients((currentIngredients) => [
-    //   ...currentIngredients,
-    //   ...parsedIngredients,
-    // ]);
+    console.log(parsedIngredients);
     parsedIngredients.forEach((ing) => {
       append({
-        ingredientId: ing.ingredient?.id ?? null,  
+        ingredientId: ing.ingredient?.id ?? null,
         name: ing.name,
         amount: ing.amount,
         unit: ing.unit,
@@ -65,8 +54,8 @@ const AddIngredientsInput = <T extends FieldValues>({
       });
     });
 
-    setRawIngredients(""); 
-    console.log(fields)
+    setRawIngredients("");
+
   };
 
   return (
