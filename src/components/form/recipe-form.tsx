@@ -32,7 +32,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
       handsOnTime: 5,
       handsOffTime: 0,
       instructions: "test",
-      ingredients: "",
+      ingredients: [],
       source: "",
       collections: [],
       servings: 1,
@@ -40,15 +40,15 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
     },
   });
 
-  // const {
-  //   fields, 
-  //   append, 
-  //   remove, 
-  //   update, 
-  // } = useFieldArray({
-  //   control: form.control,
-  //   name: "ingredients",
-  // });
+  const {
+    fields, 
+    append, 
+    remove, 
+    update, 
+  } = useFieldArray({
+    control: form.control,
+    name: "ingredients",
+  });
 
   useEffect(() => {
     async function fetchCollections() {
@@ -113,8 +113,11 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
 
         <AddIngredientsInput
           form={form}
+          fields={fields}
+          append={append}
+          remove={remove}
           name="ingredients"
-          placeholder="Enter ingredients"
+         
         />
 
         <TextInputField

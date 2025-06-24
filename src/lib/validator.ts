@@ -29,10 +29,9 @@ export const recipeSchema = z.object({
     .min(0, { message: "Must be a whole number ≥ 0" }),
   instructions: z.string(),
   notes: z.string().optional(),
-  ingredients: z.string().min(1, "Name is required"),
-  // ingredients: z
-  //   .array(userIngredientSchema)
-  //   .min(1, "Add at least one ingredient"),
+  ingredients: z
+    .array(userIngredientSchema)
+    .min(1, "Add at least one ingredient"),
   source: z.string().optional(),
   collections: z.array(z.string()),
 });

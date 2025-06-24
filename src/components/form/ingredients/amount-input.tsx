@@ -1,11 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { UserIngredientDB, IngredientDB } from "@/types";
-import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
-import { getDisplayString } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IngredientSelect } from "./ingredient-select";
-import { UnitSelect } from "./unit-select";
-import { INGREDIENTS_MAP } from "@/app/db/ingredients";
+import { IngredientDB } from "@/types";
 import { Input } from "@/components/ui/input";
 
 type ParsedIngredient = {
@@ -17,33 +11,36 @@ type ParsedIngredient = {
 };
 
 type AmountInputProps = {
-  selectedAmount: string;
-  onChange: (value: string) => void;
+  field: {
+    value: string;
+    onChange: (value: string) => void;
+  };
 };
 
-const AmountInput = ({ selectedAmount, onChange }: AmountInputProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+const AmountInput = ({ field }: AmountInputProps) => {
+  const { value: selectedAmount, onChange } = field;
+  const [isBeingEdited, setIsBeingEdited] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isEditing) {
+    if (isBeingEdited) {
       inputRef.current?.focus();
     }
-  }, [isEditing]);
+  }, [isBeingEdited]);
 
   const handleAmountKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      setIsEditing(false);
+      setIsBeingEdited(false);
     }
   };
 
   const handleAmountBlur = () => {
-    setIsEditing(false);
+    setIsBeingEdited(false);
   };
 
   return (
     <div>
-      {isEditing ? (
+      {isBeingEdited ? (
         <Input
           ref={inputRef}
           type="number"
@@ -56,7 +53,7 @@ const AmountInput = ({ selectedAmount, onChange }: AmountInputProps) => {
       ) : (
         <span
           className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
-          onClick={() => setIsEditing(true)}
+          onClick={() => setIsBeingEdited(true)}
         >
           {selectedAmount}
         </span>

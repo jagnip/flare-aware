@@ -11,6 +11,7 @@ import AmountInput from "./amount-input";
 import ExtraInfoInput from "./extra-info-input";
 import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
+import { useController, useFormContext } from "react-hook-form";
 
 type UserIngredient = {
   ingredient: IngredientDB;
@@ -24,69 +25,99 @@ type UserIngredient = {
 const IngredientCard = ({
   ingredient,
   allIngredients,
+  index,
   onRemove,
 }: {
   ingredient: UserIngredientDB;
   allIngredients: IngredientDB[];
   onRemove: () => void;
+  index: number;
 }) => {
-  const [unit, setUnit] = useState(ingredient.unit);
-  const [ingredientDB, setIngredientDB] = useState(ingredient.ingredient);
-  const [name, setName] = useState(ingredient.name);
-  const [amount, setAmount] = useState(ingredient.amount);
-  const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
-  const [icon, setIcon] = useState(ingredient.ingredient?.iconFile || "❔");
+  // const [unit, setUnit] = useState(ingredient.unit);
+  // const [ingredientDB, setIngredientDB] = useState(ingredient.ingredient);
+  // const [name, setName] = useState(ingredient.name);
+  // const [amount, setAmount] = useState(ingredient.amount);
+  // const [extraInfo, setExtraInfo] = useState(ingredient.extraInfo ?? "");
+  // const [icon, setIcon] = useState(ingredient.ingredient?.iconFile || "❔");
   const [isHovered, setIsHovered] = useState(false);
+  const { control } = useFormContext();
 
-  const handleNewIngredientSave = (newName: string, newIcon: string) => {
-    setName(newName);
-    setIcon(newIcon);
-    console.log("New ingredient saved:", newName, newIcon);
-  };
+  const { field: ingredientId } = useController({
+    name: `ingredients.${index}.ingredientId`,
+    control,
+  });
+  const { field: name } = useController({
+    name: `ingredients.${index}.name`,
+    control,
+  });
+  const { field: amount } = useController({
+    name: `ingredients.${index}.amount`,
+    control,
+  });
+  const { field: unit } = useController({
+    name: `ingredients.${index}.unit`,
+    control,
+  });
+  const { field: extraInfo } = useController({
+    name: `ingredients.${index}.extraInfo`,
+    control,
+  });
+
+  const recognised = !!ingredientId.value;
+
+  const dbIngredient = recognised
+    ? allIngredients.find((i) => i.id === ingredientId.value) ?? null
+    : null;
+
+  const displayIconFile = recognised ? dbIngredient?.iconFile : "❔";
+
+  function handleNewIngredientSave(newName: string, newId: string) {
+    name.onChange(newName);
+    ingredientId.onChange(newId);
+  }
 
   return (
     <Card
-      className={`mb-2 ${
-        !ingredientDB ? "bg-yellow-100 border-yellow-300" : ""
-      }`}
+      className={!recognised ? "bg-yellow-100 border-yellow-300 mb-2" : "mb-2"}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <CardHeader>
         <div className="flex items-center gap-2">
-          {ingredientDB ? (
+          {recognised ? (
             <img
-              src={`/ingredients/${ingredientDB.iconFile}`}
-              alt={name}
+              src={`/ingredients/${displayIconFile}`}
+              alt={name.value}
               className="h-6 w-6"
             />
           ) : (
-            <span className="h-6 w-6 text-xl">{icon}</span>
+            <span className="text-xl">❔</span>
           )}
           <CardTitle className="flex justify-between items-center w-full">
             <div>
               <IngredientSelect
-                name={name}
-                selectedIngredient={ingredientDB}
-                amount={amount}
-                onChange={setIngredientDB}
+                selectedIngredient={dbIngredient}
+                fallbackName={name.value}
                 options={allIngredients}
+                onChange={(ing) => {
+                  ingredientId.onChange(ing ? ing.id : null);
+                  name.onChange(ing ? ing.name : name.value);
+                }}
               />
             </div>
-            {!ingredient.ingredient && (
+            {!recognised && (
               <NewIngredientDialog
-              ingredients={allIngredients}
-                name={name}
+                ingredients={allIngredients}
+                name={name.value}
                 onSave={handleNewIngredientSave}
               />
             )}
 
             <div>
-              <AmountInput selectedAmount={amount} onChange={setAmount} />
+              <AmountInput field={amount} />
               <UnitSelect
-                selectedUnit={unit}
-                amount={amount}
-                onChange={setUnit}
+                field={unit}
+                amount={amount.value}
                 options={INGREDIENT_UNITS_SELECT}
               />
             </div>
@@ -94,7 +125,7 @@ const IngredientCard = ({
         </div>
       </CardHeader>
       <CardContent className="text-sm text-muted-foreground">
-        <ExtraInfoInput onChange={setExtraInfo} extraInfo={extraInfo} />
+        <ExtraInfoInput field={extraInfo} />
         {isHovered && (
           <Button type="button" onClick={onRemove}>
             X

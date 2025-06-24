@@ -18,18 +18,16 @@ import { UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { getDisplayString } from "@/lib/utils";
 
 type UnitSelectProps = {
-  selectedUnit: string;
+  field: {
+    value: string;
+    onChange: (unit: string) => void;
+  };
   amount: string;
   options: string[];
-  onChange: (unit: string) => void;
 };
 
-export const UnitSelect = ({
-  selectedUnit,
-  amount,
-  options,
-  onChange,
-}: UnitSelectProps) => {
+export const UnitSelect = ({ field, options, amount }: UnitSelectProps) => {
+  const { value: selectedUnit, onChange } = field;
   const [isOpen, setIsOpen] = useState(false);
 
   return (

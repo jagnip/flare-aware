@@ -17,13 +17,16 @@ type ParsedIngredient = {
 };
 
 type ExtraInfoInputProps = {
-  extraInfo: string;
-  onChange: (value: string) => void;
+  field: {
+    value: string;
+    onChange: (val: string) => void;
+  };
 };
 
-const ExtraInfoInput = ({ extraInfo, onChange }: ExtraInfoInputProps) => {
+const ExtraInfoInput = ({ field }: ExtraInfoInputProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { value: extraInfo, onChange } = field;
 
   useEffect(() => {
     if (isEditing) {
@@ -46,12 +49,15 @@ const ExtraInfoInput = ({ extraInfo, onChange }: ExtraInfoInputProps) => {
       {isEditing ? (
         <Input
           ref={inputRef}
-          type="text"
           value={extraInfo}
           onChange={(e) => onChange(e.target.value)}
-          onBlur={handleAmountBlur}
-          onKeyDown={handleAmountKeyDown}
-          className="w-20 h-7 px-2 text-right"
+          onBlur={() => setIsEditing(false)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              setIsEditing(false);
+            }
+          }}
+          placeholder="Add extra info"
         />
       ) : (
         <span

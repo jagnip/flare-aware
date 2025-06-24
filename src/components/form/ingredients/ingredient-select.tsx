@@ -20,45 +20,48 @@ type IngredientSelectProps = {
   selectedIngredient: IngredientDB | null;
   onChange: (ingredient: IngredientDB) => void;
   options: IngredientDB[];
-  amount: string;
-  name: string;
+  fallbackName: string;
 };
 
-
-
 export const IngredientSelect = ({
-  // selectedIngredient,
-  name,
+  selectedIngredient,
+  fallbackName,
   onChange,
   options,
 }: IngredientSelectProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
+
+  const displayName = selectedIngredient?.name || fallbackName || "Choose";
 
   return (
-    <Popover open={isOpen} onOpenChange={setIsOpen}>
+    <Popover open={isOpen} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <span
-          className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
-          onClick={() => setIsOpen(true)}
+          className="ml-1 cursor-pointer rounded bg-muted px-1 py-0.5
+                     hover:bg-muted-foreground/10"
+          onClick={() => setOpen(true)}
         >
-          {name}
+          {displayName}
         </span>
       </PopoverTrigger>
-      <PopoverContent className="w-[160px] p-0 max-h-48 overflow-y-auto">
+
+      <PopoverContent className="w-[180px] p-0 max-h-48 overflow-y-auto">
         <Command>
           <CommandInput placeholder="Search ingredient..." />
           <CommandEmpty>No ingredient found.</CommandEmpty>
+
           <CommandGroup>
-            {Object.entries(options).map(([key, ingredient]) => (
+      
+            {options.map((ing) => (
               <CommandItem
-                key={key}
-                value={key}
+                key={ing.id}
+                value={ing.id}
                 onSelect={() => {
-                  onChange(ingredient);
-                  setIsOpen(false);
+                  onChange(ing);
+                  setOpen(false);
                 }}
               >
-                {ingredient.name}
+                {ing.name}
               </CommandItem>
             ))}
           </CommandGroup>

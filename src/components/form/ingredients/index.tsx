@@ -1,7 +1,7 @@
 "use client";
 import { FieldValues, UseFormReturn, Path } from "react-hook-form";
-import TextArea from "../text-area";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
 import { IngredientDB, UserIngredientDB } from "@/types";
 import { parse } from "path";
@@ -11,23 +11,28 @@ import IngredientCard from "./card";
 import { prisma } from "@/app/db/prisma";
 import { getIngredients } from "@/lib/actions/ingredient.actions";
 import { API_ROUTES } from "@/lib/constants";
+import { set } from "zod";
 
 type AddIngredientsInputProps<T extends FieldValues> = {
   form: UseFormReturn<T>;
   name: Path<T>;
-  placeholder?: string;
- 
+  append: (value: any) => void;
+  fields: any[];
+  remove: (index: number) => void;
 };
 
 const AddIngredientsInput = <T extends FieldValues>({
   form,
   name,
-  placeholder,
+  append,
+  remove,
+  fields,
 }: AddIngredientsInputProps<T>) => {
-  const [parsedIngredients, setParsedIngredients] = useState<
-    UserIngredientDB[]
-  >([]);
+  // const [parsedIngredients, setParsedIngredients] = useState<
+  //   UserIngredientDB[]
+  // >([]);
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
+  const [rawIngredients, setRawIngredients] = useState("");
 
   useEffect(() => {
     async function fetchIngredients() {
@@ -44,31 +49,44 @@ const AddIngredientsInput = <T extends FieldValues>({
   }, []);
 
   const handleClick = async () => {
-    const rawIngredients = form.watch(name); 
     const parsedIngredients = await parseIngredients(rawIngredients);
-    setParsedIngredients((currentIngredients) => [
-      ...currentIngredients,
-      ...parsedIngredients,
-    ]);
+    // console.log("Parsed ingredients:", parsedIngredients);
+    // setParsedIngredients((currentIngredients) => [
+    //   ...currentIngredients,
+    //   ...parsedIngredients,
+    // ]);
+    parsedIngredients.forEach((ing) => {
+      append({
+        ingredientId: ing.ingredient?.id ?? null,  
+        name: ing.name,
+        amount: ing.amount,
+        unit: ing.unit,
+        extraInfo: ing.extraInfo ?? "",
+      });
+    });
+
+    setRawIngredients(""); 
+    console.log(fields)
   };
 
   return (
     <div>
-      {parsedIngredients.map((ingredient, index) => (
+      {fields.map((field, index) => (
         <IngredientCard
-          key={ingredient.rawIngredient}
-          ingredient={ingredient}
+          key={field.id}
+          ingredient={field}
           allIngredients={ingredients}
           onRemove={() => {
-            setParsedIngredients((currentIngredients) =>
-              currentIngredients.filter(
-                (ing) => ing.rawIngredient !== ingredient.rawIngredient
-              )
-            );
+            remove(field.id);
           }}
+          index={index}
         />
       ))}
-      <TextArea form={form} name={name} placeholder={placeholder} />
+      <Textarea
+        value={rawIngredients}
+        onChange={(e) => setRawIngredients(e.target.value)}
+        placeholder="Enter ingredients"
+      />
       <Button onClick={handleClick} type="button">
         Add ingredients
       </Button>
