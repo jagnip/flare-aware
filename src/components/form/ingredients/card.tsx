@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IngredientDB } from "@/types";
 import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,12 @@ import AmountInput from "./amount-input";
 import ExtraInfoInput from "./extra-info-input";
 import { Button } from "@/components/ui/button";
 import { NewIngredientDialog } from "./new-ingredient-dialog";
-import { FieldErrors, useController, useFormContext } from "react-hook-form";
+import {
+  FieldErrors,
+  useController,
+  useFormContext,
+  useFormState,
+} from "react-hook-form";
 import { UserIngredientFormInput } from "@/lib/validator";
 
 const IngredientCard = ({
@@ -44,13 +49,26 @@ const IngredientCard = ({
     control,
   });
 
-  const recognised = !!ingredientId.value;
+  const { errors } = useFormState();
 
-  const dbIngredient = recognised
+  const ingredientErrors = Array.isArray(errors.ingredients)
+    ? (errors.ingredients[index] as
+        | FieldErrors<UserIngredientFormInput>
+        | undefined)
+    : undefined;
+
+
+
+  const ingredientIdError = ingredientErrors?.ingredientId;
+  const amountError = ingredientErrors?.amount;
+  const recognisedIngredient = ingredientIdError ? false : true;
+
+
+  const dbIngredient = !recognisedIngredient
     ? allIngredients.find((i) => i.id === ingredientId.value) ?? null
     : null;
 
-  const displayIconFile = recognised ? dbIngredient?.iconFile : "❔";
+  const displayIconFile = !recognisedIngredient ? dbIngredient?.iconFile : "❔";
 
   function handleNewIngredientSave(newName: string, newId: string) {
     name.onChange(newName);
@@ -59,13 +77,15 @@ const IngredientCard = ({
 
   return (
     <Card
-      className={!recognised ? "bg-yellow-100 border-yellow-300 mb-2" : "mb-2"}
+      className={
+        recognisedIngredient ? "mb-2" : "bg-yellow-100 border-yellow-300 mb-2"
+      }
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <CardHeader>
         <div className="flex items-center gap-2">
-          {recognised ? (
+          {recognisedIngredient ? (
             <img
               src={`/ingredients/${displayIconFile}`}
               alt={name.value}
@@ -86,7 +106,7 @@ const IngredientCard = ({
                 }}
               />
             </div>
-            {!recognised && (
+            {!recognisedIngredient && (
               <NewIngredientDialog
                 ingredients={allIngredients}
                 name={name.value}
@@ -95,12 +115,11 @@ const IngredientCard = ({
             )}
 
             <div>
-              <AmountInput field={amount} />
+              <AmountInput field={amount} error={ingredientErrors?.amount} />
               <UnitSelect
                 field={unit}
                 amount={amount.value}
                 options={INGREDIENT_UNITS_SELECT}
-                
               />
             </div>
           </CardTitle>

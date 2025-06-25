@@ -51,9 +51,7 @@ const AddIngredientsInput = ({}) => {
     });
 
     setRawIngredients("");
-    const ok = await trigger("ingredients");
-    // console.log("ingredients valid?", ok, watch("ingredients"));
-    // console.log(formState.errors.ingredients);
+    await trigger("ingredients");
   };
 
   return (

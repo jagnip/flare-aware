@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import pluralize from "pluralize";
 import {
   Popover,
@@ -15,6 +15,7 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { IngredientDB } from "@/types";
+import { useFormContext } from "react-hook-form";
 
 type IngredientSelectProps = {
   selectedIngredient: IngredientDB | null;
@@ -30,8 +31,9 @@ export const IngredientSelect = ({
   options,
 }: IngredientSelectProps) => {
   const [isOpen, setOpen] = useState(false);
-
+  
   const displayName = selectedIngredient?.name || fallbackName || "Choose";
+ 
 
   return (
     <Popover open={isOpen} onOpenChange={setOpen}>
@@ -51,7 +53,6 @@ export const IngredientSelect = ({
           <CommandEmpty>No ingredient found.</CommandEmpty>
 
           <CommandGroup>
-      
             {options.map((ing) => (
               <CommandItem
                 key={ing.id}

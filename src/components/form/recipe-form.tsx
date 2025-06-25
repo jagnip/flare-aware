@@ -25,7 +25,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
 
   const form = useForm<RecipeFormInput>({
     resolver: zodResolver(recipeSchema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: recipe || {
       name: "test",
       images: [],
