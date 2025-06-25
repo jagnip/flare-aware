@@ -107,7 +107,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
 
         <TextArea form={form} name="notes" placeholder="Enter notes" />
 
-        <AddIngredientsInput fields={fields} append={append} remove={remove} />
+        <AddIngredientsInput/>
 
         <TextInputField
           form={form}

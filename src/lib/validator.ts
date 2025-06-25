@@ -5,7 +5,7 @@ export const collectionSchema = z.object({
 });
 
 export const userIngredientSchema = z.object({
-  ingredientId: z.string().uuid(),
+  ingredientId: z.string().cuid(),
   name: z.string().min(1),
   amount: z.string().min(1),
   unit: z.string().min(1),

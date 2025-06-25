@@ -1,5 +1,11 @@
 "use client";
-import { FieldValues, UseFormReturn, Path } from "react-hook-form";
+import {
+  FieldValues,
+  UseFormReturn,
+  Path,
+  useFormContext,
+  useFieldArray,
+} from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
@@ -7,22 +13,16 @@ import { IngredientDB, UserIngredientDB } from "@/types";
 import { parseIngredients } from "./parsing";
 import IngredientCard from "./card";
 import { API_ROUTES } from "@/lib/constants";
-import { useFormContext } from "react-hook-form";
 
-type AddIngredientsInputProps<T extends FieldValues> = {
-  append: (value: any) => void;
-  fields: any[];
-  remove: (index: number) => void;
-};
-
-const AddIngredientsInput = <T extends FieldValues>({
-  append,
-  remove,
-  fields,
-}: AddIngredientsInputProps<T>) => {
+const AddIngredientsInput = ({}) => {
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
-  
+  const { trigger, formState, watch, control } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "ingredients",
+  });
+
   useEffect(() => {
     async function fetchIngredients() {
       try {
@@ -51,6 +51,9 @@ const AddIngredientsInput = <T extends FieldValues>({
     });
 
     setRawIngredients("");
+    const ok = await trigger("ingredients");
+    // console.log("ingredients valid?", ok, watch("ingredients"));
+    // console.log(formState.errors.ingredients);
   };
 
   return (
@@ -60,7 +63,7 @@ const AddIngredientsInput = <T extends FieldValues>({
           key={field.id}
           allIngredients={ingredients}
           onRemove={() => {
-            remove(field.id);
+            remove(index);
           }}
           index={index}
         />
