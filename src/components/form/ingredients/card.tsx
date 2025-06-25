@@ -58,11 +58,8 @@ const IngredientCard = ({
     : undefined;
 
 
-
   const ingredientIdError = ingredientErrors?.ingredientId;
-  const amountError = ingredientErrors?.amount;
-  const recognisedIngredient = ingredientIdError ? false : true;
-
+  const recognisedIngredient = !ingredientIdError;
 
   const dbIngredient = !recognisedIngredient
     ? allIngredients.find((i) => i.id === ingredientId.value) ?? null
