@@ -1,251 +1,107 @@
-export const recipes = [
+import { IngredientCategory } from "@prisma/client";
+
+export const collections = [
   {
-    name: "Spaghetti Bolognese",
-    slug: "spaghetti-bolognese",
-    collections: ["Main Course", "Chicken"],
-    images: ["/images/recipe.jpg"],
-    servings: 2,
-    handsOnTime: 15,
-    handsOffTime: 30,
-    instructions: [
-      "Boil spaghetti according to package instructions.",
-      "Cook beef and onion until browned.",
-      "Add tomato sauce and simmer for 20 minutes.",
-      "Serve sauce over spaghetti.",
-    ],
-    notes: "Can be frozen for up to 2 months.",
-    ingredients: [
-      { name: "Spaghetti", amount: "200g" },
-      { name: "Ground beef", amount: "300g" },
-      { name: "Tomato sauce", amount: "1 cup" },
-      { name: "Onion", amount: "1, diced" },
-    ],
-    nutritionalValue: {
-      kcal: 550,
-      carbs: 60,
-      fat: 25,
-      protein: 30,
-    },
-    source: {
-      name: "My Italian Kitchen",
-      url: "https://example.com/spaghetti-bolognese",
-    },
-    variants: [
-      {
-        name: "Spaghetti Bolognese - Veggie",
-        ingredients: [
-          { name: "Spaghetti", amount: "200g" },
-          { name: "Lentils", amount: "1 cup" },
-          { name: "Tomato sauce", amount: "1 cup" },
-          { name: "Onion", amount: "1, diced" },
-        ],
-        nutritionalValue: {
-          kcal: 500,
-          carbs: 65,
-          fat: 15,
-          protein: 25,
-        },
-      },
-    ],
+    id: "00000000-0000-0000-0000-000000000001",
+    name: "Breakfast",
+    slug: "breakfast",
   },
   {
-    name: "Chicken Curry",
-    slug: "chicken-curry",
-    collections: ["Main Course", "Chicken"],
-    images: ["/images/recipe.jpg"],
-    servings: 4,
-    handsOnTime: 20,
-    handsOffTime: 40,
-    instructions: [
-      "Cook onions until soft.",
-      "Add chicken and brown.",
-      "Add coconut milk and curry powder, simmer for 30 minutes.",
-      "Serve with rice.",
-    ],
-    notes: "Can be served with naan bread.",
-    ingredients: [
-      { name: "Chicken breast", amount: "400g" },
-      { name: "Coconut milk", amount: "1 can" },
-      { name: "Curry powder", amount: "2 tbsp" },
-      { name: "Onion", amount: "1, diced" },
-    ],
-    nutritionalValue: {
-      kcal: 700,
-      carbs: 50,
-      fat: 40,
-      protein: 60,
-    },
-    source: {
-      name: "Asian Delights",
-      url: "https://example.com/chicken-curry",
-    },
-    variants: [
-      {
-        name: "Chicken Curry - Spicy",
-        ingredients: [
-          { name: "Chicken thigh", amount: "400g" },
-          { name: "Coconut milk", amount: "1 can" },
-          { name: "Spicy curry powder", amount: "2 tbsp" },
-          { name: "Chili flakes", amount: "1 tsp" },
-        ],
-        nutritionalValue: {
-          kcal: 750,
-          carbs: 45,
-          fat: 42,
-          protein: 65,
-        },
+    id: "00000000-0000-0000-0000-000000000002",
+    name: "Dinner",
+    slug: "dinner",
+  },
+];
+
+export const ingredients = [
+  {
+    name: "Apples",
+    slug: "apple",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/apple.svg",
+    nutrition: {
+      per100g: {
+        calories: 52,
+        protein: 0.3,
+        fat: 0.2,
+        carbs: 14,
       },
-    ],
+      density: 0.61,
+    },
   },
   {
-    name: "Caesar Salad",
-    slug: "caesar-salad",
-    collections: ["Main Course", "Chicken", "Salad"],
-    images: ["/images/recipe.jpg"],
-    servings: 2,
-    handsOnTime: 10,
-    handsOffTime: 0,
-    instructions: [
-      "Chop lettuce and place in a bowl.",
-      "Add parmesan, croutons, and dressing.",
-      "Toss and serve.",
-    ],
-    notes: "Add grilled chicken for extra protein.",
-    ingredients: [
-      { name: "Romaine lettuce", amount: "1 head" },
-      { name: "Parmesan cheese", amount: "50g" },
-      { name: "Croutons", amount: "1 cup" },
-      { name: "Caesar dressing", amount: "1/2 cup" },
-    ],
-    nutritionalValue: {
-      kcal: 300,
-      carbs: 20,
-      fat: 18,
-      protein: 12,
-    },
-    source: {
-      name: "Healthy Kitchen",
-      url: "https://example.com/caesar-salad",
-    },
-    variants: [
-      {
-        name: "Caesar Salad - Grilled Chicken",
-        ingredients: [
-          { name: "Romaine lettuce", amount: "1 head" },
-          { name: "Parmesan cheese", amount: "50g" },
-          { name: "Croutons", amount: "1 cup" },
-          { name: "Grilled chicken breast", amount: "150g" },
-          { name: "Caesar dressing", amount: "1/2 cup" },
-        ],
-        nutritionalValue: {
-          kcal: 450,
-          carbs: 22,
-          fat: 20,
-          protein: 30,
-        },
+    name: "Bananas",
+    slug: "banana",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/banana.svg",
+    nutrition: {
+      per100g: {
+        calories: 89,
+        protein: 1.1,
+        fat: 0.3,
+        carbs: 23,
       },
-    ],
+      density: 0.94,
+    },
   },
   {
-    name: "Beef Tacos Tacoticco",
-    slug: "beef-tacos",
-    collections: ["Main Course"],
-    images: ["/images/recipe.jpg"],
-    servings: 4,
-    handsOnTime: 15,
-    handsOffTime: 10,
-    instructions: [
-      "Brown ground beef in a pan.",
-      "Fill taco shells with beef, cheese, lettuce, and sour cream.",
-      "Serve immediately.",
-    ],
-    notes: "Top with salsa for extra flavor.",
-    ingredients: [
-      { name: "Ground beef", amount: "500g" },
-      { name: "Taco shells", amount: "8" },
-      { name: "Cheese", amount: "100g" },
-      { name: "Lettuce", amount: "1/2 head, shredded" },
-      { name: "Sour cream", amount: "1/2 cup" },
-    ],
-    nutritionalValue: {
-      kcal: 850,
-      carbs: 60,
-      fat: 45,
-      protein: 40,
-    },
-    source: {
-      name: "Mexican Fiesta",
-      url: "https://example.com/beef-tacos",
-    },
-    variants: [
-      {
-        name: "Beef Tacos - Guacamole Style",
-        ingredients: [
-          { name: "Ground beef", amount: "500g" },
-          { name: "Taco shells", amount: "8" },
-          { name: "Guacamole", amount: "1/2 cup" },
-          { name: "Lettuce", amount: "1/2 head, shredded" },
-          { name: "Cheddar", amount: "100g" },
-        ],
-        nutritionalValue: {
-          kcal: 880,
-          carbs: 58,
-          fat: 50,
-          protein: 38,
-        },
+    name: "Strawberries",
+    slug: "strawberry",
+    category: IngredientCategory.FRUITS,
+    iconFile: "fruits/strawberry.svg",
+    nutrition: {
+      per100g: {
+        calories: 32,
+        protein: 0.7,
+        fat: 0.3,
+        carbs: 7.7,
       },
-    ],
+      density: 0.59,
+    },
   },
   {
-    name: "Pancakes",
-    slug: "pancakes",
-    collections: ["Main Course", "Chicken", "Salad", "Breakfast"],
-    images: ["/images/recipe.jpg"],
-    servings: 4,
-    handsOnTime: 10,
-    handsOffTime: 5,
-    instructions: [
-      "Mix all ingredients until smooth.",
-      "Heat a pan and pour batter to form pancakes.",
-      "Cook until golden on both sides.",
-      "Serve with syrup or fruit.",
-    ],
-    notes: "Perfect for a weekend brunch.",
-    ingredients: [
-      { name: "Flour", amount: "1 cup" },
-      { name: "Milk", amount: "1 cup" },
-      { name: "Egg", amount: "1" },
-      { name: "Butter", amount: "2 tbsp, melted" },
-      { name: "Sugar", amount: "1 tbsp" },
-    ],
-    nutritionalValue: {
-      kcal: 350,
-      carbs: 55,
-      fat: 12,
-      protein: 8,
-    },
-    source: {
-      name: "Breakfast Basics",
-      url: "https://example.com/pancakes",
-    },
-    variants: [
-      {
-        name: "Blueberry Pancakes",
-        ingredients: [
-          { name: "Flour", amount: "1 cup" },
-          { name: "Milk", amount: "1 cup" },
-          { name: "Egg", amount: "1" },
-          { name: "Butter", amount: "2 tbsp, melted" },
-          { name: "Sugar", amount: "1 tbsp" },
-          { name: "Blueberries", amount: "1/2 cup" },
-        ],
-        nutritionalValue: {
-          kcal: 370,
-          carbs: 58,
-          fat: 13,
-          protein: 9,
-        },
+    name: "Milk",
+    slug: "milk",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/milk.svg",
+    nutrition: {
+      per100g: {
+        calories: 42,
+        protein: 3.4,
+        fat: 1,
+        carbs: 5,
       },
-    ],
+      density: 1.03,
+    },
+  },
+  {
+    name: "Cheese",
+    slug: "cheese",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/cheese.svg",
+    nutrition: {
+      per100g: {
+        calories: 402,
+        protein: 25,
+        fat: 33,
+        carbs: 1.3,
+      },
+      density: 1.1,
+    },
+  },
+  {
+    name: "Yogurt",
+    slug: "yogurt",
+    category: IngredientCategory.DAIRY_PRODUCTS,
+    iconFile: "dairy-products/yogurt.svg",
+    nutrition: {
+      per100g: {
+        calories: 59,
+        protein: 10,
+        fat: 0.4,
+        carbs: 3.6,
+      },
+      density: 1.03,
+    },
   },
 ];

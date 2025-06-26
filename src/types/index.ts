@@ -1,66 +1,25 @@
+import { INGREDIENT_CATEGORIES } from "@/lib/constants";
+import { RecipeFormInput } from "@/lib/validator";
+import { Prisma } from "@prisma/client";
 
+export type RecipeDB = Prisma.RecipeGetPayload<{
+  include: {
+    collections: true;
+  };
+}>;
 
-export type RecipeVariant = {
-  id: string;
+export type CollectionDB = Prisma.CollectionGetPayload<{}>;
+
+export type RecipeFormInputWithId = RecipeFormInput & { id: string };
+
+export type UserIngredientDB = {
+  ingredient: IngredientDB | null;
   name: string;
-  recipeId: string;
-  ingredients: Ingredient[];
-  nutritionalValue: NutritionalValue | null;
+  amount: string;
+  unit: string;
+  extraInfo?: string;
 };
 
-export type Ingredient = {
-  id: string;
-  name: string;
-  amount: string | null;
-  recipeId: string | null;
-  variantId: string | null;
-};
+export type IngredientDB = Prisma.IngredientGetPayload<{}>;
 
-export type NutritionalValue = {
-  id: string;
-  kcal: number;
-  carbs: number;
-  fat: number;
-  protein: number;
-  recipeId: string | null;
-  variantId: string | null;
-};
-
-export type Collection = {
-  id: string;
-  name: string;
-  slug: string;
-  recipes?: RecipePreview[];
-};
-
-export type FullRecipe = {
-  id: string;
-  name: string;
-  slug: string;
-  images: string[];
-  servings: number | null;
-  handsOnTime: number | null;
-  handsOffTime: number | null;
-  instructions: string[];
-  notes: string | null;
-  createdAt: Date;
-  //relationships
-  nutritionalValue: NutritionalValue | null;
-  source: {
-    id: string;
-    name: string;
-    url: string;
-    recipeId: string;
-  } | null;
-  variants: RecipeVariant[];
-  collections: Collection[];
-  ingredients: Ingredient[];
-};
-
-export type RecipePreview = {
-  id: string;
-  name: string;
-  slug: string;
-  images: string[];
-  handsOnTime: number | null;
-};
+export type IngredientCategory = keyof typeof INGREDIENT_CATEGORIES;

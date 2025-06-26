@@ -15,69 +15,66 @@ datasource db {
 }
 
 model Recipe {
-  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name             String            @unique
-  slug             String            @unique(map: "recipe_slug_idx")
-  images           String[]          @default([])
-  servings         Int?
-  handsOnTime      Int?
-  handsOffTime     Int?
-  instructions     String[]          @default([])
-  notes            String?
-  createdAt        DateTime          @default(now()) @db.Timestamp(6)
-  //relationships
-  collections      Collection[]
-  ingredients      Ingredient[]
-  nutritionalValue NutritionalValue?
-  source           Source?
-  variants         RecipeVariant[]
+  id           String       @id @default(uuid()) @db.Uuid
+  name         String       @unique
+  slug         String       @unique
+  images       String[]     @default([])
+  servings     Int
+  handsOnTime  Int
+  handsOffTime Int
+  instructions String[]     @default([])
+  notes        String?
+  collections  Collection[]
+  ingredients  String[]     @default([])
+  source       String?
+  createdAt    DateTime     @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime     @updatedAt @db.Timestamp(6)
+  // UserIngredient UserIngredient[]
 }
 
 model Collection {
   id      String   @id @default(uuid()) @db.Uuid
   name    String   @unique
-  slug    String   @unique(map: "collection_slug_idx")
-  recipes Recipe[] 
-}
-
-model RecipeVariant {
-  id               String            @id @default(uuid()) @db.Uuid
-  name             String
-  recipe           Recipe            @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId         String            @db.Uuid
-  ingredients      Ingredient[]
-  nutritionalValue NutritionalValue?
+  slug    String   @unique
+  recipes Recipe[]
 }
 
 model Ingredient {
-  id     String  @id @default(uuid()) @db.Uuid
-  name   String
-  amount String?
-
-  recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId String? @db.Uuid
-
-  variant   RecipeVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String?        @db.Uuid
+  id        String             @id @default(cuid())
+  name      String             @unique
+  slug      String             @unique
+  category  IngredientCategory
+  iconFile  String
+  nutrition Json?
 }
 
-model NutritionalValue {
-  id       String  @id @default(uuid()) @db.Uuid
-  kcal     Int
-  carbs    Int
-  fat      Int
-  protein  Int
-  recipe   Recipe? @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId String? @unique @db.Uuid
+// model UserIngredient {
+//   id       String @id @default(cuid())
+//   recipe   Recipe @relation(fields: [recipeId], references: [id])
+//   recipeId String
 
-  variant   RecipeVariant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String?        @unique @db.Uuid
-}
+//   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+//   ingredientId String
 
-model Source {
-  id       String @id @default(uuid()) @db.Uuid
-  name     String
-  url      String
-  recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
-  recipeId String @unique @db.Uuid
+//   amount    String
+//   unit      String
+//   extraInfo String?
+// }
+
+enum IngredientCategory {
+  FRUITS
+  VEGETABLES
+  GRAIN
+  DAIRY_PRODUCTS
+  MEAT_PRODUCTS
+  FISH_AND_SEAFOOD
+  PASTA
+  LEGUMES
+  BAKERY_PRODUCTS
+  BAKING_AND_SWEETS
+  BEVERAGES_AND_LIQUIDS
+  CONDIMENTS_AND_SAUCES
+  HERBS_AND_SPICES
+  SEEDS_AND_NUTS
+  PRESERVED_AND_PICKLED
 }
