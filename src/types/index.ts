@@ -1,3 +1,4 @@
+import { INGREDIENT_CATEGORIES } from "@/lib/constants";
 import { RecipeFormInput } from "@/lib/validator";
 import { Prisma } from "@prisma/client";
 
@@ -20,3 +21,5 @@ export type UserIngredientDB = {
 };
 
 export type IngredientDB = Prisma.IngredientGetPayload<{}>;
+
+export type IngredientCategory = keyof typeof INGREDIENT_CATEGORIES;

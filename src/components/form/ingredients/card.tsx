@@ -14,7 +14,7 @@ import {
   useFormContext,
   useFormState,
 } from "react-hook-form";
-import { UserIngredientFormInput } from "@/lib/validator";
+import { IngredientFormInput, UserIngredientFormInput } from "@/lib/validator";
 
 const IngredientCard = ({
   allIngredients,
@@ -66,9 +66,9 @@ const IngredientCard = ({
 
   const displayIconFile = recognisedIngredient ? dbIngredient?.iconFile : "❔";
 
-  function handleNewIngredientSave(newName: string, newId: string) {
-    name.onChange(newName);
-    ingredientId.onChange(newId);
+  function handleNewIngredientSave(newIngredient: IngredientFormInput) {
+    console.log("New ingredient saved:", newIngredient);
+   
   }
 
   return (

@@ -36,6 +36,24 @@ export const recipeSchema = z.object({
   collections: z.array(z.string()),
 });
 
+const ingredientCategoryEnum = z.enum([
+  "FRUITS",
+  "VEGETABLES",
+  "GRAIN",
+  "DAIRY_PRODUCTS",
+  "MEAT_PRODUCTS",
+  "FISH_AND_SEAFOOD",
+  "PASTA",
+  "LEGUMES",
+  "BAKERY_PRODUCTS",
+  "BAKING_AND_SWEETS",
+  "BEVERAGES_AND_LIQUIDS",
+  "CONDIMENTS_AND_SAUCES",
+  "HERBS_AND_SPICES",
+  "SEEDS_AND_NUTS",
+  "PRESERVED_AND_PICKLED",
+]);
+
 export const ingredientSchema = z.object({
   name: z.string().min(1, "Name is required"),
   iconFile: z.string().min(1, "Icon is required"),
@@ -44,9 +62,11 @@ export const ingredientSchema = z.object({
   fat: z.coerce.number().min(0, "Fat must be 0 or greater"),
   carbs: z.coerce.number().min(0, "Carbs must be 0 or greater"),
   density: z.coerce.number().min(0.1, "Density must be greater than 0.1"),
+  category: ingredientCategoryEnum,
 });
 
 export type RecipeFormInput = z.infer<typeof recipeSchema>;
 export type CollectionFormInput = z.infer<typeof collectionSchema>;
 export type IngredientFormInput = z.infer<typeof ingredientSchema>;
 export type UserIngredientFormInput = z.infer<typeof userIngredientSchema>;
+

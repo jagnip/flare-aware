@@ -24,10 +24,18 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ingredientSchema, IngredientFormInput } from "@/lib/validator";
 import IconPicker from "./icon-picker";
+import { INGREDIENT_CATEGORIES } from "@/lib/constants";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type IngredientDialogProps = {
   name: string;
-  onSave: (name: string, icon: string) => void;
+  onSave: (newIngredient: IngredientFormInput) => void;
   ingredients: IngredientDB[];
 };
 export function NewIngredientDialog({
@@ -35,6 +43,7 @@ export function NewIngredientDialog({
   onSave,
   ingredients,
 }: IngredientDialogProps) {
+  const [open, setOpen] = useState(false);
   const form = useForm<IngredientFormInput>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: {
@@ -45,14 +54,13 @@ export function NewIngredientDialog({
       fat: 0,
       carbs: 0,
       density: 0,
+      category: "BAKERY_PRODUCTS",
     },
   });
-  const [open, setOpen] = useState(false);
 
   const onInnerSubmit = (data: IngredientFormInput) => {
-    onSave(data.name, data.iconFile);
+    onSave(data);
     setOpen(false);
-    //this saving doesn't work yet 
   };
 
   const handleInnerSubmit = form.handleSubmit;
@@ -156,6 +164,35 @@ export function NewIngredientDialog({
                     <FormControl>
                       <Input type="number" {...field} />
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="category"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Category</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select category" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.entries(INGREDIENT_CATEGORIES).map(
+                          ([value, label]) => (
+                            <SelectItem key={value} value={value}>
+                              {label}
+                            </SelectItem>
+                          )
+                        )}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}

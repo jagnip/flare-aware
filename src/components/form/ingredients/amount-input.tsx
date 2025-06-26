@@ -16,6 +16,7 @@ const AmountInput = ({ field, error }: AmountInputProps) => {
   const { value: selectedAmount, onChange } = field;
   const [isBeingEdited, setIsBeingEdited] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isError = !!error;
 
   useEffect(() => {
     if (isBeingEdited) {
@@ -32,8 +33,6 @@ const AmountInput = ({ field, error }: AmountInputProps) => {
   const handleAmountBlur = () => {
     setIsBeingEdited(false);
   };
-  
-  const isError = !!error;
 
   return (
     <div>
@@ -49,10 +48,10 @@ const AmountInput = ({ field, error }: AmountInputProps) => {
         />
       ) : (
         <span
-        className={cn(
-          "ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10",
-          isError && "bg-destructive text-destructive-foreground"
-        )}
+          className={cn(
+            "ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10",
+            isError && "bg-destructive text-destructive-foreground"
+          )}
           onClick={() => setIsBeingEdited(true)}
         >
           {selectedAmount}
