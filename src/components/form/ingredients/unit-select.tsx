@@ -15,7 +15,9 @@ import {
   CommandItem,
 } from "@/components/ui/command";
 import { UNCOUNTABLE_UNITS } from "@/lib/constants";
-import { getDisplayString } from "@/lib/utils";
+import { cn, getDisplayString } from "@/lib/utils";
+import { FieldErrors } from "react-hook-form";
+import { UserIngredientFormInput } from "@/lib/validator";
 
 type UnitSelectProps = {
   field: {
@@ -24,18 +26,22 @@ type UnitSelectProps = {
   };
   amount: string;
   options: string[];
+   error?: FieldErrors<UserIngredientFormInput>["unit"];
 };
 
-export const UnitSelect = ({ field, options, amount }: UnitSelectProps) => {
+export const UnitSelect = ({ field, options, amount, error }: UnitSelectProps) => {
   const { value: selectedUnit, onChange } = field;
   const [isOpen, setIsOpen] = useState(false);
-
+  const isError = !!error;
+  
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <span
-          className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
-          onClick={() => setIsOpen(true)}
+        className={cn(
+          "ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10",
+          isError && "bg-destructive text-destructive-foreground"
+        )}          onClick={() => setIsOpen(true)}
         >
           {getDisplayString(selectedUnit, amount)}
         </span>

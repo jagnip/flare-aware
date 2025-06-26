@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { IngredientDB } from "@/types";
 import { Input } from "@/components/ui/input";
 import { FieldErrors } from "react-hook-form";
 import { UserIngredientFormInput } from "@/lib/validator";
@@ -34,7 +33,7 @@ const AmountInput = ({ field, error }: AmountInputProps) => {
     setIsBeingEdited(false);
   };
   
-  const isError = error ? true : false;
+  const isError = !!error;
 
   return (
     <div>
@@ -54,7 +53,6 @@ const AmountInput = ({ field, error }: AmountInputProps) => {
           "ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10",
           isError && "bg-destructive text-destructive-foreground"
         )}
-        // className="ml-1 cursor-pointer bg-muted px-1 py-0.5 rounded hover:bg-muted-foreground/10"
           onClick={() => setIsBeingEdited(true)}
         >
           {selectedAmount}

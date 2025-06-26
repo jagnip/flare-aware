@@ -117,6 +117,7 @@ const IngredientCard = ({
                 field={unit}
                 amount={amount.value}
                 options={INGREDIENT_UNITS_SELECT}
+                error={ingredientErrors?.unit}
               />
             </div>
           </CardTitle>
