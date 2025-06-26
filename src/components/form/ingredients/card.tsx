@@ -20,10 +20,12 @@ const IngredientCard = ({
   allIngredients,
   index,
   onRemove,
+  onCreateIngredient,
 }: {
   allIngredients: IngredientDB[];
   onRemove: () => void;
   index: number;
+  onCreateIngredient: (ingredient: IngredientDB) => void;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { control } = useFormContext();
@@ -66,9 +68,24 @@ const IngredientCard = ({
 
   const displayIconFile = recognisedIngredient ? dbIngredient?.iconFile : "❔";
 
-  function handleNewIngredientSave(newIngredient: IngredientFormInput) {
-    console.log("New ingredient saved:", newIngredient);
-   
+  async function handleNewIngredientSave(newIngredient: IngredientFormInput) {
+    try {
+      const response = await fetch("/api/ingredients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newIngredient),
+      });
+
+      if (!response.ok) throw new Error("Failed to save ingredient");
+
+      const savedIngredient = await response.json();
+
+      ingredientId.onChange(savedIngredient.id);
+      name.onChange(savedIngredient.name);
+      onCreateIngredient(savedIngredient);
+    } catch (error) {
+      console.error("❌ Error saving new ingredient:", error);
+    }
   }
 
   return (

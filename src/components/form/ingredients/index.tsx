@@ -1,8 +1,5 @@
 "use client";
 import {
-  FieldValues,
-  UseFormReturn,
-  Path,
   useFormContext,
   useFieldArray,
 } from "react-hook-form";
@@ -65,6 +62,9 @@ const AddIngredientsInput = ({}) => {
             remove(index);
           }}
           index={index}
+          onCreateIngredient={(newIngredient) =>
+            setIngredients((prev) => [...prev, newIngredient])
+          }
         />
       ))}
       <Textarea
