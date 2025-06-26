@@ -57,15 +57,14 @@ const IngredientCard = ({
         | undefined)
     : undefined;
 
-
   const ingredientIdError = ingredientErrors?.ingredientId;
   const recognisedIngredient = !ingredientIdError;
 
-  const dbIngredient = !recognisedIngredient
+  const dbIngredient = recognisedIngredient
     ? allIngredients.find((i) => i.id === ingredientId.value) ?? null
     : null;
 
-  const displayIconFile = !recognisedIngredient ? dbIngredient?.iconFile : "❔";
+  const displayIconFile = recognisedIngredient ? dbIngredient?.iconFile : "❔";
 
   function handleNewIngredientSave(newName: string, newId: string) {
     name.onChange(newName);
@@ -89,7 +88,7 @@ const IngredientCard = ({
               className="h-6 w-6"
             />
           ) : (
-            <span className="text-xl">❔</span>
+            <span className="text-xl">{displayIconFile}</span>
           )}
           <CardTitle className="flex justify-between items-center w-full">
             <div>

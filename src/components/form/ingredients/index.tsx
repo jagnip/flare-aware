@@ -17,7 +17,7 @@ import { API_ROUTES } from "@/lib/constants";
 const AddIngredientsInput = ({}) => {
   const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
-  const { trigger, formState, watch, control } = useFormContext();
+  const { trigger, control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "ingredients",
@@ -29,6 +29,7 @@ const AddIngredientsInput = ({}) => {
         const res = await fetch(API_ROUTES.INGREDIENTS);
         const data = await res.json();
         setIngredients(data);
+    
       } catch (err) {
         console.error("Failed to fetch ingredients:", err);
       }

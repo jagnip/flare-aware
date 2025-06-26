@@ -40,8 +40,7 @@ export function RecipeForm({ recipe }: { recipe?: RecipeFormInputWithId }) {
     },
   });
 
-
-  const { fields, append, remove, update } = useFieldArray({
+  const { fields } = useFieldArray({
     control: form.control,
     name: "ingredients",
   });
