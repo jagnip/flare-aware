@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { IngredientDB } from "@/types";
-import { INGREDIENT_UNITS_SELECT, UNCOUNTABLE_UNITS } from "@/lib/constants";
+import { INGREDIENT_UNITS_SELECT } from "@/lib/constants";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IngredientSelect } from "./ingredient-select";
 import { UnitSelect } from "./unit-select";

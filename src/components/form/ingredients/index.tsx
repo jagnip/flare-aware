@@ -1,8 +1,5 @@
 "use client";
-import {
-  useFormContext,
-  useFieldArray,
-} from "react-hook-form";
+import { useFormContext, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useEffect, useState } from "react";
@@ -10,9 +7,10 @@ import { IngredientDB, UserIngredientDB } from "@/types";
 import { parseIngredients } from "./parsing";
 import IngredientCard from "./card";
 import { API_ROUTES } from "@/lib/constants";
+import { useIngredients } from "@/hooks/useIngredients";
 
 const AddIngredientsInput = ({}) => {
-  const [ingredients, setIngredients] = useState<IngredientDB[]>([]);
+  const [ingredients2, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
   const { trigger, control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -20,20 +18,10 @@ const AddIngredientsInput = ({}) => {
     name: "ingredients",
   });
 
-  useEffect(() => {
-    async function fetchIngredients() {
-      try {
-        const res = await fetch(API_ROUTES.INGREDIENTS);
-        const data = await res.json();
-        setIngredients(data);
-    
-      } catch (err) {
-        console.error("Failed to fetch ingredients:", err);
-      }
-    }
+  const { data: ingredients, isLoading, error } = useIngredients();
 
-    fetchIngredients();
-  }, []);
+  if (isLoading) return <div>Loading</div>;
+  if (error) return <div>Couldn't load ingredients</div>;
 
   const handleClick = async () => {
     const parsedIngredients = await parseIngredients(rawIngredients);
@@ -57,7 +45,7 @@ const AddIngredientsInput = ({}) => {
       {fields.map((field, index) => (
         <IngredientCard
           key={field.id}
-          allIngredients={ingredients}
+          allIngredients={ingredients2}
           onRemove={() => {
             remove(index);
           }}
