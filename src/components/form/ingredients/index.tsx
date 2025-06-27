@@ -2,15 +2,12 @@
 import { useFormContext, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useEffect, useState } from "react";
-import { IngredientDB, UserIngredientDB } from "@/types";
+import { useState } from "react";
 import { parseIngredients } from "./parsing";
 import IngredientCard from "./card";
-import { API_ROUTES } from "@/lib/constants";
 import { useIngredients } from "@/hooks/useIngredients";
 
 const AddIngredientsInput = ({}) => {
-  const [ingredients2, setIngredients] = useState<IngredientDB[]>([]);
   const [rawIngredients, setRawIngredients] = useState("");
   const { trigger, control } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -18,7 +15,8 @@ const AddIngredientsInput = ({}) => {
     name: "ingredients",
   });
 
-  const { data: ingredients, isLoading, error } = useIngredients();
+  const { data: ingredients = [], isLoading, error } = useIngredients();
+  console.log(ingredients);
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Couldn't load ingredients</div>;
@@ -45,7 +43,7 @@ const AddIngredientsInput = ({}) => {
       {fields.map((field, index) => (
         <IngredientCard
           key={field.id}
-          allIngredients={ingredients2}
+          allIngredients={ingredients}
           onRemove={() => {
             remove(index);
           }}
