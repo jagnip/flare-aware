@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { parseIngredients } from "./parsing";
 import IngredientCard from "./card";
-import { useIngredients } from "@/hooks/useIngredients";
+import { useCreateIngredient, useIngredients } from "@/hooks/useIngredients";
 
 const AddIngredientsInput = ({}) => {
   const [rawIngredients, setRawIngredients] = useState("");
@@ -16,10 +16,11 @@ const AddIngredientsInput = ({}) => {
   });
 
   const { data: ingredients = [], isLoading, error } = useIngredients();
-  console.log(ingredients);
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Couldn't load ingredients</div>;
+
+  console.log(ingredients)
 
   const handleClick = async () => {
     const parsedIngredients = await parseIngredients(rawIngredients);
@@ -48,9 +49,7 @@ const AddIngredientsInput = ({}) => {
             remove(index);
           }}
           index={index}
-          onCreateIngredient={(newIngredient) =>
-            setIngredients((prev) => [...prev, newIngredient])
-          }
+
         />
       ))}
       <Textarea

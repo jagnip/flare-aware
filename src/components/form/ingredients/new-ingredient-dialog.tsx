@@ -32,10 +32,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useCreateIngredient } from "@/hooks/useIngredients";
 
 type IngredientDialogProps = {
   name: string;
-  onSave: (newIngredient: IngredientFormInput) => void;
+  onSave: (newIngredient: IngredientDB) => void;
   ingredients: IngredientDB[];
 };
 export function NewIngredientDialog({
@@ -57,10 +58,15 @@ export function NewIngredientDialog({
       category: "BAKERY_PRODUCTS",
     },
   });
+  const createIngredientMutation = useCreateIngredient();
 
   const onInnerSubmit = (data: IngredientFormInput) => {
-    onSave(data);
-    setOpen(false);
+    createIngredientMutation.mutate(data, {
+      onSuccess: (newIng) => {
+        onSave(newIng);
+        setOpen(false);
+      },
+    });
   };
 
   const handleInnerSubmit = form.handleSubmit;

@@ -15,20 +15,20 @@ import {
   useFormState,
 } from "react-hook-form";
 import { IngredientFormInput, UserIngredientFormInput } from "@/lib/validator";
+import { useCreateIngredient } from "@/hooks/useIngredients";
 
 const IngredientCard = ({
   allIngredients,
   index,
   onRemove,
-  onCreateIngredient,
 }: {
   allIngredients: IngredientDB[];
   onRemove: () => void;
   index: number;
-  onCreateIngredient: (ingredient: IngredientDB) => void;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { control } = useFormContext();
+  const createIng = useCreateIngredient();
 
   const { field: ingredientId } = useController({
     name: `ingredients.${index}.ingredientId`,
@@ -68,24 +68,9 @@ const IngredientCard = ({
 
   const displayIconFile = recognisedIngredient ? dbIngredient?.iconFile : "❔";
 
-  async function handleNewIngredientSave(newIngredient: IngredientFormInput) {
-    try {
-      const response = await fetch("/api/ingredients", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newIngredient),
-      });
-
-      if (!response.ok) throw new Error("Failed to save ingredient");
-
-      const savedIngredient = await response.json();
-
-      ingredientId.onChange(savedIngredient.id);
-      name.onChange(savedIngredient.name);
-      onCreateIngredient(savedIngredient);
-    } catch (error) {
-      console.error("❌ Error saving new ingredient:", error);
-    }
+  async function handleCardUpdateOnSave(newIngredient: IngredientDB) {
+    ingredientId.onChange(newIngredient.id);
+    name.onChange(newIngredient.name);
   }
 
   return (
@@ -123,7 +108,7 @@ const IngredientCard = ({
               <NewIngredientDialog
                 ingredients={allIngredients}
                 name={name.value}
-                onSave={handleNewIngredientSave}
+                onSave={handleCardUpdateOnSave}
               />
             )}
 
