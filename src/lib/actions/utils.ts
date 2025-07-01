@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 import { INGREDIENT_UNITS, QUALITATIVE_INGREDIENT_AMOUNTS } from "../constants";
 import { INGREDIENTS_MAP } from "@/app/db/ingredients";
 import pluralize from "pluralize";
-import { parseIngredients } from "@/components/form/ingredients/parsing";
+import { parseIngredients } from "@/lib/ingredients/parsing";
 export function parseRecipeForDB(
   formInputValues: RecipeFormInput,
   collections: CollectionDB[]
@@ -24,9 +24,7 @@ export function parseRecipeForDB(
     formInputValues.instructions
   );
 
-  const formattedIngredients = parseIngredients(
-    formInputValues.ingredients
-  );
+  const formattedIngredients = parseIngredients(formInputValues.ingredients);
 
   const slug = slugify(formInputValues.name, { lower: true });
 
@@ -45,7 +43,6 @@ function parseInstructionsForDB(instructions: string): string[] {
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 }
-
 
 export function formatCollectionForDB(
   formInputValues: CollectionFormInput

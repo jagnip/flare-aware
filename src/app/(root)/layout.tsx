@@ -4,6 +4,7 @@ import MobileMenuTrigger from "@/components/mobile-navigation/trigger";
 import AppSidebar from "@/components/sidebar-navigation";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { IngredientActionsProvider } from "@/context/IngredientActionsContext";
 import { getCollections } from "@/lib/actions/collection.actions";
 
 export default async function RootLayout({

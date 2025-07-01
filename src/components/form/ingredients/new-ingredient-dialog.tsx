@@ -32,7 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useCreateIngredient } from "@/hooks/useIngredients";
+import { useIngredientActions } from "@/context/IngredientActionsContext";
 
 type IngredientDialogProps = {
   name: string;
@@ -58,15 +58,19 @@ export function NewIngredientDialog({
       category: "BAKERY_PRODUCTS",
     },
   });
-  const createIngredientMutation = useCreateIngredient();
+  
+  const { create } = useIngredientActions();
 
-  const onInnerSubmit = (data: IngredientFormInput) => {
-    createIngredientMutation.mutate(data, {
-      onSuccess: (newIng) => {
-        onSave(newIng);
-        setOpen(false);
-      },
-    });
+  const onInnerSubmit = async (data: IngredientFormInput) => {
+    try {
+      const newIng = await create(data);
+      onSave(newIng);
+      setOpen(false);
+  
+    } catch (err) {
+      // component-specific error handling tbd
+      console.log(err);
+    }
   };
 
   const handleInnerSubmit = form.handleSubmit;

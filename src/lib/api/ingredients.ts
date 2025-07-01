@@ -20,3 +20,22 @@ export async function createIngredient(
   return res.json()
 }
 
+export async function updateIngredient(
+  id: number,
+  payload: IngredientFormInput
+): Promise<IngredientDB> {
+  const res = await fetch(`${API_ROUTES.INGREDIENTS}/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error("Failed to update ingredient");
+  return res.json();
+}
+
+export async function deleteIngredient(id: number): Promise<void> {
+  const res = await fetch(`${API_ROUTES.INGREDIENTS}/${id}`, {
+    method: "DELETE",
+  });
+  if (!res.ok) throw new Error("Failed to delete ingredient");
+}

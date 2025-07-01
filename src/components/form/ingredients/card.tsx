@@ -28,7 +28,6 @@ const IngredientCard = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { control } = useFormContext();
-  const createIng = useCreateIngredient();
 
   const { field: ingredientId } = useController({
     name: `ingredients.${index}.ingredientId`,

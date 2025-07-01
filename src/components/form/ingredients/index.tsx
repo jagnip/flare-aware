@@ -3,9 +3,10 @@ import { useFormContext, useFieldArray } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { parseIngredients } from "./parsing";
+import { parseIngredients } from "../../../lib/ingredients/parsing";
 import IngredientCard from "./card";
 import { useCreateIngredient, useIngredients } from "@/hooks/useIngredients";
+import { IngredientActionsProvider } from "@/context/IngredientActionsContext";
 
 const AddIngredientsInput = ({}) => {
   const [rawIngredients, setRawIngredients] = useState("");
@@ -19,8 +20,6 @@ const AddIngredientsInput = ({}) => {
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Couldn't load ingredients</div>;
-
-  console.log(ingredients)
 
   const handleClick = async () => {
     const parsedIngredients = await parseIngredients(rawIngredients);
@@ -40,27 +39,28 @@ const AddIngredientsInput = ({}) => {
   };
 
   return (
-    <div>
-      {fields.map((field, index) => (
-        <IngredientCard
-          key={field.id}
-          allIngredients={ingredients}
-          onRemove={() => {
-            remove(index);
-          }}
-          index={index}
-
+    <IngredientActionsProvider>
+      <div>
+        {fields.map((field, index) => (
+          <IngredientCard
+            key={field.id}
+            allIngredients={ingredients}
+            onRemove={() => {
+              remove(index);
+            }}
+            index={index}
+          />
+        ))}
+        <Textarea
+          value={rawIngredients}
+          onChange={(e) => setRawIngredients(e.target.value)}
+          placeholder="Enter ingredients"
         />
-      ))}
-      <Textarea
-        value={rawIngredients}
-        onChange={(e) => setRawIngredients(e.target.value)}
-        placeholder="Enter ingredients"
-      />
-      <Button onClick={handleClick} type="button">
-        Add ingredients
-      </Button>
-    </div>
+        <Button onClick={handleClick} type="button">
+          Add ingredients
+        </Button>
+      </div>
+    </IngredientActionsProvider>
   );
 };
 
