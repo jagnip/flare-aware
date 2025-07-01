@@ -1,41 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Meal Planner 🥗 *(Work in Progress)*
 
-## Getting Started
+A meal planning app tailored for **families managing Crohn's disease or ulcerative colitis**.  
+It helps you adjust meals based on condition severity while still allowing others to enjoy regular recipes — making shared meals simpler and safer.
 
-First, run the development server:
+This project is a **work in progress** and being built with **Next.js 15**, **React 19**, **TypeScript**, **Prisma**, and **PostgreSQL**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features (Planned & In Progress)
 
+- 🧠 **Smart ingredient & instruction parsing**  
+  Uses natural language processing to extract amounts, units, ingredients, and actions from plain text.
+  
+- 📏 **Scale recipes** up or down depending on servings
 
-## DB
+- 🌍 **Switch between metric and US measurement systems**
 
+- 🍽 **Adjust meals for IBD**  
+  Modify recipes based on **condition severity**, suggest **replacements** for sensitive ingredients (e.g. low-FODMAP swaps)
 
-```bash
-npx prisma generate
-```
+- 🧾 **Get nutritional values** of recipes  
+  Powered by a custom food and nutrition database, not a third-party API
 
-```bash (only if needed to drop db)
-npx prisma migrate reset
-```
+- 🛒 **Generate smart shopping lists**  
+  Based on your selected recipes and scaled servings
 
-```bash
-npx prisma migrate dev --name {name}
-```
+- 🕒 **Plan meals by available time**  
+  Filter or generate meals based on how much hands-on cooking time you have
 
-```bash
-npx prisma studio
-```
+---
 
-```bash
-npx tsx ./src/app/db/seed.ts 
-```
+## Tech Stack
+
+- **Next.js 15**
+- **React 19**
+- **TypeScript**
+- **Prisma + PostgreSQL**
+- **React Query**
+- **Compromise (for NLP)**
+- **Zod** for schema validation
+- **Pluralize** to normalize ingredient names
