@@ -1,7 +1,6 @@
 # Flare aware 🥗 *(Work in Progress)*
 
-A meal planning app tailored for **families managing Crohn's disease or ulcerative colitis**.  
-It helps you adjust meals based on condition severity while still allowing others to enjoy regular recipes — making shared meals simpler and safer.
+A recipe and meal planning app that simplifies cooking and shopping for families with different dietary needs — starting with Crohn’s and ulcerative colitis, and built to support more conditions in the future.
 
 This project is a **work in progress** and being built with **Next.js 15**, **React 19**, **TypeScript**, **Prisma**, and **PostgreSQL**.
 
