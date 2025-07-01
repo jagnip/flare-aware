@@ -1,4 +1,4 @@
-# Meal Planner 🥗 *(Work in Progress)*
+# Flare aware 🥗 *(Work in Progress)*
 
 A meal planning app tailored for **families managing Crohn's disease or ulcerative colitis**.  
 It helps you adjust meals based on condition severity while still allowing others to enjoy regular recipes — making shared meals simpler and safer.
